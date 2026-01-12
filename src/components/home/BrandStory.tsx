@@ -37,10 +37,6 @@ const BrandStory = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-8 mb-10">
               <div>
-                <p className="font-display text-4xl text-primary mb-1">₹3K-10K</p>
-                <p className="text-xs tracking-widest uppercase text-muted-foreground">Affordable Luxury</p>
-              </div>
-              <div>
                 <p className="font-display text-4xl text-primary mb-1">925</p>
                 <p className="text-xs tracking-widest uppercase text-muted-foreground">Pure Silver</p>
               </div>
