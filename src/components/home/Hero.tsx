@@ -17,24 +17,12 @@ const Hero = () => {
       {/* Content */}
       <div className="relative container mx-auto px-6 pt-20">
         <div className="max-w-2xl animate-fade-up">
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary-foreground/80 mb-6">
-            Liquid Metal Collection
-          </p>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl text-primary-foreground leading-[1.1] mb-6">
-            Confidence, <br />
-            <span className="italic">Redefined</span>
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl text-primary-foreground leading-[1.1] mb-10">
+            Wear Your <span className="italic">Confidence</span>
           </h1>
-          <p className="text-lg text-primary-foreground/80 mb-10 max-w-md leading-relaxed">
-            Sculptural silver pieces designed for the woman who makes her own rules. Bold, fluid, unapologetically you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="hero" size="xl">
-              Shop the Collection
-            </Button>
-            <Button variant="heroOutline" size="xl">
-              Our Story
-            </Button>
-          </div>
+          <Button variant="hero" size="xl">
+            Shop Now
+          </Button>
         </div>
       </div>
 
