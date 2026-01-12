@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import productRing from "@/assets/product-ring.jpg";
 import productEarrings from "@/assets/product-earrings.jpg";
@@ -102,9 +103,11 @@ const FeaturedProducts = () => {
 
         {/* View All CTA */}
         <div className="text-center mt-16">
-          <Button variant="outline" size="lg">
-            View All Products
-          </Button>
+          <Link to="/shop">
+            <Button variant="outline" size="lg">
+              View All Products
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
