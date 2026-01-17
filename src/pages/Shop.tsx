@@ -2,57 +2,21 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Button } from "@/components/ui/button";
-import productRing from "@/assets/product-ring.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productNecklace from "@/assets/product-necklace.jpg";
+import { allProducts, formatPrice, Product } from "@/data/products";
 
-const allProducts = {
-  rings: [
-    { id: 1, name: "Wave Sculpt Ring", price: 4500, image: productRing, isNew: true },
-    { id: 2, name: "Liquid Twist Ring", price: 3800, image: productRing, isNew: false },
-    { id: 3, name: "Fluid Band Ring", price: 5200, image: productRing, isNew: true },
-    { id: 4, name: "Molten Edge Ring", price: 4200, image: productRing, isNew: false },
-  ],
-  earrings: [
-    { id: 5, name: "Cascade Earrings", price: 5800, image: productEarrings, isNew: true },
-    { id: 6, name: "Drop Flow Earrings", price: 6200, image: productEarrings, isNew: false },
-    { id: 7, name: "Sculpted Hoops", price: 7500, image: productEarrings, isNew: true },
-    { id: 8, name: "Liquid Studs", price: 3500, image: productEarrings, isNew: false },
-  ],
-  bracelets: [
-    { id: 9, name: "Fluid Link Bracelet", price: 7200, image: productBracelet, isNew: false },
-    { id: 10, name: "Wave Cuff", price: 8500, image: productBracelet, isNew: true },
-    { id: 11, name: "Liquid Chain Bracelet", price: 6800, image: productBracelet, isNew: false },
-    { id: 12, name: "Molten Bangle", price: 9200, image: productBracelet, isNew: true },
-  ],
-  necklaces: [
-    { id: 13, name: "Liquid Flow Necklace", price: 9500, image: productNecklace, isNew: false },
-    { id: 14, name: "Cascade Pendant", price: 7800, image: productNecklace, isNew: true },
-    { id: 15, name: "Wave Chain Necklace", price: 8200, image: productNecklace, isNew: false },
-    { id: 16, name: "Fluid Choker", price: 6500, image: productNecklace, isNew: true },
-  ],
-};
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(price);
-};
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  isNew: boolean;
+interface ProductWithSlug extends Product {
+  slug: string;
 }
 
+const productsByCategory = {
+  rings: allProducts.filter(p => p.category === "rings"),
+  earrings: allProducts.filter(p => p.category === "earrings"),
+  bracelets: allProducts.filter(p => p.category === "bracelets"),
+  necklaces: allProducts.filter(p => p.category === "necklaces"),
+};
+
 const ProductCard = ({ product }: { product: Product }) => (
-  <div className="group cursor-pointer">
+  <Link to={`/product/${product.slug}`} className="group cursor-pointer block">
     <div className="relative aspect-[3/4] mb-4 overflow-hidden bg-muted">
       <img
         src={product.image}
@@ -65,13 +29,6 @@ const ProductCard = ({ product }: { product: Product }) => (
         </span>
       )}
       <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-300" />
-      <Button
-        variant="hero"
-        size="sm"
-        className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-      >
-        Quick Add
-      </Button>
     </div>
     <div className="text-center">
       <h3 className="font-display text-lg text-foreground mb-1 group-hover:text-primary transition-colors">
@@ -81,7 +38,7 @@ const ProductCard = ({ product }: { product: Product }) => (
         {formatPrice(product.price)}
       </p>
     </div>
-  </div>
+  </Link>
 );
 
 interface CategorySectionProps {
@@ -165,13 +122,13 @@ const Shop = () => {
       </section>
 
       {/* Category Sections */}
-      <CategorySection id="rings" title="Rings" products={allProducts.rings} />
+      <CategorySection id="rings" title="Rings" products={productsByCategory.rings} />
       <div className="border-t border-border" />
-      <CategorySection id="earrings" title="Earrings" products={allProducts.earrings} />
+      <CategorySection id="earrings" title="Earrings" products={productsByCategory.earrings} />
       <div className="border-t border-border" />
-      <CategorySection id="bracelets" title="Bracelets" products={allProducts.bracelets} />
+      <CategorySection id="bracelets" title="Bracelets" products={productsByCategory.bracelets} />
       <div className="border-t border-border" />
-      <CategorySection id="necklaces" title="Necklaces" products={allProducts.necklaces} />
+      <CategorySection id="necklaces" title="Necklaces" products={productsByCategory.necklaces} />
 
       <Footer />
     </div>
