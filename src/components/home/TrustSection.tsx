@@ -20,7 +20,7 @@ const trustItems = [
 
 const TrustSection = () => {
   return (
-    <section className="py-16 px-6 bg-muted/30">
+    <section className="py-16 px-6 bg-background">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -32,21 +32,23 @@ const TrustSection = () => {
           </p>
         </div>
 
-        {/* Trust Items */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {trustItems.map((item, index) => (
-            <div key={index} className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                <item.icon className="w-8 h-8 text-primary" />
+        {/* Trust Items - Side by Side with Beige Background */}
+        <div className="bg-[hsl(35,30%,95%)] rounded-2xl mx-4 md:mx-8 p-8 md:p-12">
+          <div className="flex flex-row justify-center items-start gap-8 md:gap-16">
+            {trustItems.map((item, index) => (
+              <div key={index} className="text-center flex-1 max-w-[200px]">
+                <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                  <item.icon className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+                </div>
+                <h3 className="font-display text-sm md:text-lg text-foreground mb-1">
+                  {item.title}
+                </h3>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="font-display text-lg text-foreground mb-1">
-                {item.title}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {item.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

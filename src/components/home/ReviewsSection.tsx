@@ -48,7 +48,7 @@ const ReviewsSection = () => {
             <button
               key={video.id}
               onClick={() => setSelectedVideo(video.videoUrl)}
-              className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted overflow-hidden group"
+              className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted overflow-hidden group border-4 border-background shadow-lg"
             >
               <img
                 src={video.thumbnail}
