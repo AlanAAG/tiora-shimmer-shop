@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const Newsletter = () => {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle newsletter signup
-    console.log("Newsletter signup:", email);
-    setEmail("");
+    console.log("Newsletter signup:", phone);
+    setPhone("");
   };
 
   return (
@@ -23,14 +23,14 @@ const Newsletter = () => {
             Join the TIORA Circle
           </h2>
           <p className="text-muted-foreground mb-10 max-w-md mx-auto">
-            Be the first to know about new collections, exclusive offers, and styling inspiration delivered to your inbox.
+            Be the first to know about new collections, exclusive offers, and styling inspiration delivered to your phone.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="tel"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="flex-1 h-12 bg-background border-border focus:border-primary"
               required
             />
@@ -39,7 +39,7 @@ const Newsletter = () => {
             </Button>
           </form>
           <p className="text-xs text-muted-foreground mt-4">
-            By subscribing, you agree to receive marketing emails from TIORA.
+            By subscribing, you agree to receive marketing messages from TIORA.
           </p>
         </div>
       </div>

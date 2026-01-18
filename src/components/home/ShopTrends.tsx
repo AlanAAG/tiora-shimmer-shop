@@ -78,7 +78,7 @@ const ShopTrends = () => {
               className="group text-left"
             >
               {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-3">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-3">
                 <img
                   src={trend.image}
                   alt={trend.title}
