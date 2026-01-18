@@ -1,20 +1,26 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import DiscountBanner from "@/components/home/DiscountBanner";
+import CollectionsMarquee from "@/components/home/CollectionsMarquee";
 import Hero from "@/components/home/Hero";
-import FeaturedProducts from "@/components/home/FeaturedProducts";
-import Categories from "@/components/home/Categories";
-import BrandStory from "@/components/home/BrandStory";
+import MostPopular from "@/components/home/MostPopular";
+import ShopTrends from "@/components/home/ShopTrends";
+import TrustSection from "@/components/home/TrustSection";
+import ReviewsSection from "@/components/home/ReviewsSection";
 import Newsletter from "@/components/home/Newsletter";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <DiscountBanner />
       <Header />
-      <main>
+      <main className="pt-16 lg:pt-20">
+        <CollectionsMarquee />
         <Hero />
-        <FeaturedProducts />
-        <Categories />
-        <BrandStory />
+        <MostPopular />
+        <ShopTrends />
+        <TrustSection />
+        <ReviewsSection />
         <Newsletter />
       </main>
       <Footer />
