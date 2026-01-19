@@ -19,14 +19,14 @@ interface Product {
 
 // Mock products - will be replaced with Shopify data
 const products: Product[] = [
-  { id: 1, name: "Serpentine Ring", material: "18k Gold Plated", price: 4500, comparePrice: 6000, image: productRing, discount: "25% OFF", badge: "BEST SELLER" },
-  { id: 2, name: "Pearl Drop Earrings", material: "Silver Plated", price: 3200, comparePrice: 4200, image: productEarrings, discount: "25% OFF", badge: "NEW" },
-  { id: 3, name: "Chain Link Bracelet", material: "18k Gold Plated", price: 5500, comparePrice: 7300, image: productBracelet, discount: "25% OFF", badge: "BEST SELLER" },
-  { id: 4, name: "Layered Necklace", material: "Gold Tone", price: 6800, comparePrice: 9000, image: productNecklace, discount: "25% OFF" },
-  { id: 5, name: "Serpent Earrings", material: "18k Gold Plated", price: 3800, comparePrice: 5000, image: productEarrings, discount: "25% OFF" },
-  { id: 6, name: "Crystal Pendant", material: "Silver Plated", price: 4200, comparePrice: 5600, image: productNecklace, discount: "25% OFF", badge: "NEW" },
-  { id: 7, name: "Twisted Bangle", material: "18k Gold Plated", price: 4900, comparePrice: 6500, image: productBracelet, discount: "25% OFF" },
-  { id: 8, name: "Statement Ring", material: "Gold Tone", price: 3600, comparePrice: 4800, image: productRing, discount: "25% OFF", badge: "BEST SELLER" },
+  { id: 1, name: "Serpentine Ring", material: "18k Gold Plated", price: 4500, comparePrice: 6000, image: productRing, discount: "25%", badge: "Best Seller" },
+  { id: 2, name: "Pearl Drop Earrings", material: "Silver Plated", price: 3200, comparePrice: 4200, image: productEarrings, discount: "25%", badge: "Best Seller" },
+  { id: 3, name: "Chain Link Bracelet", material: "18k Gold Plated", price: 5500, comparePrice: 7300, image: productBracelet, discount: "25%", badge: "Best Seller" },
+  { id: 4, name: "Layered Necklace", material: "Gold Tone", price: 6800, comparePrice: 9000, image: productNecklace, discount: "25%", badge: "Best Seller" },
+  { id: 5, name: "Serpent Earrings", material: "18k Gold Plated", price: 3800, comparePrice: 5000, image: productEarrings, discount: "25%", badge: "Best Seller" },
+  { id: 6, name: "Crystal Pendant", material: "Silver Plated", price: 4200, comparePrice: 5600, image: productNecklace, discount: "25%", badge: "Best Seller" },
+  { id: 7, name: "Twisted Bangle", material: "18k Gold Plated", price: 4900, comparePrice: 6500, image: productBracelet, discount: "25%", badge: "Best Seller" },
+  { id: 8, name: "Statement Ring", material: "Gold Tone", price: 3600, comparePrice: 4800, image: productRing, discount: "25%", badge: "Best Seller" },
 ];
 
 const formatPrice = (price: number) => {
@@ -39,7 +39,7 @@ const formatPrice = (price: number) => {
 
 const MostPopular = () => {
   return (
-    <section className="py-16 px-6 bg-muted/30">
+    <section className="py-12 px-6 bg-background">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -70,17 +70,13 @@ const MostPopular = () => {
                   />
                   
                   {/* Badges */}
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    {product.badge && (
-                      <span className="bg-background/90 text-foreground text-[10px] font-body uppercase tracking-wider px-2 py-1 rounded">
-                        {product.badge}
-                      </span>
-                    )}
-                    {product.discount && (
-                      <span className="bg-destructive text-destructive-foreground text-[10px] font-body uppercase tracking-wider px-2 py-1 rounded">
-                        {product.discount}
-                      </span>
-                    )}
+                  <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                    <span className="bg-background/90 text-foreground text-[10px] font-body tracking-wider px-2 py-1 rounded whitespace-nowrap">
+                      Best Seller
+                    </span>
+                    <span className="bg-destructive text-destructive-foreground text-[10px] font-body tracking-wider px-2 py-1 rounded whitespace-nowrap">
+                      25% Off
+                    </span>
                   </div>
 
                   {/* Quick Add Button */}
@@ -123,11 +119,11 @@ const MostPopular = () => {
         {/* Shop Collection Button */}
         <Button 
           variant="outline" 
-          className="w-full max-w-2xl mx-auto flex uppercase tracking-widest text-xs h-14"
+          className="w-full max-w-3xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-lg"
           asChild
         >
-          <Link to="/shop?collection=most-popular">
-            Shop Most Popular
+          <Link to="/shop?collection=best-sellers">
+            Shop Best Sellers
           </Link>
         </Button>
       </div>

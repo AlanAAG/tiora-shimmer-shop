@@ -16,14 +16,14 @@ const collections = [
 const CollectionsMarquee = () => {
   return (
     <div className="bg-background overflow-x-auto scrollbar-hide">
-      <div className="flex gap-3 px-4 min-w-max py-2">
+      <div className="flex gap-3 px-3 min-w-max py-1">
         {collections.map((collection) => (
           <Link
             key={collection.name}
             to={collection.href}
-            className="flex flex-col items-center gap-1.5 group"
+            className="flex flex-col items-center gap-1 group"
           >
-            <div className="w-20 h-24 md:w-24 md:h-28 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-primary transition-all duration-300">
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-transparent group-hover:border-primary transition-all duration-300">
               <img
                 src={collection.image}
                 alt={collection.name}

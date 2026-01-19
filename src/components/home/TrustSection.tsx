@@ -20,10 +20,10 @@ const trustItems = [
 
 const TrustSection = () => {
   return (
-    <section className="py-16 px-6 bg-background">
+    <section className="py-8 px-3 bg-background">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-6">
           <h2 className="font-display text-3xl md:text-4xl text-foreground mb-2">
             Tiora <span className="text-primary">Assurance</span>
           </h2>
@@ -33,8 +33,8 @@ const TrustSection = () => {
         </div>
 
         {/* Trust Items - Side by Side with Beige Background */}
-        <div className="bg-[hsl(35,30%,95%)] rounded-2xl mx-4 md:mx-8 p-8 md:p-12">
-          <div className="flex flex-row justify-center items-start gap-8 md:gap-16">
+        <div className="bg-[hsl(35,30%,95%)] rounded-2xl p-6 md:p-10">
+          <div className="flex flex-row justify-center items-start gap-6 md:gap-16">
             {trustItems.map((item, index) => (
               <div key={index} className="text-center flex-1 max-w-[200px]">
                 <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
