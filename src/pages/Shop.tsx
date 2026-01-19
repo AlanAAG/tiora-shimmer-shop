@@ -38,12 +38,9 @@ const collectionConfig: Record<CollectionType, { name: string; filter: (p: Produ
   },
 };
 
-const filterTabs = ["Best Sellers", "Holiday Best Sellers", "Bundle Deals", "New Arrivals"];
-
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  const [activeFilter, setActiveFilter] = useState("Best Sellers");
 
   // Get collection from URL or default to "all"
   const collectionParam = searchParams.get("collection") as CollectionType || "all";
@@ -78,12 +75,7 @@ const Shop = () => {
       />
 
       {/* Filter Section */}
-      <CollectionFilter
-        productCount={products.length}
-        filters={filterTabs}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-      />
+      <CollectionFilter productCount={products.length} />
 
       {/* Product Grid - 2 columns on mobile */}
       <section className="px-4 pb-8">
