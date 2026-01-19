@@ -57,10 +57,10 @@ const ShopTrends = () => {
   };
 
   return (
-    <section className="pt-4 pb-12 px-3 bg-background">
-      <div className="container mx-auto">
+    <section className="pt-0 pb-12 px-2 bg-background">
+      <div className="mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <h2 className="font-display text-4xl md:text-5xl text-foreground mb-3">
             Shop Trends
           </h2>
@@ -69,16 +69,16 @@ const ShopTrends = () => {
           </p>
         </div>
 
-        {/* 2x3 Grid */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* 2x3 Grid - Fixed height rows for alignment */}
+        <div className="grid grid-cols-2 gap-2">
           {trends.map((trend) => (
             <button
               key={trend.id}
               onClick={() => handleAddLook(trend.productIds)}
-              className="group text-left"
+              className="group text-left flex flex-col"
             >
-              {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-2">
+              {/* Image - Fixed aspect ratio for alignment */}
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-2 w-full">
                 <img
                   src={trend.image}
                   alt={trend.title}

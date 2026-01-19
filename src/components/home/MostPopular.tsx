@@ -39,10 +39,10 @@ const formatPrice = (price: number) => {
 
 const MostPopular = () => {
   return (
-    <section className="py-12 px-6 bg-background">
-      <div className="container mx-auto">
+    <section className="py-8 px-2 bg-background">
+      <div className="mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <h2 className="font-display text-4xl md:text-5xl text-foreground italic mb-3">
             Most Popular
           </h2>
@@ -52,14 +52,14 @@ const MostPopular = () => {
         </div>
 
         {/* Scrollable Products */}
-        <div className="overflow-x-auto scrollbar-hide -mx-6 px-6 mb-8">
-          <div className="flex gap-4 min-w-max" style={{ width: 'max-content' }}>
+        <div className="overflow-x-auto scrollbar-hide -mx-2 px-2 mb-6">
+          <div className="flex gap-3 min-w-max" style={{ width: 'max-content' }}>
             {products.map((product) => (
               <Link 
                 key={product.id} 
                 to={`/product/${product.id}`}
                 className="group flex-shrink-0"
-                style={{ width: 'calc(50vw - 2rem)', maxWidth: '280px' }}
+                style={{ width: 'calc(50vw - 1rem)', maxWidth: '280px' }}
               >
                 {/* Image Container */}
                 <div className="relative aspect-square overflow-hidden bg-muted rounded-xl">
@@ -69,31 +69,31 @@ const MostPopular = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   
-                  {/* Badges */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                    <span className="bg-background/90 text-foreground text-[10px] font-body tracking-wider px-2 py-1 rounded whitespace-nowrap">
+                  {/* Badges - Single Line */}
+                  <div className="absolute top-2 left-2 flex flex-row gap-1">
+                    <span className="bg-background/90 text-foreground text-[10px] font-body tracking-wider px-2 py-0.5 rounded whitespace-nowrap">
                       Best Seller
                     </span>
-                    <span className="bg-destructive text-destructive-foreground text-[10px] font-body tracking-wider px-2 py-1 rounded whitespace-nowrap">
+                    <span className="bg-destructive text-destructive-foreground text-[10px] font-body tracking-wider px-2 py-0.5 rounded whitespace-nowrap">
                       25% Off
                     </span>
                   </div>
 
                   {/* Quick Add Button */}
-                  <button className="absolute bottom-3 right-3 w-8 h-8 bg-background/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background">
+                  <button className="absolute bottom-2 right-2 w-8 h-8 bg-background/90 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background">
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Product Info - Outside the box */}
-                <div className="pt-3">
+                <div className="pt-2">
                   <h3 className="font-body text-sm font-medium text-foreground truncate">
                     {product.name}
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {product.material}
                   </p>
-                  <div className="mt-2 flex items-center gap-2">
+                  <div className="mt-1.5 flex items-center gap-2">
                     <span className="text-muted-foreground line-through text-xs">
                       {formatPrice(product.comparePrice)}
                     </span>
@@ -101,12 +101,12 @@ const MostPopular = () => {
                       {formatPrice(product.price)}
                     </span>
                   </div>
-                  <p className="text-xs text-primary mt-1">
+                  <p className="text-xs text-primary mt-0.5">
                     with 25% off auto-applied
                   </p>
                   
                   {/* Material Options */}
-                  <div className="flex gap-1.5 mt-3">
+                  <div className="flex gap-1.5 mt-2">
                     <span className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 border border-foreground/20" />
                     <span className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border border-foreground/20" />
                   </div>
@@ -119,7 +119,7 @@ const MostPopular = () => {
         {/* Shop Collection Button */}
         <Button 
           variant="outline" 
-          className="w-full max-w-3xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-lg"
+          className="w-full max-w-xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-full"
           asChild
         >
           <Link to="/shop?collection=best-sellers">

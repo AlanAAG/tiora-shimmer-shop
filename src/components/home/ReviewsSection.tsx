@@ -33,31 +33,31 @@ const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   return (
-    <section className="py-16 px-6 bg-muted/20">
-      <div className="container mx-auto">
+    <section className="py-12 px-2 bg-muted/20">
+      <div className="mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="font-display text-4xl md:text-5xl text-foreground mb-2">
-            100+ Five Star Reviews
+        <div className="text-center mb-8">
+          <h2 className="font-display text-3xl md:text-5xl text-foreground mb-2">
+            23,515+ Five Star Reviews
           </h2>
         </div>
 
-        {/* Video Reviews */}
-        <div className="flex justify-center gap-4 md:gap-8 mb-12">
+        {/* Video Reviews - Fully Circular */}
+        <div className="flex justify-center gap-3 md:gap-6 mb-10">
           {videoReviews.map((video) => (
             <button
               key={video.id}
               onClick={() => setSelectedVideo(video.videoUrl)}
-              className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted overflow-hidden group border-4 border-background shadow-lg"
+              className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
             >
               <img
                 src={video.thumbnail}
                 alt="Video review"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-full"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-foreground/20 group-hover:bg-foreground/30 transition-colors">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-background/80 flex items-center justify-center">
-                  <Play className="w-4 h-4 md:w-5 md:h-5 text-foreground ml-0.5" />
+              <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-background/90 flex items-center justify-center">
+                  <Play className="w-5 h-5 md:w-6 md:h-6 text-foreground ml-0.5 fill-foreground" />
                 </div>
               </div>
             </button>
@@ -65,7 +65,7 @@ const ReviewsSection = () => {
         </div>
 
         {/* Written Reviews */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto px-1">
           {reviews.map((review) => (
             <div
               key={review.id}
