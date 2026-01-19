@@ -57,10 +57,10 @@ const ShopTrends = () => {
   };
 
   return (
-    <section className="py-16 px-6 bg-background">
+    <section className="pt-4 pb-12 px-3 bg-background">
       <div className="container mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="font-display text-4xl md:text-5xl text-foreground mb-3">
             Shop Trends
           </h2>
@@ -70,7 +70,7 @@ const ShopTrends = () => {
         </div>
 
         {/* 2x3 Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-3">
           {trends.map((trend) => (
             <button
               key={trend.id}
@@ -78,7 +78,7 @@ const ShopTrends = () => {
               className="group text-left"
             >
               {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-3">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-2">
                 <img
                   src={trend.image}
                   alt={trend.title}
