@@ -119,7 +119,7 @@ const MostPopular = () => {
         {/* Shop Collection Button */}
         <Button 
           variant="outline" 
-          className="w-full max-w-xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-full"
+          className="w-full max-w-xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-2xl mb-8"
           asChild
         >
           <Link to="/shop?collection=best-sellers">
