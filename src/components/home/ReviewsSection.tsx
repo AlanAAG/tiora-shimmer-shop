@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { Star, Play, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-
-const videoReviews = [
-  { id: 1, thumbnail: "/placeholder.svg", videoUrl: "#" },
-  { id: 2, thumbnail: "/placeholder.svg", videoUrl: "#" },
-  { id: 3, thumbnail: "/placeholder.svg", videoUrl: "#" },
-];
+import { useShopifyCollection } from "@/hooks/useShopifyProducts";
+import { Link } from "react-router-dom";
 
 const reviews = [
   {
@@ -29,22 +25,17 @@ const reviews = [
   },
 ];
 
-// Grid items for desktop layout: video, review, video / review, video, review
-type GridItem = 
-  | { type: 'video'; data: typeof videoReviews[0] }
-  | { type: 'review'; data: typeof reviews[0] };
+interface ProductData {
+  handle: string;
+  imageUrl: string;
+  title: string;
+}
 
-const desktopGridItems: GridItem[] = [
-  { type: 'review', data: reviews[0] },
-  { type: 'video', data: videoReviews[0] },
-  { type: 'review', data: reviews[1] },
-  { type: 'video', data: videoReviews[1] },
-  { type: 'review', data: reviews[2] },
-  { type: 'video', data: videoReviews[2] },
-];
-
-const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVideoClick?: never }) => (
-  <div className="bg-card p-4 md:p-5 rounded-xl border border-border h-full flex flex-col md:aspect-square overflow-hidden">
+const ReviewCard = ({ review, product }: { review: typeof reviews[0]; product?: ProductData }) => (
+  <Link 
+    to={product ? `/product/${product.handle}` : "#"}
+    className="bg-card p-4 md:p-5 rounded-xl border border-border h-full flex flex-col md:aspect-square overflow-hidden hover:border-primary/50 transition-colors"
+  >
     {/* Stars */}
     <div className="flex gap-0.5 mb-3 shrink-0">
       {[...Array(5)].map((_, i) => (
@@ -72,17 +63,17 @@ const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVid
         </span>
       )}
     </div>
-  </div>
+  </Link>
 );
 
-const VideoCard = ({ video, onClick }: { video: typeof videoReviews[0]; onClick: () => void }) => (
+const VideoCard = ({ product, onClick }: { product?: ProductData; onClick: () => void }) => (
   <button
     onClick={onClick}
     className="relative w-full aspect-[3/4] md:aspect-square rounded-xl bg-muted overflow-hidden group"
   >
     <img
-      src={video.thumbnail}
-      alt="Video review"
+      src={product?.imageUrl || "/placeholder.svg"}
+      alt={product?.title || "Video review"}
       className="w-full h-full object-cover"
     />
     <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent">
@@ -95,6 +86,19 @@ const VideoCard = ({ video, onClick }: { video: typeof videoReviews[0]; onClick:
 
 const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const { data: products = [] } = useShopifyCollection("all-items", 6);
+
+  // Map products to review/video cards
+  const productData: ProductData[] = products.map((p) => ({
+    handle: p.node.handle,
+    imageUrl: p.node.images.edges[0]?.node.url || "/placeholder.svg",
+    title: p.node.title,
+  }));
+
+  // Grid layout: review, video, review / video, review, video
+  // Assign products: 0,2,4 for reviews; 1,3,5 for videos
+  const reviewProducts = [productData[0], productData[2], productData[4]];
+  const videoProducts = [productData[1], productData[3], productData[5]];
 
   return (
     <section className="py-12 px-4 md:px-8 lg:px-16 bg-background">
@@ -108,52 +112,49 @@ const ReviewsSection = () => {
             </h2>
           </div>
 
-        {/* Mobile Layout - Circular videos + review cards */}
-        <div className="md:hidden">
-          {/* Video Reviews - Circular */}
-          <div className="flex justify-center gap-3 mb-10">
-            {videoReviews.map((video) => (
-              <button
-                key={video.id}
-                onClick={() => setSelectedVideo(video.videoUrl)}
-                className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
-              >
-                <img
-                  src={video.thumbnail}
-                  alt="Video review"
-                  className="w-full h-full object-cover rounded-full"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
-                  <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
-                    <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+          {/* Mobile Layout - Circular videos + review cards */}
+          <div className="md:hidden">
+            {/* Video Reviews - Circular */}
+            <div className="flex justify-center gap-3 mb-10">
+              {videoProducts.map((product, idx) => (
+                <Link
+                  key={idx}
+                  to={product ? `/product/${product.handle}` : "#"}
+                  className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
+                >
+                  <img
+                    src={product?.imageUrl || "/placeholder.svg"}
+                    alt={product?.title || "Video review"}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
+                    <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+                      <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
 
-          {/* Written Reviews */}
-          <div className="grid grid-cols-1 gap-4 px-1">
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
+            {/* Written Reviews */}
+            <div className="grid grid-cols-1 gap-4 px-1">
+              {reviews.map((review, idx) => (
+                <ReviewCard key={review.id} review={review} product={reviewProducts[idx]} />
+              ))}
+            </div>
           </div>
-        </div>
 
           {/* Tablet/Desktop Layout - 3x2 Grid with alternating video/review */}
           <div className="hidden md:grid grid-cols-3 gap-5">
-            {desktopGridItems.map((item, index) => (
-              <div key={index} className="h-full">
-                {item.type === 'video' ? (
-                  <VideoCard 
-                    video={item.data as typeof videoReviews[0]} 
-                    onClick={() => setSelectedVideo((item.data as typeof videoReviews[0]).videoUrl)} 
-                  />
-                ) : (
-                  <ReviewCard review={item.data as typeof reviews[0]} />
-                )}
-              </div>
-            ))}
+            {/* Row 1: Review, Video, Review */}
+            <ReviewCard review={reviews[0]} product={reviewProducts[0]} />
+            <VideoCard product={videoProducts[0]} onClick={() => setSelectedVideo("#")} />
+            <ReviewCard review={reviews[1]} product={reviewProducts[1]} />
+            
+            {/* Row 2: Video, Review, Video */}
+            <VideoCard product={videoProducts[1]} onClick={() => setSelectedVideo("#")} />
+            <ReviewCard review={reviews[2]} product={reviewProducts[2]} />
+            <VideoCard product={videoProducts[2]} onClick={() => setSelectedVideo("#")} />
           </div>
         </div>
 
