@@ -10,9 +10,12 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 
 type CategoryFilter = "all" | "bracelets" | "earrings" | "rings";
 
+const INITIAL_REVIEWS_COUNT = 9;
+
 const Reviews = () => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   
   const averageRating = getAverageRating();
   const totalReviews = getTotalReviewCount();
@@ -64,7 +67,7 @@ const Reviews = () => {
       <Header />
       
       {/* Hero Section - Minimalistic */}
-      <section className="px-4 py-12 md:py-16 border-b border-border">
+      <section className="px-4 pt-24 md:pt-28 pb-12 md:pb-16 border-b border-border">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -131,7 +134,7 @@ const Reviews = () => {
       <section className="py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedReviews.map((review, index) => (
+            {(showAll ? displayedReviews : displayedReviews.slice(0, INITIAL_REVIEWS_COUNT)).map((review, index) => (
               <motion.div
                 key={review.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -208,6 +211,22 @@ const Reviews = () => {
               </motion.div>
             ))}
           </div>
+          
+          {/* Read More Button */}
+          {!showAll && displayedReviews.length > INITIAL_REVIEWS_COUNT && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-center mt-10"
+            >
+              <button
+                onClick={() => setShowAll(true)}
+                className="px-8 py-3 border border-foreground text-foreground font-body text-sm hover:bg-foreground hover:text-background transition-colors"
+              >
+                Read More Reviews ({displayedReviews.length - INITIAL_REVIEWS_COUNT} more)
+              </button>
+            </motion.div>
+          )}
         </div>
       </section>
 
