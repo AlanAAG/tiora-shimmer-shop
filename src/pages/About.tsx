@@ -144,26 +144,57 @@ const About = () => {
             className="text-center mb-12"
           >
             <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">
-              Our Signature Material
+              Our Signature Materials
             </h2>
             <div className="w-16 h-px bg-primary mx-auto"></div>
           </motion.div>
 
+          {/* Image Placeholder for Materials */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-12"
+          >
+            <div className="aspect-[16/9] md:aspect-[21/9] w-full bg-muted rounded-lg flex items-center justify-center">
+              <div className="text-center text-muted-foreground">
+                <div className="w-16 h-16 mx-auto mb-4 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">📷</span>
+                </div>
+                <p className="font-body text-sm tracking-wide">Materials Image Placeholder</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 18k Gold Plated */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-background p-8 md:p-12 rounded-lg text-center"
+            className="mb-12"
           >
             <h3 className="font-display text-2xl md:text-3xl text-foreground mb-4">
-              925 Sterling Silver
+              1. 18k Gold Plated
             </h3>
-            <p className="font-body text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6">
-              Every Tiora piece is crafted with genuine 925 sterling silver—the highest standard in silver jewelry. Known for its brilliant shine, durability, and hypoallergenic properties, our silver is designed to be worn every single day without worry.
+            <p className="font-body text-muted-foreground leading-relaxed max-w-3xl">
+              Our 18k Gold Plated jewelry is crafted with meticulous attention to detail, ensuring a luxurious and lasting finish. Our gold jewelry is plated over a base of zinc, steel, or brass, providing a perfect balance of beauty and strength. The warm golden hue adds a touch of opulence to any outfit, making it ideal for both everyday elegance and special occasions.
             </p>
-            <p className="font-body text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              The liquid metal finish that defines our aesthetic comes from meticulous polishing and finishing techniques, creating pieces that catch the light beautifully while maintaining their subtle, understated elegance.
+          </motion.div>
+
+          {/* Silver Plated */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <h3 className="font-display text-2xl md:text-3xl text-foreground mb-4">
+              2. Silver Plated
+            </h3>
+            <p className="font-body text-muted-foreground leading-relaxed max-w-3xl">
+              Our Silver Plated collection features classic silver, plated over zinc, steel, or brass to create lighter and classier additions to your jewelry collection. Silver jewelry that is timeless and resistant to tarnishing, the shinier and lighter finish is the perfect blend of sophisticated metal in contemporary form. Each piece embodies our signature liquid metal aesthetic.
             </p>
           </motion.div>
         </div>
