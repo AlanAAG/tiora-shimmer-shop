@@ -9,11 +9,21 @@ import ProductCard from "@/components/shop/ProductCard";
 import ShopifyProductCard from "@/components/shop/ShopifyProductCard";
 import SaleBanner from "@/components/shop/SaleBanner";
 import { allProducts, Product } from "@/data/products";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Loader2, Package } from "lucide-react";
 
 type CollectionType = "all" | "best-sellers" | "rings" | "earrings" | "bracelets" | "necklaces";
 type CategoryFilter = "all" | "rings" | "earrings" | "bracelets" | "necklaces";
+
+// Map URL collection slugs to Shopify collection handles
+const collectionHandleMap: Record<CollectionType, string> = {
+  "all": "all-items",
+  "best-sellers": "best-sellers",
+  "rings": "rings",
+  "earrings": "earrings",
+  "bracelets": "bracelets",
+  "necklaces": "necklaces",
+};
 
 const collectionConfig: Record<CollectionType, { name: string; filter: (p: Product) => boolean }> = {
   "all": { 
@@ -59,66 +69,39 @@ const Shop = () => {
   const collection = collectionConfig[collectionParam] ? collectionParam : "all";
   
   const collectionName = collectionConfig[collection].name;
+  const shopifyCollectionHandle = collectionHandleMap[collection];
   
   // Show category filter only for "all" and "best-sellers"
   const showCategoryFilter = collection === "all" || collection === "best-sellers";
   
-  // Apply both collection and category filters
+  // Apply both collection and category filters for mock products
   const mockProducts = allProducts.filter((p) => {
     const passesCollection = collectionConfig[collection].filter(p);
     const passesCategory = categoryFilter === "all" || p.category === categoryFilter;
     return passesCollection && passesCategory;
   });
 
-  // Fetch Shopify products
-  const { data: shopifyProducts, isLoading, error } = useShopifyProducts(50);
+  // Fetch Shopify products by collection
+  const { data: shopifyProducts, isLoading } = useShopifyCollection(shopifyCollectionHandle, 50);
 
-  // Filter Shopify products by collection and category
+  // Apply category filter to Shopify products (only for "all" and "best-sellers")
   const filteredShopifyProducts = shopifyProducts?.filter((product) => {
+    if (categoryFilter === "all") return true;
+    
     const { node } = product;
     const tags = node.tags.map(t => t.toLowerCase());
     const productType = node.productType.toLowerCase();
     const title = node.title.toLowerCase();
-    const description = node.description.toLowerCase();
     
-    // Helper to check if product matches a category
-    const matchesCategory = (cat: string): boolean => {
-      const catLower = cat.toLowerCase();
-      return tags.includes(catLower) || 
-             tags.includes(catLower.slice(0, -1)) || // singular form (e.g., "ring" for "rings")
-             productType.includes(catLower) ||
-             productType.includes(catLower.slice(0, -1)) ||
-             title.includes(catLower) ||
-             title.includes(catLower.slice(0, -1)) ||
-             description.includes(catLower) ||
-             description.includes(catLower.slice(0, -1));
-    };
+    const catLower = categoryFilter.toLowerCase();
+    const catSingular = catLower.slice(0, -1);
     
-    // Check collection filter
-    let passesCollection = true;
-    if (collection === "best-sellers") {
-      passesCollection = tags.includes("best seller") || 
-                         tags.includes("bestseller") || 
-                         tags.includes("best-seller") ||
-                         tags.includes("popular");
-    } else if (collection === "rings") {
-      passesCollection = matchesCategory("rings");
-    } else if (collection === "earrings") {
-      passesCollection = matchesCategory("earrings");
-    } else if (collection === "bracelets") {
-      passesCollection = matchesCategory("bracelets");
-    } else if (collection === "necklaces") {
-      passesCollection = matchesCategory("necklaces");
-    }
-    // "all" collection shows everything
-    
-    // Check category filter (secondary filter within collection)
-    let passesCategory = true;
-    if (categoryFilter !== "all") {
-      passesCategory = matchesCategory(categoryFilter);
-    }
-    
-    return passesCollection && passesCategory;
+    return tags.includes(catLower) || 
+           tags.includes(catSingular) ||
+           productType.includes(catLower) ||
+           productType.includes(catSingular) ||
+           title.includes(catLower) ||
+           title.includes(catSingular);
   }) || [];
 
   // Get badge text for products
