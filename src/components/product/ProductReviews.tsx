@@ -50,7 +50,7 @@ export const ProductReviews = ({ reviews, product }: ProductReviewsProps) => {
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="bg-card p-6 border border-border"
+              className="bg-card p-6 border border-border rounded-2xl"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-0.5">

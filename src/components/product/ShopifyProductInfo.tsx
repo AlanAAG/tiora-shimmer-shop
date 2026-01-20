@@ -96,7 +96,7 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
             {formatPrice(price)}
           </span>
           {hasDiscount && comparePrice && (
-            <span className="bg-red-500 text-white text-xs px-2 py-1 font-body tracking-wide">
+            <span className="bg-red-500 text-white text-xs px-2 py-1 font-body tracking-wide rounded-lg">
               SAVE {formatPrice(comparePrice - price)}
             </span>
           )}
@@ -134,7 +134,7 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
                       }}
                       disabled={!variantForValue?.availableForSale}
                       className={cn(
-                        "py-2 px-4 border text-sm font-body transition-all",
+                        "py-2 px-4 border text-sm font-body transition-all rounded-xl",
                         isSelected
                           ? "bg-muted border-foreground"
                           : "border-border hover:border-foreground/50",
