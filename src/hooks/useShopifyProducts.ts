@@ -1,10 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchShopifyProducts, fetchProductByHandle, ShopifyProduct } from '@/lib/shopify';
+import { fetchShopifyProducts, fetchProductByHandle, fetchProductsByCollection, ShopifyProduct } from '@/lib/shopify';
 
 export function useShopifyProducts(first: number = 50, query?: string) {
   return useQuery({
     queryKey: ['shopify-products', first, query],
     queryFn: () => fetchShopifyProducts(first, query),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+}
+
+export function useShopifyCollection(collectionHandle: string, first: number = 50) {
+  return useQuery({
+    queryKey: ['shopify-collection', collectionHandle, first],
+    queryFn: () => fetchProductsByCollection(collectionHandle, first),
+    enabled: !!collectionHandle,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
