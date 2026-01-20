@@ -68,16 +68,16 @@ const Footer = () => {
       <div className="bg-primary py-10">
         <div className="container mx-auto px-6">
           {/* Trust Badges - Inside green section */}
-          <div className="grid grid-cols-3 gap-4 mb-10 pb-8 border-b border-primary-foreground/20">
+          <div className="grid grid-cols-3 gap-6 mb-10 pb-8 border-b border-primary-foreground/20">
             {trustBadges.map((badge, index) => (
               <div key={index} className="text-center">
-                <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
-                  <badge.icon className="w-6 h-6 text-primary-foreground" strokeWidth={1.5} />
+                <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center">
+                  <badge.icon className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-xs md:text-sm font-semibold text-primary-foreground mb-0.5">
+                <h3 className="font-display text-sm md:text-base font-semibold text-primary-foreground mb-1">
                   {badge.title}
                 </h3>
-                <p className="font-body text-[10px] md:text-xs text-primary-foreground/70">
+                <p className="font-body text-xs md:text-sm text-primary-foreground/70">
                   {badge.description}
                 </p>
               </div>
