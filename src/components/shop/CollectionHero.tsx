@@ -28,8 +28,8 @@ const CollectionHero = ({ collectionName, collectionSlug, description }: Collect
   const heroDescription = description || defaultDescriptions[collectionSlug] || "Explore our curated collection.";
 
   return (
-    <section className="px-4 md:px-8 lg:px-16 pt-4 pb-2">
-      <div className="relative w-full aspect-[4/3] md:aspect-[21/9] rounded-2xl overflow-hidden">
+    <section className="px-0 md:px-8 lg:px-16 pt-0 md:pt-4 pb-2">
+      <div className="relative w-full aspect-[4/3] md:aspect-[21/9] rounded-none md:rounded-2xl overflow-hidden">
         <img
           src={heroImage}
           alt={collectionName}
