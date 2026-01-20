@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, RotateCcw, Truck, Plus, Minus, Loader2 } from "lucide-react";
+import { Heart, RotateCcw, Truck, Plus, Minus, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
@@ -96,13 +96,13 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
             {formatPrice(price)}
           </span>
           {hasDiscount && comparePrice && (
-            <span className="bg-red-500 text-white text-xs px-2 py-1 font-body tracking-wide rounded-lg">
+            <span className="bg-primary text-primary-foreground text-xs px-2 py-1 font-body tracking-wide rounded-lg">
               SAVE {formatPrice(comparePrice - price)}
             </span>
           )}
         </div>
         {hasDiscount && (
-          <p className="text-red-500 text-sm font-body">{discount}% off. No code needed.</p>
+          <p className="text-primary text-sm font-body">{discount}% off. No code needed.</p>
         )}
       </div>
 
@@ -171,11 +171,24 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
         )}
       </Button>
 
-      {/* Description */}
+      {/* Description Toggle */}
       {product.description && (
-        <p className="font-body text-sm text-muted-foreground leading-relaxed">
-          {product.description}
-        </p>
+        <Collapsible open={openCollapsibles["description"]} onOpenChange={() => toggleCollapsible("description")}>
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 text-left border-t border-border">
+            <div className="flex items-center gap-3">
+              <span className="text-base">✨</span>
+              <span className="font-body text-sm font-medium">Product Details</span>
+            </div>
+            {openCollapsibles["description"] ? (
+              <Minus className="w-4 h-4 text-muted-foreground" />
+            ) : (
+              <Plus className="w-4 h-4 text-muted-foreground" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
+            {product.description}
+          </CollapsibleContent>
+        </Collapsible>
       )}
 
       {/* Collapsible Info */}
