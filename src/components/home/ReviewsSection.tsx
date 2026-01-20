@@ -44,7 +44,7 @@ const desktopGridItems: GridItem[] = [
 ];
 
 const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVideoClick?: never }) => (
-  <div className="bg-card p-6 rounded-xl border border-border h-full flex flex-col">
+  <div className="bg-card p-6 rounded-xl border border-border h-full flex flex-col md:aspect-square">
     {/* Stars */}
     <div className="flex gap-0.5 mb-4">
       {[...Array(5)].map((_, i) => (
@@ -56,7 +56,7 @@ const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVid
     </div>
 
     {/* Review Text */}
-    <p className="font-body text-sm text-foreground/80 italic leading-relaxed mb-4 flex-1">
+    <p className="font-body text-sm md:text-base text-foreground/80 italic leading-relaxed mb-4 flex-1 font-semibold">
       "{review.review}"
     </p>
 
@@ -78,7 +78,7 @@ const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVid
 const VideoCard = ({ video, onClick }: { video: typeof videoReviews[0]; onClick: () => void }) => (
   <button
     onClick={onClick}
-    className="relative w-full aspect-[3/4] rounded-xl bg-muted overflow-hidden group"
+    className="relative w-full aspect-[3/4] md:aspect-square rounded-xl bg-muted overflow-hidden group"
   >
     <img
       src={video.thumbnail}
