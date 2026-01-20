@@ -50,7 +50,7 @@ const CareGuide = () => {
         {/* Hero Section */}
         <section className="text-center px-6 py-12">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
-            Jewellery Care Guide
+            Tiora's Care Guide
           </h1>
           <p className="font-body text-muted-foreground text-lg max-w-md mx-auto">
             Get the most out of your accessories
