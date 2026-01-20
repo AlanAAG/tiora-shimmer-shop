@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ChevronDown, Facebook, Instagram } from "lucide-react";
+import tioraLogo from "@/assets/tiora-logo.png";
 
 const currencies = [
   { code: "INR", flag: "🇮🇳", name: "India" },
@@ -195,7 +196,11 @@ const Footer = () => {
 
         {/* Tiora Logo */}
         <div className="py-8 flex justify-center">
-          <h3 className="font-display text-5xl tracking-wider text-muted-foreground/40">TIORA</h3>
+          <img 
+            src={tioraLogo} 
+            alt="Tiora" 
+            className="h-16 w-auto opacity-40"
+          />
         </div>
 
         {/* Bottom Links */}
