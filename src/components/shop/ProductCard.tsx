@@ -17,6 +17,9 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
   // Use second image for hover if available
   const hoverImage = product.images.length > 1 ? product.images[1] : product.image;
 
+  // Determine material type based on product materials array (default to gold if both available)
+  const primaryMaterial = product.materials.includes("gold") ? "gold" : "silver";
+
   const handleAddToBag = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,9 +30,9 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
   return (
     <div className="group">
       <Link to={`/product/${product.slug}`}>
-        {/* Image container with rounded corners */}
+        {/* Image container - more vertical aspect ratio */}
         <div 
-          className="relative aspect-square bg-muted rounded-xl overflow-hidden mb-3"
+          className="relative aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-3"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -67,14 +70,11 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
           </button>
         </div>
 
-        {/* Product info below the image box */}
+        {/* Simplified product info */}
         <div className="space-y-1">
           <h3 className="font-display text-sm text-foreground line-clamp-1">
             {product.name}
           </h3>
-          <p className="font-body text-xs text-muted-foreground line-clamp-1">
-            {product.description.slice(0, 40)}...
-          </p>
           <div className="flex items-center gap-2">
             {hasDiscount && (
               <span className="font-body text-xs text-muted-foreground line-through">
@@ -85,11 +85,19 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
               {formatPrice(product.price)}
             </span>
           </div>
-          {hasDiscount && (
-            <p className="font-body text-xs text-primary">
-              with {discountPercent}% off auto-applied
-            </p>
-          )}
+          {/* Material indicator */}
+          <div className="flex items-center gap-2 pt-1">
+            <span 
+              className={`w-3 h-3 rounded-full border border-border ${
+                primaryMaterial === "gold" 
+                  ? "bg-amber-400" 
+                  : "bg-gray-300"
+              }`}
+            />
+            <span className="font-body text-xs text-muted-foreground">
+              {primaryMaterial === "gold" ? "Gold Plated" : "Silver Plated"}
+            </span>
+          </div>
         </div>
       </Link>
     </div>

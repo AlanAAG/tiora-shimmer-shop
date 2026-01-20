@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import CollectionHero from "@/components/shop/CollectionHero";
-import CollectionFilter from "@/components/shop/CollectionFilter";
+import FilterDrawer from "@/components/shop/FilterDrawer";
 import ProductCard from "@/components/shop/ProductCard";
 import ShopifyProductCard from "@/components/shop/ShopifyProductCard";
 import SaleBanner from "@/components/shop/SaleBanner";
@@ -108,29 +108,13 @@ const Shop = () => {
         collectionSlug={collection} 
       />
 
-      {/* Filter Section */}
-      <CollectionFilter productCount={totalProductCount} />
-
-      {/* Category Filter for All/Best Sellers */}
-      {showCategoryFilter && (
-        <section className="px-4 md:px-8 lg:px-16 pb-4">
-          <div className="flex flex-wrap gap-2">
-            {categoryFilters.map((filter) => (
-              <button
-                key={filter.value}
-                onClick={() => setCategoryFilter(filter.value)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  categoryFilter === filter.value
-                    ? "bg-foreground text-background"
-                    : "bg-muted text-foreground hover:bg-muted/80"
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Filter Drawer */}
+      <FilterDrawer 
+        productCount={totalProductCount}
+        categoryFilter={categoryFilter}
+        onCategoryChange={(category) => setCategoryFilter(category as CategoryFilter)}
+        showCategoryFilter={showCategoryFilter}
+      />
 
       {/* Product Grid */}
       <section className="px-4 md:px-8 lg:px-16 pb-8">

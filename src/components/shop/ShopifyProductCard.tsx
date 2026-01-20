@@ -57,11 +57,17 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
     });
   };
 
+  // Determine material from options or title (default to gold)
+  const titleLower = node.title.toLowerCase();
+  const hasSilver = titleLower.includes("silver");
+  const primaryMaterial = hasSilver ? "silver" : "gold";
+
   return (
     <div className="group">
       <Link to={`/product/${node.handle}`}>
+        {/* More vertical aspect ratio */}
         <div 
-          className="relative aspect-square bg-muted rounded-xl overflow-hidden mb-3"
+          className="relative aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-3"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -100,13 +106,11 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
           </button>
         </div>
 
+        {/* Simplified product info - no description */}
         <div className="space-y-1">
           <h3 className="font-display text-sm text-foreground line-clamp-1">
             {node.title}
           </h3>
-          <p className="font-body text-xs text-muted-foreground line-clamp-1">
-            {node.description?.slice(0, 40) || 'No description'}...
-          </p>
           <div className="flex items-center gap-2">
             {hasDiscount && comparePrice && (
               <span className="font-body text-xs text-muted-foreground line-through">
@@ -117,11 +121,19 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
               {formatPrice(price)}
             </span>
           </div>
-          {hasDiscount && (
-            <p className="font-body text-xs text-primary">
-              with {discountPercent}% off auto-applied
-            </p>
-          )}
+          {/* Material indicator */}
+          <div className="flex items-center gap-2 pt-1">
+            <span 
+              className={`w-3 h-3 rounded-full border border-border ${
+                primaryMaterial === "gold" 
+                  ? "bg-amber-400" 
+                  : "bg-gray-300"
+              }`}
+            />
+            <span className="font-body text-xs text-muted-foreground">
+              {primaryMaterial === "gold" ? "Gold Plated" : "Silver Plated"}
+            </span>
+          </div>
         </div>
       </Link>
     </div>
