@@ -95,27 +95,6 @@ const About = () => {
         </section>
       ))}
 
-      {/* Timeline/Evolution */}
-      <section className="bg-primary px-4 py-16 md:py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="font-display text-3xl md:text-4xl text-primary-foreground mb-4">
-              Tiora's Journey
-            </h2>
-            <p className="font-display text-5xl md:text-7xl text-primary-foreground/90 mb-8">
-              2024 — Present
-            </p>
-            <p className="font-body text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed">
-              Born from a vision to empower women through everyday luxury, Tiora continues to redefine what it means to wear your confidence.
-            </p>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Press Quotes */}
       <section className="px-4 py-16 md:py-24 bg-background">
