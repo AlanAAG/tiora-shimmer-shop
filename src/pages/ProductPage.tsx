@@ -137,7 +137,11 @@ const ProductPage = () => {
           
           {/* Right Column - Product Info */}
           <div className="lg:col-span-5">
-            <ProductInfo product={mockProduct} reviews={sampleReviews} />
+            <ProductInfo 
+              product={mockProduct} 
+              reviews={sampleReviews} 
+              carouselProducts={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)}
+            />
           </div>
         </div>
       </section>
@@ -147,12 +151,6 @@ const ProductPage = () => {
 
       {/* Collection Story Section */}
       <CollectionStory product={mockProduct} />
-
-      {/* Product Carousel */}
-      <ProductCarousel 
-        title="You May Also Like" 
-        products={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)} 
-      />
 
       {/* FAQ Section */}
       <ProductFAQ items={faqItems} />
