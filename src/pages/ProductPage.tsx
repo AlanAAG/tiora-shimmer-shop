@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import DiscountBanner from "@/components/home/DiscountBanner";
 import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductMarquee } from "@/components/product/ProductMarquee";
@@ -32,6 +33,9 @@ const ProductPage = () => {
   if (shopifyLoading) {
     return (
       <div className="min-h-screen bg-background">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <DiscountBanner />
+        </div>
         <Header />
         <div className="flex items-center justify-center py-32">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -47,10 +51,13 @@ const ProductPage = () => {
     
     return (
       <div className="min-h-screen bg-background">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <DiscountBanner />
+        </div>
         <Header />
         
         {/* Breadcrumb */}
-        <div className="container mx-auto px-6 pt-24 pb-4">
+        <div className="container mx-auto px-6 pt-32 pb-4">
           <Link 
             to="/shop" 
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -87,6 +94,9 @@ const ProductPage = () => {
   if (!mockProduct) {
     return (
       <div className="min-h-screen bg-background">
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <DiscountBanner />
+        </div>
         <Header />
         <div className="container mx-auto px-6 py-32 text-center">
           <h1 className="font-display text-3xl text-foreground mb-4">Product Not Found</h1>
@@ -101,10 +111,13 @@ const ProductPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
       
       {/* Breadcrumb */}
-      <div className="container mx-auto px-6 pt-24 pb-4">
+      <div className="container mx-auto px-6 pt-32 pb-4">
         <Link 
           to="/shop" 
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"

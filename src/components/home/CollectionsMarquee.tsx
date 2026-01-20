@@ -15,7 +15,7 @@ const collections = [
 
 const CollectionsMarquee = () => {
   return (
-    <div className="lg:hidden bg-background overflow-x-auto scrollbar-hide -mt-1">
+    <div className="md:hidden bg-background overflow-x-auto scrollbar-hide -mt-1">
       <div className="flex gap-2 px-2 min-w-max py-0.5">
         {collections.map((collection) => (
           <Link

@@ -3,6 +3,7 @@ import { Star, CheckCircle, Filter, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import DiscountBanner from "@/components/home/DiscountBanner";
 import { customerReviews, shuffleReviews, getAverageRating, getTotalReviewCount } from "@/data/reviews";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -64,10 +65,13 @@ const Reviews = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
       
       {/* Hero Section - Minimalistic */}
-      <section className="px-4 pt-24 md:pt-28 pb-12 md:pb-16 border-b border-border">
+      <section className="px-4 pt-32 md:pt-36 pb-12 md:pb-16 border-b border-border">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

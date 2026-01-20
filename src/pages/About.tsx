@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import DiscountBanner from "@/components/home/DiscountBanner";
 import { motion } from "framer-motion";
 
 const About = () => {
@@ -41,6 +42,9 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
       
       {/* Hero Section */}

@@ -59,10 +59,10 @@ const MostPopular = () => {
                 key={product.id} 
                 to={`/product/${product.id}`}
                 className="group flex-shrink-0"
-                style={{ width: 'calc(50vw - 1rem)', maxWidth: '280px' }}
+                style={{ width: 'calc(55vw - 1rem)', maxWidth: '320px' }}
               >
                 {/* Image Container */}
-                <div className="relative aspect-square overflow-hidden bg-muted rounded-xl">
+                <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-xl">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -70,11 +70,11 @@ const MostPopular = () => {
                   />
                   
                   {/* Badges - Single Line */}
-                  <div className="absolute top-2 left-2 flex flex-row gap-1">
-                    <span className="bg-background/90 text-foreground text-[10px] font-body tracking-wider px-2 py-0.5 rounded whitespace-nowrap">
+                  <div className="absolute top-2 left-2 flex flex-row gap-1.5">
+                    <span className="bg-background/90 text-foreground text-xs font-body tracking-wider px-3 py-1 rounded whitespace-nowrap">
                       Best Seller
                     </span>
-                    <span className="bg-destructive text-destructive-foreground text-[10px] font-body tracking-wider px-2 py-0.5 rounded whitespace-nowrap">
+                    <span className="bg-destructive text-destructive-foreground text-xs font-body tracking-wider px-3 py-1 rounded whitespace-nowrap">
                       25% Off
                     </span>
                   </div>

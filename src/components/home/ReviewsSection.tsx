@@ -44,29 +44,29 @@ const desktopGridItems: GridItem[] = [
 ];
 
 const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVideoClick?: never }) => (
-  <div className="bg-card p-6 rounded-xl border border-border h-full flex flex-col md:aspect-square">
+  <div className="bg-card p-4 md:p-5 rounded-xl border border-border h-full flex flex-col md:aspect-square overflow-hidden">
     {/* Stars */}
-    <div className="flex gap-0.5 mb-4">
+    <div className="flex gap-0.5 mb-3 shrink-0">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className="w-4 h-4 fill-destructive text-destructive"
+          className="w-3.5 h-3.5 md:w-4 md:h-4 fill-destructive text-destructive"
         />
       ))}
     </div>
 
     {/* Review Text */}
-    <p className="font-body text-sm md:text-base text-foreground/80 italic leading-relaxed mb-4 flex-1 font-semibold">
+    <p className="font-body text-sm md:text-base text-foreground/80 italic leading-relaxed mb-3 flex-1 font-semibold line-clamp-5 md:line-clamp-4 overflow-hidden">
       "{review.review}"
     </p>
 
     {/* Author */}
-    <div className="flex items-center gap-2">
-      <span className="font-display text-lg text-foreground">
+    <div className="flex items-center gap-2 shrink-0">
+      <span className="font-display text-base md:text-lg text-foreground truncate">
         {review.name}
       </span>
       {review.verified && (
-        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
           <CheckCircle className="w-3.5 h-3.5 text-primary" />
           Verified Buyer
         </span>
