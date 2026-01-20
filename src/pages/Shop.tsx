@@ -73,6 +73,54 @@ const Shop = () => {
   // Fetch Shopify products
   const { data: shopifyProducts, isLoading, error } = useShopifyProducts(50);
 
+  // Filter Shopify products by collection and category
+  const filteredShopifyProducts = shopifyProducts?.filter((product) => {
+    const { node } = product;
+    const tags = node.tags.map(t => t.toLowerCase());
+    const productType = node.productType.toLowerCase();
+    const title = node.title.toLowerCase();
+    const description = node.description.toLowerCase();
+    
+    // Helper to check if product matches a category
+    const matchesCategory = (cat: string): boolean => {
+      const catLower = cat.toLowerCase();
+      return tags.includes(catLower) || 
+             tags.includes(catLower.slice(0, -1)) || // singular form (e.g., "ring" for "rings")
+             productType.includes(catLower) ||
+             productType.includes(catLower.slice(0, -1)) ||
+             title.includes(catLower) ||
+             title.includes(catLower.slice(0, -1)) ||
+             description.includes(catLower) ||
+             description.includes(catLower.slice(0, -1));
+    };
+    
+    // Check collection filter
+    let passesCollection = true;
+    if (collection === "best-sellers") {
+      passesCollection = tags.includes("best seller") || 
+                         tags.includes("bestseller") || 
+                         tags.includes("best-seller") ||
+                         tags.includes("popular");
+    } else if (collection === "rings") {
+      passesCollection = matchesCategory("rings");
+    } else if (collection === "earrings") {
+      passesCollection = matchesCategory("earrings");
+    } else if (collection === "bracelets") {
+      passesCollection = matchesCategory("bracelets");
+    } else if (collection === "necklaces") {
+      passesCollection = matchesCategory("necklaces");
+    }
+    // "all" collection shows everything
+    
+    // Check category filter (secondary filter within collection)
+    let passesCategory = true;
+    if (categoryFilter !== "all") {
+      passesCategory = matchesCategory(categoryFilter);
+    }
+    
+    return passesCollection && passesCategory;
+  }) || [];
+
   // Get badge text for products
   const getBadgeText = () => {
     if (collection === "best-sellers") return "Best Seller";
@@ -89,9 +137,9 @@ const Shop = () => {
     setCategoryFilter("all"); // Reset category filter when collection changes
   }, [collection]);
 
-  const hasShopifyProducts = shopifyProducts && shopifyProducts.length > 0;
+  const hasShopifyProducts = filteredShopifyProducts.length > 0;
   const totalProductCount = hasShopifyProducts 
-    ? shopifyProducts.length 
+    ? filteredShopifyProducts.length 
     : mockProducts.length;
 
   return (
@@ -125,37 +173,48 @@ const Shop = () => {
           // Shopify Products - 4 columns on md+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <SaleBanner />
-            {shopifyProducts.map((product) => (
+            {filteredShopifyProducts.map((product) => (
               <ShopifyProductCard
                 key={product.node.id}
                 product={product}
               />
             ))}
           </div>
-        ) : (
-          // Show empty state or fallback to mock products - 4 columns on md+
+        ) : shopifyProducts && shopifyProducts.length > 0 ? (
+          // Shopify has products but none match current filter - show empty state
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <SaleBanner />
-            
-            {mockProducts.length > 0 ? (
-              // Fallback to mock products
-              mockProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  collectionBadge={getBadgeText()}
-                />
-              ))
-            ) : (
-              // Empty state
-              <div className="col-span-2 md:col-span-4 flex flex-col items-center justify-center py-20 text-center">
-                <Package className="w-16 h-16 text-muted-foreground mb-4" />
-                <h3 className="font-display text-xl text-foreground mb-2">No products found</h3>
-                <p className="font-body text-muted-foreground max-w-md">
-                  Your Shopify store doesn't have any products yet. Tell me what products you'd like to add and I'll create them for you!
-                </p>
-              </div>
-            )}
+            <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-20 text-center">
+              <Package className="w-16 h-16 text-muted-foreground mb-4" />
+              <h3 className="font-display text-xl text-foreground mb-2">No products in this collection</h3>
+              <p className="font-body text-muted-foreground max-w-md">
+                No products are tagged with "{collectionName}". Add the appropriate tags to your Shopify products to show them here.
+              </p>
+            </div>
+          </div>
+        ) : mockProducts.length > 0 ? (
+          // Fallback to mock products - 4 columns on md+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <SaleBanner />
+            {mockProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                collectionBadge={getBadgeText()}
+              />
+            ))}
+          </div>
+        ) : (
+          // Empty state
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <SaleBanner />
+            <div className="col-span-2 md:col-span-3 flex flex-col items-center justify-center py-20 text-center">
+              <Package className="w-16 h-16 text-muted-foreground mb-4" />
+              <h3 className="font-display text-xl text-foreground mb-2">No products found</h3>
+              <p className="font-body text-muted-foreground max-w-md">
+                Your Shopify store doesn't have any products yet. Tell me what products you'd like to add and I'll create them for you!
+              </p>
+            </div>
           </div>
         )}
       </section>
