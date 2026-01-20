@@ -32,7 +32,7 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
       <Link to={`/product/${product.slug}`}>
         {/* Image container - more vertical aspect ratio */}
         <div 
-          className="relative aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-3"
+          className="relative aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-3 border border-accent"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
