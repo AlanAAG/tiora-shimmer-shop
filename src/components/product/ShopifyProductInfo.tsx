@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, RotateCcw, Truck, Plus, Minus, Loader2, Sparkles } from "lucide-react";
+import { Heart, RotateCcw, Truck, Plus, Minus, Loader2, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,11 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
   
   const hasDiscount = comparePrice && comparePrice > price;
   const discount = hasDiscount ? Math.round(((comparePrice - price) / comparePrice) * 100) : 0;
+
+  // Determine material from product title or variant
+  const productTitle = product.title.toLowerCase();
+  const isGold = productTitle.includes('gold') || productTitle.includes('aurea');
+  const materialLabel = isGold ? 'Gold-plated' : 'Silver-plated';
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -78,7 +83,7 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
           <Heart
             className={cn(
               "w-6 h-6 transition-colors",
-              isFavorite ? "fill-red-500 text-red-500" : "text-foreground"
+              isFavorite ? "fill-primary text-primary" : "text-foreground"
             )}
           />
         </button>
@@ -106,68 +111,32 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
         )}
       </div>
 
-      {/* Variant Selection */}
-      {product.options && product.options.length > 0 && product.options[0].name !== 'Title' && (
-        <div className="space-y-3">
-          {product.options.map((option, optionIndex) => (
-            <div key={option.name} className="space-y-2">
-              <p className="font-body text-sm text-foreground">
-                {option.name}: <span className="font-medium">{selectedVariant?.selectedOptions[optionIndex]?.value}</span>
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {option.values.map((value, valueIndex) => {
-                  const variantForValue = variants.find(v => 
-                    v.selectedOptions.some(opt => opt.name === option.name && opt.value === value)
-                  );
-                  const isSelected = selectedVariant?.selectedOptions.some(
-                    opt => opt.name === option.name && opt.value === value
-                  );
-                  
-                  return (
-                    <button
-                      key={value}
-                      onClick={() => {
-                        const idx = variants.findIndex(v => 
-                          v.selectedOptions.some(opt => opt.name === option.name && opt.value === value)
-                        );
-                        if (idx !== -1) setSelectedVariantIndex(idx);
-                      }}
-                      disabled={!variantForValue?.availableForSale}
-                      className={cn(
-                        "py-2 px-4 border text-sm font-body transition-all rounded-xl",
-                        isSelected
-                          ? "bg-muted border-foreground"
-                          : "border-border hover:border-foreground/50",
-                        !variantForValue?.availableForSale && "opacity-50 cursor-not-allowed line-through"
-                      )}
-                    >
-                      {value}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Material Indicator */}
+      <div className="flex items-center gap-2">
+        <span 
+          className={cn(
+            "w-4 h-4 rounded-full border",
+            isGold 
+              ? "bg-amber-400 border-amber-500" 
+              : "bg-slate-300 border-slate-400"
+          )}
+        />
+        <span className="font-body text-sm text-foreground">{materialLabel}</span>
+      </div>
 
       {/* Add to Bag Button */}
       <Button 
-        variant="hero" 
         size="lg" 
-        className="w-full text-base relative overflow-hidden group"
+        className="w-full text-base bg-primary text-primary-foreground border-2 border-primary hover:bg-background hover:text-primary transition-all duration-300"
         onClick={handleAddToBag}
         disabled={isLoading || !selectedVariant?.availableForSale}
       >
         {isLoading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
         ) : (
-          <>
-            <span className="relative z-10">
-              {selectedVariant?.availableForSale ? 'ADD TO BAG' : 'OUT OF STOCK'}
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </>
+          <span>
+            {selectedVariant?.availableForSale ? 'ADD TO BAG' : 'OUT OF STOCK'}
+          </span>
         )}
       </Button>
 
@@ -176,7 +145,7 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
         <Collapsible open={openCollapsibles["description"]} onOpenChange={() => toggleCollapsible("description")}>
           <CollapsibleTrigger className="flex items-center justify-between w-full py-3 text-left border-t border-border">
             <div className="flex items-center gap-3">
-              <span className="text-base">✨</span>
+              <Info className="w-4 h-4" />
               <span className="font-body text-sm font-medium">Product Details</span>
             </div>
             {openCollapsibles["description"] ? (
