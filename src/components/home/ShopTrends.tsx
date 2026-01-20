@@ -70,7 +70,7 @@ const ShopTrends = () => {
         </div>
 
         {/* 2x3 Grid - Fixed height rows for alignment */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
           {trends.map((trend) => (
             <button
               key={trend.id}
