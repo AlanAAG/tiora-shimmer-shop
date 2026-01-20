@@ -57,8 +57,8 @@ const ShopTrends = () => {
   };
 
   return (
-    <section className="pt-0 pb-12 px-2 bg-background">
-      <div className="mx-auto">
+    <section className="pt-0 pb-12 px-4 md:px-8 lg:px-16 bg-background">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="font-display text-4xl md:text-5xl text-foreground mb-3">
