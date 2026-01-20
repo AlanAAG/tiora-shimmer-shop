@@ -14,9 +14,7 @@ interface ProductInfoProps {
 
 export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [stackType, setStackType] = useState<"single" | "bundle">("bundle");
   const [selectedMaterial, setSelectedMaterial] = useState<"gold" | "silver">("gold");
-  const [selectedBundle, setSelectedBundle] = useState<string | null>(null);
   const [openCollapsibles, setOpenCollapsibles] = useState<Record<string, boolean>>({});
 
   const toggleCollapsible = (key: string) => {
@@ -92,99 +90,45 @@ export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
         <p className="text-red-500 text-sm font-body">{discount}% off sitewide. No code needed.</p>
       </div>
 
-      {/* Pick Your Stack */}
-      <div className="space-y-3">
-        <p className="font-body text-sm text-foreground">Pick Your Stack</p>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => setStackType("single")}
-            className={cn(
-              "py-3 px-4 border text-sm font-body transition-all rounded-xl",
-              stackType === "single"
-                ? "bg-muted border-foreground"
-                : "border-border hover:border-foreground/50"
-            )}
-          >
-            Single Piece
-          </button>
-          <button
-            onClick={() => setStackType("bundle")}
-            className={cn(
-              "py-3 px-4 border text-sm font-body transition-all rounded-xl",
-              stackType === "bundle"
-                ? "bg-muted border-foreground"
-                : "border-border hover:border-foreground/50"
-            )}
-          >
-            Bundle
-          </button>
-        </div>
-
-        {/* Bundle Options */}
-        {stackType === "bundle" && (
-          <div className="grid grid-cols-3 gap-3 pt-2 animate-fade-in">
-            {product.bundles.map((bundle) => (
-              <button
-                key={bundle.id}
-                onClick={() => setSelectedBundle(bundle.id)}
-                className={cn(
-                  "border rounded-lg overflow-hidden transition-all",
-                  selectedBundle === bundle.id
-                    ? "border-foreground ring-1 ring-foreground"
-                    : "border-border hover:border-foreground/50"
-                )}
-              >
-                <div className="aspect-square overflow-hidden bg-muted">
-                  <img
-                    src={bundle.image}
-                    alt={bundle.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <p className="p-2 text-xs font-body text-center leading-tight">{bundle.name}</p>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* Material Selection */}
       <div className="space-y-3">
-        <p className="font-body text-sm text-foreground">
-          Material: <span className="font-medium">{selectedMaterial === "gold" ? "18k Gold Plated" : "Sterling Silver"}</span>
-        </p>
-        <div className="flex items-center gap-3">
-          {product.materials.includes("gold") && (
-            <button
-              onClick={() => setSelectedMaterial("gold")}
-              className={cn(
-                "w-8 h-8 rounded-full transition-all relative",
-                "bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500",
-                selectedMaterial === "gold" && "ring-2 ring-offset-2 ring-foreground"
-              )}
-            />
-          )}
-          {product.materials.includes("silver") && (
-            <button
-              onClick={() => setSelectedMaterial("silver")}
-              className={cn(
-                "w-8 h-8 rounded-full transition-all relative",
-                "bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400",
-                selectedMaterial === "silver" && "ring-2 ring-offset-2 ring-foreground"
-              )}
-            />
-          )}
+        <p className="font-body text-sm text-foreground">Material</p>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setSelectedMaterial("gold")}
+            className={cn(
+              "flex items-center gap-2 py-2 px-4 border rounded-xl transition-all",
+              selectedMaterial === "gold"
+                ? "bg-muted border-foreground"
+                : "border-border hover:border-foreground/50"
+            )}
+          >
+            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500" />
+            <span className="font-body text-sm">18k Gold Plated</span>
+          </button>
+          <button
+            onClick={() => setSelectedMaterial("silver")}
+            className={cn(
+              "flex items-center gap-2 py-2 px-4 border rounded-xl transition-all",
+              selectedMaterial === "silver"
+                ? "bg-muted border-foreground"
+                : "border-border hover:border-foreground/50"
+            )}
+          >
+            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400" />
+            <span className="font-body text-sm">Silver Plated</span>
+          </button>
         </div>
       </div>
 
       {/* Add to Bag Button */}
       <Button 
-        variant="hero" 
         size="lg" 
-        className="w-full text-base relative overflow-hidden group"
+        className="w-full text-base relative overflow-hidden group bg-primary text-primary-foreground hover:bg-primary/90"
       >
-        <span className="relative z-10">ADD TO BAG</span>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 animate-button-shine" />
+        <span className="relative z-10 font-body font-medium tracking-wide">ADD TO BAG</span>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
       </Button>
 
       {/* Collapsible Info */}
