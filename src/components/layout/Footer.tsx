@@ -195,11 +195,11 @@ const Footer = () => {
         </div>
 
         {/* Tiora Logo */}
-        <div className="py-8 flex justify-center">
+        <div className="flex justify-center">
           <img 
             src={tioraLogo} 
             alt="Tiora" 
-            className="h-16 w-auto opacity-40"
+            className="h-24 w-auto opacity-40"
           />
         </div>
 
