@@ -27,15 +27,15 @@ const About = () => {
   const pressQuotes = [
     {
       quote: "Jewelry that embodies fierce femininity and modern elegance.",
-      source: "VOGUE INDIA"
+      source: "PRIYA SHARMA"
     },
     {
       quote: "Tiora is the silver jewelry brand every woman should know.",
-      source: "COSMOPOLITAN"
+      source: "ANIKA KAPOOR"
     },
     {
       quote: "Timeless pieces that are as wearable as they are stunning.",
-      source: "ELLE"
+      source: "MEERA PATEL"
     }
   ];
 
@@ -62,37 +62,50 @@ const About = () => {
         </div>
       </section>
 
-      {/* Core Beliefs Sections */}
+      {/* Core Beliefs Sections with Image Breaks */}
       {coreBeliefs.map((belief, index) => (
-        <section 
-          key={belief.title}
-          className={`px-4 py-16 md:py-24 ${index % 2 === 1 ? 'bg-secondary' : 'bg-background'}`}
-        >
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">
-                {belief.title}
-              </h2>
-              <p className="font-body text-sm md:text-base tracking-[0.2em] text-muted-foreground mb-8">
-                {belief.subtitle}
-              </p>
-              <div className="max-w-3xl mx-auto space-y-6">
-                <p className="font-body text-muted-foreground leading-relaxed">
-                  {belief.description}
+        <div key={belief.title}>
+          <section 
+            className={`px-4 py-16 md:py-24 ${index % 2 === 1 ? 'bg-secondary' : 'bg-background'}`}
+          >
+            <div className="max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center"
+              >
+                <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">
+                  {belief.title}
+                </h2>
+                <p className="font-body text-sm md:text-base tracking-[0.2em] text-muted-foreground mb-8">
+                  {belief.subtitle}
                 </p>
-                <p className="font-body text-muted-foreground leading-relaxed">
-                  {belief.secondParagraph}
-                </p>
+                <div className="max-w-3xl mx-auto space-y-6">
+                  <p className="font-body text-muted-foreground leading-relaxed">
+                    {belief.description}
+                  </p>
+                  <p className="font-body text-muted-foreground leading-relaxed">
+                    {belief.secondParagraph}
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+          
+          {/* Image Section after each core belief */}
+          <section className="w-full">
+            <div className="aspect-[16/9] md:aspect-[21/9] w-full bg-muted flex items-center justify-center">
+              <div className="text-center text-muted-foreground">
+                <div className="w-16 h-16 mx-auto mb-4 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">📷</span>
+                </div>
+                <p className="font-body text-sm tracking-wide">Image Placeholder {index + 1}</p>
               </div>
-            </motion.div>
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
       ))}
 
 
