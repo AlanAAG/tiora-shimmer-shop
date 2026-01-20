@@ -72,7 +72,7 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Seasons', 'serif'],
+        display: ['Cormorant', 'serif'],
         body: ['"Glacial Indifference"', 'sans-serif'],
       },
       borderRadius: {
