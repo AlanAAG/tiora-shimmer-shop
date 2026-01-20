@@ -202,30 +202,26 @@ const About = () => {
 
       {/* Social Proof Stats */}
       <section className="px-4 py-16 md:py-20 bg-background">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-8">
-            {[
-              { number: "10,000+", label: "Happy Customers" },
-              { number: "4.9/5", label: "Stars Rating" },
-              { number: "5,000+", label: "Positive Reviews" }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <p className="font-display text-2xl md:text-4xl text-foreground mb-2">
-                  {stat.number}
-                </p>
-                <p className="font-body text-xs md:text-sm text-muted-foreground tracking-wide">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+        <div className="max-w-md mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="font-display text-3xl md:text-5xl text-foreground mb-2">
+              4.9/5
+            </p>
+            <p className="font-body text-sm text-muted-foreground tracking-wide mb-6">
+              Stars Rating
+            </p>
+            <a 
+              href="/shop"
+              className="inline-block border border-foreground text-foreground px-8 py-3 rounded-full font-body text-sm tracking-wide hover:bg-foreground hover:text-background transition-colors"
+            >
+              Read Reviews
+            </a>
+          </motion.div>
         </div>
       </section>
 
