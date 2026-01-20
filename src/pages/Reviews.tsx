@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Star, CheckCircle, Filter, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
@@ -8,10 +8,17 @@ import { customerReviews, shuffleReviews, getAverageRating, getTotalReviewCount 
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 
 type CategoryFilter = "all" | "bracelets" | "earrings" | "rings";
 
 const INITIAL_REVIEWS_COUNT = 9;
+
+interface ProductInfo {
+  handle: string;
+  imageUrl: string;
+  title: string;
+}
 
 const Reviews = () => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
@@ -21,12 +28,53 @@ const Reviews = () => {
   const averageRating = getAverageRating();
   const totalReviews = getTotalReviewCount();
 
-  // Shuffle and filter reviews
+  // Fetch products by category
+  const { data: braceletProducts = [] } = useShopifyCollection("bracelets", 20);
+  const { data: earringProducts = [] } = useShopifyCollection("earrings", 20);
+  const { data: ringProducts = [] } = useShopifyCollection("rings", 20);
+
+  // Create product maps by category
+  const productsByCategory = useMemo(() => {
+    const mapProducts = (products: typeof braceletProducts): ProductInfo[] => 
+      products.map(p => ({
+        handle: p.node.handle,
+        imageUrl: p.node.images.edges[0]?.node.url || "/placeholder.svg",
+        title: p.node.title,
+      }));
+
+    return {
+      bracelets: mapProducts(braceletProducts),
+      earrings: mapProducts(earringProducts),
+      rings: mapProducts(ringProducts),
+    };
+  }, [braceletProducts, earringProducts, ringProducts]);
+
+  // Shuffle and filter reviews, assign products
   const displayedReviews = useMemo(() => {
     const shuffled = shuffleReviews(customerReviews);
-    if (activeFilter === "all") return shuffled;
-    return shuffled.filter(review => review.category === activeFilter);
-  }, [activeFilter]);
+    const filtered = activeFilter === "all" 
+      ? shuffled 
+      : shuffled.filter(review => review.category === activeFilter);
+
+    // Track index per category to cycle through products
+    const categoryIndices: Record<string, number> = {
+      bracelets: 0,
+      earrings: 0,
+      rings: 0,
+    };
+
+    return filtered.map(review => {
+      const categoryProducts = productsByCategory[review.category] || [];
+      const idx = categoryIndices[review.category];
+      const product = categoryProducts[idx % categoryProducts.length];
+      categoryIndices[review.category] = idx + 1;
+
+      return {
+        ...review,
+        product,
+      };
+    });
+  }, [activeFilter, productsByCategory]);
 
   const filters: { label: string; value: CategoryFilter }[] = [
     { label: "All", value: "all" },
@@ -146,27 +194,44 @@ const Reviews = () => {
                 transition={{ duration: 0.4, delay: index * 0.02 }}
                 className="bg-card border border-border p-6 hover:shadow-lg transition-shadow"
               >
-                {/* Product Image Placeholder - Clickable */}
+                {/* Product Image - Clickable */}
                 <Link 
-                  to={review.productSlug ? `/product/${review.productSlug}` : "/shop"}
+                  to={review.product ? `/product/${review.product.handle}` : "/shop"}
                   className="block mb-4 group"
                 >
-                  <div className="aspect-square bg-muted rounded-sm flex items-center justify-center overflow-hidden group-hover:bg-accent transition-colors">
-                    <div className="text-center text-muted-foreground p-4">
-                      <div className="w-12 h-12 mx-auto mb-2 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center group-hover:border-primary/50 transition-colors">
-                        <span className="text-lg">📷</span>
+                  <div className="aspect-square bg-muted rounded-sm overflow-hidden">
+                    {review.product ? (
+                      <img 
+                        src={review.product.imageUrl} 
+                        alt={review.product.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                        <div className="text-center p-4">
+                          <div className="w-12 h-12 mx-auto mb-2 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
+                            <span className="text-lg">📷</span>
+                          </div>
+                          <p className="font-body text-xs tracking-wide capitalize">
+                            {review.category}
+                          </p>
+                        </div>
                       </div>
-                      <p className="font-body text-xs tracking-wide capitalize">
-                        {review.category}
-                      </p>
-                    </div>
+                    )}
                   </div>
                 </Link>
 
-                {/* Product Type */}
-                <p className="text-xs text-muted-foreground font-body mb-2 uppercase tracking-wide">
-                  {review.productType}
-                </p>
+                {/* Product Name */}
+                {review.product && (
+                  <Link 
+                    to={`/product/${review.product.handle}`}
+                    className="block mb-2 hover:text-primary transition-colors"
+                  >
+                    <p className="text-xs text-muted-foreground font-body uppercase tracking-wide line-clamp-1">
+                      {review.product.title}
+                    </p>
+                  </Link>
+                )}
 
                 {/* Rating - Green Stars */}
                 <div className="flex items-center gap-1 mb-3">
