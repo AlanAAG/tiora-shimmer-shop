@@ -69,11 +69,11 @@ const ProductPage = () => {
 
         {/* Main Product Section */}
         <section className="container mx-auto px-6 pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            <div className="lg:col-span-7">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+            <div className="md:col-span-7">
               <ShopifyImageGallery product={shopifyProduct} />
             </div>
-            <div className="lg:col-span-5">
+            <div className="md:col-span-5">
               <ShopifyProductInfo product={shopifyProduct} />
             </div>
           </div>
