@@ -216,7 +216,7 @@ const About = () => {
               Stars Rating
             </p>
             <a 
-              href="/shop"
+              href="/reviews"
               className="inline-block border border-foreground text-foreground px-8 py-3 rounded-full font-body text-sm tracking-wide hover:bg-foreground hover:text-background transition-colors"
             >
               Read Reviews
