@@ -58,14 +58,12 @@ const CareGuide = () => {
         </section>
 
         {/* Hero Image */}
-        <section className="px-6 pb-16">
-          <div className="max-w-md mx-auto">
-            <img
-              src={careGuideHero}
-              alt="Elegant gold jewellery care"
-              className="w-full h-auto object-cover"
-            />
-          </div>
+        <section className="pb-16">
+          <img
+            src={careGuideHero}
+            alt="Elegant gold jewellery care"
+            className="w-full h-auto object-cover"
+          />
         </section>
 
         {/* Accordion Section */}
