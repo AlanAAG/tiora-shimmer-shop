@@ -1,16 +1,18 @@
 import { useState, useMemo } from "react";
-import { Star, CheckCircle, Filter } from "lucide-react";
-import { motion } from "framer-motion";
+import { Star, CheckCircle, Filter, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { customerReviews, shuffleReviews, getAverageRating, getTotalReviewCount } from "@/data/reviews";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 type CategoryFilter = "all" | "bracelets" | "earrings" | "rings";
 
 const Reviews = () => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
+  const [filterOpen, setFilterOpen] = useState(false);
   
   const averageRating = getAverageRating();
   const totalReviews = getTotalReviewCount();
@@ -29,71 +31,99 @@ const Reviews = () => {
     { label: "Rings", value: "rings" },
   ];
 
+  // Render stars with partial fill for 4.8 rating
+  const renderStars = () => {
+    return Array.from({ length: 5 }).map((_, i) => {
+      const starNumber = i + 1;
+      let fillPercentage = 0;
+      
+      if (starNumber <= Math.floor(averageRating)) {
+        fillPercentage = 100;
+      } else if (starNumber === Math.ceil(averageRating)) {
+        fillPercentage = (averageRating % 1) * 100;
+      }
+      
+      return (
+        <div key={i} className="relative w-5 h-5">
+          {/* Background star (empty) */}
+          <Star className="absolute w-5 h-5 text-primary/30" />
+          {/* Foreground star (filled) with clip */}
+          <div 
+            className="absolute overflow-hidden" 
+            style={{ width: `${fillPercentage}%` }}
+          >
+            <Star className="w-5 h-5 fill-primary text-primary" />
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section */}
-      <section className="bg-primary px-4 py-16 md:py-24">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero Section - Minimalistic */}
+      <section className="px-4 py-12 md:py-16 border-b border-border">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="font-display text-4xl md:text-6xl text-primary-foreground mb-4">
-              Customer Reviews
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
+              Over {totalReviews}+
+              <br />
+              reviews
             </h1>
-            <p className="font-body text-primary-foreground/80 mb-8">
-              Real stories from our Tiora family
+            <p className="font-body text-muted-foreground mb-6 max-w-md">
+              Real stories from our Tiora family. Every piece, every moment, crafted with care.
             </p>
             
-            {/* Rating Summary */}
-            <div className="flex items-center justify-center gap-4">
-              <div className="flex items-center gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      "w-6 h-6",
-                      i < Math.floor(averageRating)
-                        ? "fill-primary-foreground text-primary-foreground"
-                        : "text-primary-foreground/30"
-                    )}
-                  />
-                ))}
+            {/* Rating */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-0.5">
+                {renderStars()}
               </div>
-              <span className="font-display text-2xl text-primary-foreground">
+              <span className="font-body text-sm text-muted-foreground">
                 {averageRating} / 5
-              </span>
-              <span className="text-primary-foreground/70 font-body">
-                ({totalReviews}+ reviews)
               </span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Filter Section */}
-      <section className="sticky top-0 z-40 bg-background border-b border-border py-4">
+      {/* Collapsible Filter */}
+      <section className="border-b border-border">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-2 md:gap-4 flex-wrap">
-            <Filter className="w-4 h-4 text-muted-foreground" />
-            {filters.map((filter) => (
-              <button
-                key={filter.value}
-                onClick={() => setActiveFilter(filter.value)}
-                className={cn(
-                  "px-4 py-2 rounded-full font-body text-sm transition-all",
-                  activeFilter === filter.value
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground hover:bg-accent"
-                )}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
+          <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+            <CollapsibleTrigger className="flex items-center gap-2 py-3 text-sm font-body text-muted-foreground hover:text-foreground transition-colors">
+              <Filter className="w-4 h-4" />
+              <span>Filter</span>
+              <ChevronDown className={cn(
+                "w-4 h-4 transition-transform",
+                filterOpen && "rotate-180"
+              )} />
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="flex items-center gap-2 pb-4 flex-wrap">
+                {filters.map((filter) => (
+                  <button
+                    key={filter.value}
+                    onClick={() => setActiveFilter(filter.value)}
+                    className={cn(
+                      "px-4 py-2 rounded-full font-body text-sm transition-all",
+                      activeFilter === filter.value
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground hover:bg-accent"
+                    )}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </section>
 
