@@ -225,29 +225,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-primary px-4 py-16 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-xl mx-auto"
-        >
-          <h2 className="font-display text-3xl md:text-4xl text-primary-foreground mb-4">
-            Ready to Find Your Signature Piece?
-          </h2>
-          <p className="font-body text-primary-foreground/80 mb-8">
-            Explore our collections and discover jewelry that speaks to you.
-          </p>
-          <a 
-            href="/shop"
-            className="inline-block bg-background text-foreground px-8 py-3 rounded-2xl font-body font-medium hover:bg-background/90 transition-colors"
-          >
-            Shop Now
-          </a>
-        </motion.div>
-      </section>
-
       <Footer />
     </div>
   );
