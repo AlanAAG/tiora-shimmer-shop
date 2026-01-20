@@ -10,10 +10,11 @@ const Header = () => {
 
   const navLinks = [
     { name: "Shop All", href: "/shop" },
-    { name: "Rings", href: "/rings" },
-    { name: "Earrings", href: "/earrings" },
-    { name: "Bracelets", href: "/bracelets" },
-    { name: "Necklaces", href: "/necklaces" },
+    { name: "Best Sellers", href: "/shop?collection=best-sellers" },
+    { name: "Rings", href: "/shop?collection=rings" },
+    { name: "Earrings", href: "/shop?collection=earrings" },
+    { name: "Bracelets", href: "/shop?collection=bracelets" },
+    { name: "Necklaces", href: "/shop?collection=necklaces" },
   ];
 
   return (

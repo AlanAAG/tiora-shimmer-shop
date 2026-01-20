@@ -1,7 +1,25 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ChevronDown, Facebook, Instagram } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Package, RotateCcw, ShieldCheck } from "lucide-react";
 import tioraLogo from "@/assets/tiora-logo.png";
+
+const trustBadges = [
+  {
+    icon: Package,
+    title: "Free Shipping",
+    description: "On orders ₹8,000+",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Quality Assured",
+    description: "Certified materials",
+  },
+  {
+    icon: RotateCcw,
+    title: "Easy Returns",
+    description: "14-day returns",
+  },
+];
 
 const currencies = [
   { code: "INR", flag: "🇮🇳", name: "India" },
@@ -39,6 +57,27 @@ const Footer = () => {
 
   return (
     <footer className="bg-muted text-foreground">
+      {/* Trust Badges */}
+      <div className="bg-secondary/80 py-6">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-3 gap-4">
+            {trustBadges.map((badge, index) => (
+              <div key={index} className="text-center">
+                <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
+                  <badge.icon className="w-6 h-6 text-muted-foreground" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-display text-xs md:text-sm font-semibold text-foreground mb-0.5">
+                  {badge.title}
+                </h3>
+                <p className="font-body text-[10px] md:text-xs text-muted-foreground">
+                  {badge.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-6 py-8">
         {/* Stay Connected Section */}
         <div className="border-b border-border py-6">
