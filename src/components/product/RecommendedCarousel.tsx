@@ -18,7 +18,7 @@ export const RecommendedCarousel = ({ products }: RecommendedCarouselProps) => {
 
   return (
     <section className="py-8 md:py-12">
-      <div className="container mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
         <Carousel
           opts={{
             align: "start",

@@ -117,7 +117,7 @@ const ProductPage = () => {
       <Header />
       
       {/* Breadcrumb */}
-      <div className="container mx-auto px-6 pt-32 pb-4">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 pt-32 pb-4">
         <Link 
           to="/shop" 
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -128,7 +128,7 @@ const ProductPage = () => {
       </div>
 
       {/* Main Product Section - Two Column Layout */}
-      <section className="container mx-auto px-6 pb-16">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column - Images (wider) */}
           <div className="lg:col-span-7">
