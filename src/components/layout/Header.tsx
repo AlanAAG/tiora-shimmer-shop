@@ -20,7 +20,6 @@ const Header = ({ showBanner = true }: HeaderProps) => {
     { name: "Rings", href: "/shop?collection=rings" },
     { name: "Earrings", href: "/shop?collection=earrings" },
     { name: "Bracelets", href: "/shop?collection=bracelets" },
-    { name: "Necklaces", href: "/shop?collection=necklaces" },
   ];
 
   const headerTop = showBanner ? "top-10" : "top-0";
