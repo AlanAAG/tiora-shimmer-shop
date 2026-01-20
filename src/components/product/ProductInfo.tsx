@@ -10,10 +10,9 @@ import { Link } from "react-router-dom";
 interface ProductInfoProps {
   product: Product;
   reviews: Review[];
-  carouselProducts?: Product[];
 }
 
-export const ProductInfo = ({ product, reviews, carouselProducts }: ProductInfoProps) => {
+export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<"gold" | "silver">("gold");
   const [openCollapsibles, setOpenCollapsibles] = useState<Record<string, boolean>>({});
@@ -276,43 +275,6 @@ export const ProductInfo = ({ product, reviews, carouselProducts }: ProductInfoP
         </Sheet>
       </div>
 
-      {/* You May Also Like - Carousel Products (no title) */}
-      {carouselProducts && carouselProducts.length > 0 && (
-        <div className="space-y-3 pt-4">
-          {carouselProducts.slice(0, 4).map((carouselProduct) => (
-            <Link
-              key={carouselProduct.id}
-              to={`/product/${carouselProduct.slug}`}
-              className="flex items-center gap-3 p-3 border border-border hover:border-foreground/50 transition-colors rounded-2xl"
-            >
-              <div className="w-16 h-16 bg-muted overflow-hidden flex-shrink-0 rounded-xl">
-                <img
-                  src={carouselProduct.image}
-                  alt={carouselProduct.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-display text-sm text-foreground truncate">{carouselProduct.name}</h4>
-                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                  <span className="text-muted-foreground line-through text-[10px]">
-                    {formatPrice(carouselProduct.comparePrice)}
-                  </span>
-                  <span className="font-body text-xs text-foreground">
-                    {formatPrice(carouselProduct.price)}
-                  </span>
-                  <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-md">
-                    {Math.round(((carouselProduct.comparePrice - carouselProduct.price) / carouselProduct.comparePrice) * 100)}% OFF
-                  </span>
-                </div>
-              </div>
-              <Button variant="outline" size="sm" className="flex-shrink-0 text-[10px] px-2 h-7">
-                ADD
-              </Button>
-            </Link>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { ProductImageGallery } from "@/components/product/ProductImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductMarquee } from "@/components/product/ProductMarquee";
 import { CollectionStory } from "@/components/product/CollectionStory";
-import { ProductCarousel } from "@/components/product/ProductCarousel";
+import { RecommendedCarousel } from "@/components/product/RecommendedCarousel";
 import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/products";
@@ -140,11 +140,13 @@ const ProductPage = () => {
             <ProductInfo 
               product={mockProduct} 
               reviews={sampleReviews} 
-              carouselProducts={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)}
             />
           </div>
         </div>
       </section>
+
+      {/* Recommended Products Carousel */}
+      <RecommendedCarousel products={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)} />
 
       {/* Marquee */}
       <ProductMarquee />
