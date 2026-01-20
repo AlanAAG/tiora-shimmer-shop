@@ -52,14 +52,14 @@ const MostPopular = () => {
         </div>
 
         {/* Scrollable Products */}
-        <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-16 lg:px-16 mb-6">
-          <div className="flex gap-3 min-w-max" style={{ width: 'max-content' }}>
+        <div className="overflow-x-auto scrollbar-hide mb-6">
+          <div className="flex gap-3 min-w-max pl-4 md:pl-0" style={{ width: 'max-content' }}>
             {products.map((product) => (
               <Link 
                 key={product.id} 
                 to={`/product/${product.id}`}
                 className="group flex-shrink-0"
-                style={{ width: 'calc(42vw - 1rem)', maxWidth: '280px' }}
+                style={{ width: 'calc(23vw - 1rem)', maxWidth: '220px', minWidth: '160px' }}
               >
                 {/* Image Container */}
                 <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-xl">
@@ -123,7 +123,7 @@ const MostPopular = () => {
           asChild
         >
           <Link to="/shop?collection=best-sellers">
-            Shop Best Sellers
+            View More
           </Link>
         </Button>
       </div>

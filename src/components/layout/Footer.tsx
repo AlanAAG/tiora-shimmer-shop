@@ -60,51 +60,47 @@ const PinterestIcon = ({ className }: { className?: string }) => (
 );
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   return (
     <footer className="text-primary-foreground">
-      {/* Trust Badges - Above green section */}
-      <div className="bg-secondary/80 py-6">
+      {/* Main Footer - Green Background */}
+      <div className="bg-primary py-10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 gap-4">
+          {/* Trust Badges - Inside green section */}
+          <div className="grid grid-cols-3 gap-4 mb-10 pb-8 border-b border-primary-foreground/20">
             {trustBadges.map((badge, index) => (
               <div key={index} className="text-center">
                 <div className="w-10 h-10 mx-auto mb-2 flex items-center justify-center">
-                  <badge.icon className="w-6 h-6 text-muted-foreground" strokeWidth={1.5} />
+                  <badge.icon className="w-6 h-6 text-primary-foreground" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-xs md:text-sm font-semibold text-foreground mb-0.5">
+                <h3 className="font-display text-xs md:text-sm font-semibold text-primary-foreground mb-0.5">
                   {badge.title}
                 </h3>
-                <p className="font-body text-[10px] md:text-xs text-muted-foreground">
+                <p className="font-body text-[10px] md:text-xs text-primary-foreground/70">
                   {badge.description}
                 </p>
               </div>
             ))}
           </div>
-        </div>
-      </div>
 
-      {/* Main Footer - Green Background */}
-      <div className="bg-primary py-10">
-        <div className="container mx-auto px-6">
           {/* Mobile Layout */}
           <div className="md:hidden">
             {/* Join Tiora Circle */}
             <div className="mb-8">
-              <h3 className="font-display text-3xl italic mb-3">Join the Tiora Circle</h3>
-              <p className="font-body text-sm text-primary-foreground/80 mb-4">
+              <h3 className="font-display text-2xl italic mb-3">Join the Tiora Circle</h3>
+              <p className="font-body text-xs text-primary-foreground/80 mb-4">
                 Unlock 15% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
               </p>
               <div className="flex flex-col gap-3">
                 <Input
-                  type="email"
-                  placeholder="Enter Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-primary-foreground text-foreground border-none h-12"
+                  type="tel"
+                  placeholder="Enter Phone Number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="bg-primary-foreground text-foreground border-none h-12 rounded-full"
                 />
-                <Button className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest">
+                <Button className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest rounded-full text-xs">
                   Sign Up
                 </Button>
               </div>
@@ -156,51 +152,51 @@ const Footer = () => {
           </div>
 
           {/* Desktop Layout */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="hidden md:grid md:grid-cols-6 gap-6">
             {/* Left Side - Newsletter + Social */}
-            <div className="lg:col-span-2">
+            <div className="col-span-2">
               {/* Join Tiora Circle */}
-              <h3 className="font-display text-4xl italic mb-3">Join the Tiora Circle</h3>
-              <p className="font-body text-sm text-primary-foreground/80 mb-6 max-w-sm">
+              <h3 className="font-display text-2xl italic mb-2">Join the Tiora Circle</h3>
+              <p className="font-body text-xs text-primary-foreground/80 mb-4 max-w-xs">
                 Unlock 15% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
               </p>
-              <div className="flex flex-col gap-3 max-w-sm mb-8">
+              <div className="flex flex-col gap-2 max-w-xs mb-6">
                 <Input
-                  type="email"
-                  placeholder="Enter Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-primary-foreground text-foreground border-none h-12"
+                  type="tel"
+                  placeholder="Enter Phone Number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="bg-primary-foreground text-foreground border-none h-10 rounded-full text-sm"
                 />
-                <Button className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest">
+                <Button className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest rounded-full text-xs">
                   Sign Up
                 </Button>
               </div>
 
               {/* Stay Connected */}
-              <h3 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">
+              <h3 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">
                 Stay Connected
               </h3>
-              <div className="flex gap-3">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
-                  <Facebook className="w-5 h-5" />
+              <div className="flex gap-2">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
+                  <Facebook className="w-4 h-4" />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
-                  <Instagram className="w-5 h-5" />
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
+                  <Instagram className="w-4 h-4" />
                 </a>
-                <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
-                  <PinterestIcon className="w-5 h-5" />
+                <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
+                  <PinterestIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>
 
-            {/* Right Side - Link Columns */}
+            {/* Right Side - Link Columns - All 4 in one row */}
             <div>
-              <h4 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Shop</h4>
-              <ul className="space-y-2">
+              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Shop</h4>
+              <ul className="space-y-1.5">
                 {shopLinks.map((link) => (
                   <li key={link.name}>
-                    <Link to={link.to} className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+                    <Link to={link.to} className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
                       {link.name}
                     </Link>
                   </li>
@@ -209,22 +205,11 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Brand</h4>
-              <ul className="space-y-2">
+              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Brand</h4>
+              <ul className="space-y-1.5">
                 {brandLinks.map((link) => (
                   <li key={link.name}>
-                    <Link to={link.to} className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <h4 className="font-body text-sm font-semibold tracking-wider uppercase mb-4 mt-8">Legal</h4>
-              <ul className="space-y-2">
-                {legalLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link to={link.to} className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+                    <Link to={link.to} className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
                       {link.name}
                     </Link>
                   </li>
@@ -233,11 +218,24 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Help</h4>
-              <ul className="space-y-2">
+              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Help</h4>
+              <ul className="space-y-1.5">
                 {helpLinks.map((link) => (
                   <li key={link.name}>
-                    <Link to={link.to} className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+                    <Link to={link.to} className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Legal</h4>
+              <ul className="space-y-1.5">
+                {legalLinks.map((link) => (
+                  <li key={link.name}>
+                    <Link to={link.to} className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
                       {link.name}
                     </Link>
                   </li>
