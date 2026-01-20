@@ -72,8 +72,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
-        body: ['Outfit', 'sans-serif'],
+        display: ['Seasons', 'serif'],
+        body: ['"Glacial Indifference"', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
