@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Reviews from "./pages/Reviews";
 import CareGuide from "./pages/CareGuide";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function AppContent() {
       <Route path="/help" element={<CareGuide />} />
       <Route path="/care-guide" element={<CareGuide />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/earrings" element={<Shop />} />
       <Route path="/bracelets" element={<Shop />} />
       <Route path="/necklaces" element={<Shop />} />
