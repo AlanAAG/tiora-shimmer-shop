@@ -10,17 +10,81 @@ import { ProductCarousel } from "@/components/product/ProductCarousel";
 import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/products";
-import { ChevronLeft } from "lucide-react";
+import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { ShopifyProductInfo } from "@/components/product/ShopifyProductInfo";
+import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
+import { ChevronLeft, Loader2 } from "lucide-react";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const product = slug ? getProductBySlug(slug) : undefined;
+  
+  // Try to get Shopify product first
+  const { data: shopifyProduct, isLoading: shopifyLoading } = useShopifyProduct(slug);
+  const { data: shopifyProducts } = useShopifyProducts(8);
+  
+  // Fallback to mock product
+  const mockProduct = slug ? getProductBySlug(slug) : undefined;
   
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  if (!product) {
+  if (shopifyLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex items-center justify-center py-32">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Use Shopify product if available
+  if (shopifyProduct) {
+    const relatedProducts = shopifyProducts?.filter(p => p.node.handle !== slug).slice(0, 4) || [];
+    
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        
+        {/* Breadcrumb */}
+        <div className="container mx-auto px-6 pt-24 pb-4">
+          <Link 
+            to="/shop" 
+            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Back to Shop
+          </Link>
+        </div>
+
+        {/* Main Product Section */}
+        <section className="container mx-auto px-6 pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-7">
+              <ShopifyImageGallery product={shopifyProduct} />
+            </div>
+            <div className="lg:col-span-5">
+              <ShopifyProductInfo product={shopifyProduct} />
+            </div>
+          </div>
+        </section>
+
+        {/* Marquee */}
+        <ProductMarquee />
+
+        {/* FAQ Section */}
+        <ProductFAQ items={faqItems} />
+
+        <Footer />
+      </div>
+    );
+  }
+
+  // Fallback to mock product
+  if (!mockProduct) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -55,12 +119,12 @@ const ProductPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column - Images (wider) */}
           <div className="lg:col-span-7">
-            <ProductImageGallery product={product} />
+            <ProductImageGallery product={mockProduct} />
           </div>
           
           {/* Right Column - Product Info */}
           <div className="lg:col-span-5">
-            <ProductInfo product={product} reviews={sampleReviews} />
+            <ProductInfo product={mockProduct} reviews={sampleReviews} />
           </div>
         </div>
       </section>
@@ -69,19 +133,19 @@ const ProductPage = () => {
       <ProductMarquee />
 
       {/* Collection Story Section */}
-      <CollectionStory product={product} />
+      <CollectionStory product={mockProduct} />
 
       {/* Product Carousel */}
       <ProductCarousel 
         title="You May Also Like" 
-        products={allProducts.filter(p => p.id !== product.id).slice(0, 8)} 
+        products={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)} 
       />
 
       {/* FAQ Section */}
       <ProductFAQ items={faqItems} />
 
       {/* Reviews Section */}
-      <ProductReviews reviews={sampleReviews} product={product} />
+      <ProductReviews reviews={sampleReviews} product={mockProduct} />
 
       <Footer />
     </div>
