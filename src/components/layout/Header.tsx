@@ -36,12 +36,12 @@ const Header = () => {
           </div>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5 mr-auto pl-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-sm font-body tracking-wide text-foreground/80 hover:text-primary transition-colors duration-300"
+                className="text-xs font-body tracking-wide text-foreground/80 hover:text-primary transition-colors duration-300"
               >
                 {link.name}
               </Link>
