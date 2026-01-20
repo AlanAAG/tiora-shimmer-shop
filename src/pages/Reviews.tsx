@@ -222,16 +222,14 @@ const Reviews = () => {
                 </Link>
 
                 {/* Product Name */}
-                {review.product && (
-                  <Link 
-                    to={`/product/${review.product.handle}`}
-                    className="block mb-2 hover:text-primary transition-colors"
-                  >
-                    <p className="text-xs text-muted-foreground font-body uppercase tracking-wide line-clamp-1">
-                      {review.product.title}
-                    </p>
-                  </Link>
-                )}
+                <Link 
+                  to={review.product ? `/product/${review.product.handle}` : "/shop"}
+                  className="block mb-3 hover:text-primary transition-colors"
+                >
+                  <p className="font-display text-sm text-foreground line-clamp-1">
+                    {review.product?.title || review.productType}
+                  </p>
+                </Link>
 
                 {/* Rating - Green Stars */}
                 <div className="flex items-center gap-1 mb-3">
