@@ -67,7 +67,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
       <Link to={`/product/${node.handle}`}>
         {/* More vertical aspect ratio */}
         <div 
-          className="relative aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-3"
+          className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden mb-3"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -86,7 +86,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
           {/* Badges */}
           <div className="absolute top-3 left-3 flex gap-2">
             {hasDiscount && (
-              <span className="bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded font-medium">
+              <span className="bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded-lg font-medium">
                 {discountPercent}% OFF
               </span>
             )}
@@ -96,7 +96,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
           <button
             onClick={handleAddToBag}
             disabled={isLoading}
-            className="absolute bottom-3 right-3 w-10 h-10 bg-background border border-border rounded-lg flex items-center justify-center hover:bg-foreground hover:text-background transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
+            className="absolute bottom-3 right-3 w-10 h-10 bg-background border border-border rounded-xl flex items-center justify-center hover:bg-foreground hover:text-background transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />

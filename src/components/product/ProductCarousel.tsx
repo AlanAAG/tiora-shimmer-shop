@@ -32,11 +32,11 @@ export const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
         >
           <CarouselContent className="-ml-4">
             {products.map((product) => (
-              <CarouselItem key={product.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+              <CarouselItem key={product.id} className="pl-4 basis-[75%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <Link to={`/product/${product.slug}`} className="group block">
-                  <div className="relative aspect-square mb-4 overflow-hidden bg-muted border border-border">
+                  <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-muted rounded-2xl">
                     {product.isBestSeller && (
-                      <span className="absolute top-3 left-3 z-10 bg-foreground/90 text-background text-[10px] tracking-widest uppercase px-2 py-1 font-body">
+                      <span className="absolute top-2 left-2 z-10 bg-foreground/90 text-background text-[10px] tracking-widest uppercase px-2 py-1 rounded-lg font-body">
                         Best Seller
                       </span>
                     )}
@@ -48,30 +48,30 @@ export const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
                   </div>
                   
                   {/* Material Options */}
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-border" />
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400 border border-border" />
+                  <div className="flex items-center gap-1 mb-1.5">
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-border" />
+                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400 border border-border" />
                   </div>
 
-                  <h3 className="font-display text-base text-foreground mb-1">
+                  <h3 className="font-display text-sm text-foreground mb-0.5 line-clamp-1">
                     {product.name}
                   </h3>
-                  <p className="text-xs text-muted-foreground font-body mb-2">
+                  <p className="text-[10px] text-muted-foreground font-body mb-1.5">
                     18k Gold Plated
                   </p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-muted-foreground line-through text-xs">
+                  <div className="flex items-center gap-1.5 flex-wrap mb-2">
+                    <span className="text-muted-foreground line-through text-[10px]">
                       {formatPrice(product.comparePrice)}
                     </span>
-                    <span className="font-body text-sm text-foreground">
+                    <span className="font-body text-xs text-foreground">
                       {formatPrice(product.price)}
                     </span>
-                    <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5">
+                    <span className="bg-red-500 text-white text-[9px] px-1 py-0.5 rounded">
                       {Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}% OFF
                     </span>
                   </div>
                   
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full text-xs h-8">
                     ADD+
                   </Button>
                 </Link>
