@@ -9,6 +9,7 @@ import Shop from "./pages/Shop";
 import ProductPage from "./pages/ProductPage";
 import About from "./pages/About";
 import Reviews from "./pages/Reviews";
+import CareGuide from "./pages/CareGuide";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,7 +23,8 @@ function AppContent() {
       <Route path="/product/:slug" element={<ProductPage />} />
       <Route path="/about" element={<About />} />
       <Route path="/reviews" element={<Reviews />} />
-      <Route path="/rings" element={<Shop />} />
+      <Route path="/help" element={<CareGuide />} />
+      <Route path="/care-guide" element={<CareGuide />} />
       <Route path="/earrings" element={<Shop />} />
       <Route path="/bracelets" element={<Shop />} />
       <Route path="/necklaces" element={<Shop />} />
