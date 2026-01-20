@@ -16,7 +16,7 @@ const Index = () => {
         <DiscountBanner />
       </div>
       <Header />
-      <main className="pt-28 lg:pt-32">
+      <main className="pt-10 md:pt-20 lg:pt-24">
         <CollectionsMarquee />
         <Hero />
         <MostPopular />

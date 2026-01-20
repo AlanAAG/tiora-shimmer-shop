@@ -1,5 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import DiscountBanner from "@/components/home/DiscountBanner";
 import {
   Accordion,
   AccordionContent,
@@ -44,9 +45,12 @@ const careGuideItems = [
 const CareGuide = () => {
   return (
     <div className="min-h-screen bg-background">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
 
-      <main className="pt-24 pb-16">
+      <main className="pt-32 pb-16">
         {/* Hero Section */}
         <section className="text-center px-6 py-12">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
