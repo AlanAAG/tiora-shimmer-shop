@@ -22,9 +22,9 @@ const TrustSection = () => {
   return (
     <section className="pt-4 pb-8 px-2 bg-background">
       <div className="mx-auto">
-        {/* Header */}
-        <div className="text-center mb-4">
-          <h2 className="font-display text-3xl md:text-4xl text-foreground mb-2">
+        {/* Mobile Header - Outside beige */}
+        <div className="text-center mb-4 md:hidden">
+          <h2 className="font-display text-3xl text-foreground mb-2">
             Tiora <span className="text-primary">Assurance</span>
           </h2>
           <p className="font-body text-muted-foreground">
@@ -34,6 +34,16 @@ const TrustSection = () => {
 
         {/* Trust Items - Side by Side with Beige Background */}
         <div className="bg-[hsl(35,30%,95%)] rounded-2xl p-5 md:p-10 mx-1">
+          {/* Tablet/Desktop Header - Inside beige */}
+          <div className="hidden md:block text-center mb-8">
+            <h2 className="font-display text-4xl text-foreground mb-2">
+              Tiora <span className="text-primary">Assurance</span>
+            </h2>
+            <p className="font-body text-muted-foreground">
+              Crafted by experts, cherished by you
+            </p>
+          </div>
+
           <div className="flex flex-row justify-center items-start gap-4 md:gap-16">
             {trustItems.map((item, index) => (
               <div key={index} className="text-center flex-1 max-w-[200px]">
