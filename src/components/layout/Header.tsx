@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import tioraLogo from "@/assets/tiora-logo.png";
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -47,9 +49,11 @@ const Header = () => {
 
           {/* Logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-            <h1 className="font-display text-2xl lg:text-3xl font-medium tracking-wider text-primary">
-              TIORA
-            </h1>
+            <img 
+              src={tioraLogo} 
+              alt="Tiora" 
+              className="h-10 lg:h-12 w-auto"
+            />
           </Link>
 
           {/* Right Icons */}
