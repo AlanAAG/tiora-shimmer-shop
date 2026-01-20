@@ -97,14 +97,16 @@ const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   return (
-    <section className="py-12 px-2 bg-muted/20">
+    <section className="py-12 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="font-display text-3xl md:text-5xl text-foreground mb-2">
-            23,513+ Five Star Reviews
-          </h2>
-        </div>
+        {/* Beige container for tablet/desktop */}
+        <div className="md:bg-[hsl(35,30%,95%)] md:rounded-2xl md:p-10">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="font-display text-3xl md:text-5xl text-foreground mb-2">
+              23,513+ Five Star Reviews
+            </h2>
+          </div>
 
         {/* Mobile Layout - Circular videos + review cards */}
         <div className="md:hidden">
@@ -138,20 +140,21 @@ const ReviewsSection = () => {
           </div>
         </div>
 
-        {/* Tablet/Desktop Layout - 3x2 Grid with alternating video/review */}
-        <div className="hidden md:grid grid-cols-3 gap-4 px-2">
-          {desktopGridItems.map((item, index) => (
-            <div key={index} className="h-full">
-              {item.type === 'video' ? (
-                <VideoCard 
-                  video={item.data as typeof videoReviews[0]} 
-                  onClick={() => setSelectedVideo((item.data as typeof videoReviews[0]).videoUrl)} 
-                />
-              ) : (
-                <ReviewCard review={item.data as typeof reviews[0]} />
-              )}
-            </div>
-          ))}
+          {/* Tablet/Desktop Layout - 3x2 Grid with alternating video/review */}
+          <div className="hidden md:grid grid-cols-3 gap-5">
+            {desktopGridItems.map((item, index) => (
+              <div key={index} className="h-full">
+                {item.type === 'video' ? (
+                  <VideoCard 
+                    video={item.data as typeof videoReviews[0]} 
+                    onClick={() => setSelectedVideo((item.data as typeof videoReviews[0]).videoUrl)} 
+                  />
+                ) : (
+                  <ReviewCard review={item.data as typeof reviews[0]} />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Video Dialog */}

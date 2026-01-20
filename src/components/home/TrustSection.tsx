@@ -20,8 +20,8 @@ const trustItems = [
 
 const TrustSection = () => {
   return (
-    <section className="pt-4 pb-8 px-2 bg-background">
-      <div className="mx-auto">
+    <section className="pt-4 pb-8 px-4 md:px-8 lg:px-16 bg-background">
+      <div className="mx-auto max-w-6xl">
         {/* Mobile Header - Outside beige */}
         <div className="text-center mb-4 md:hidden">
           <h2 className="font-display text-3xl text-foreground mb-2">
@@ -33,7 +33,7 @@ const TrustSection = () => {
         </div>
 
         {/* Trust Items - Side by Side with Beige Background */}
-        <div className="bg-[hsl(35,30%,95%)] rounded-2xl p-5 md:p-10 mx-1">
+        <div className="bg-[hsl(35,30%,95%)] rounded-2xl p-5 md:p-10">
           {/* Tablet/Desktop Header - Inside beige */}
           <div className="hidden md:block text-center mb-8">
             <h2 className="font-display text-4xl text-foreground mb-2">
