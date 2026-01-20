@@ -67,7 +67,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
       <Link to={`/product/${node.handle}`}>
         {/* More vertical aspect ratio */}
         <div 
-          className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden mb-3"
+          className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden mb-3 border border-accent"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
