@@ -11,93 +11,145 @@ const videoReviews = [
 const reviews = [
   {
     id: 1,
-    name: "Priya",
-    review: "The price is so good for this quality! I was expecting something cheap but this is real gold plated. Very happy with my purchase!",
+    name: "Jacki",
+    review: "SO Cute and beautiful. Im really impressed with these. I stepped out if my comfort zone and really loved what i got out if it!",
     verified: true,
   },
   {
     id: 2,
-    name: "Ananya",
-    review: "I thought it would be immitation jewellery but when I received it I was shock! The quality is amzing, feels like real gold. My friends are asking where I got it from!",
+    name: "Natasha",
+    review: "Been eyeing this piece for months. Glad I finally went for it... it does NOT disappoint!",
     verified: true,
   },
   {
     id: 3,
-    name: "Meera",
-    review: "Love love love the design! I search everywhere for something like this and finally found it here. The packaging also very nice, perfect for gift giving.",
+    name: "Kristine",
+    review: "Obsessed! I work in the jewelry industry and I'm very picky about quality. Their silver color is beautiful & bright. Even their packaging is great!",
     verified: true,
   },
 ];
+
+// Grid items for desktop layout: video, review, video / review, video, review
+type GridItem = 
+  | { type: 'video'; data: typeof videoReviews[0] }
+  | { type: 'review'; data: typeof reviews[0] };
+
+const desktopGridItems: GridItem[] = [
+  { type: 'review', data: reviews[0] },
+  { type: 'video', data: videoReviews[0] },
+  { type: 'review', data: reviews[1] },
+  { type: 'video', data: videoReviews[1] },
+  { type: 'review', data: reviews[2] },
+  { type: 'video', data: videoReviews[2] },
+];
+
+const ReviewCard = ({ review, onVideoClick }: { review: typeof reviews[0]; onVideoClick?: never }) => (
+  <div className="bg-card p-6 rounded-xl border border-border h-full flex flex-col">
+    {/* Stars */}
+    <div className="flex gap-0.5 mb-4">
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className="w-4 h-4 fill-destructive text-destructive"
+        />
+      ))}
+    </div>
+
+    {/* Review Text */}
+    <p className="font-body text-sm text-foreground/80 italic leading-relaxed mb-4 flex-1">
+      "{review.review}"
+    </p>
+
+    {/* Author */}
+    <div className="flex items-center gap-2">
+      <span className="font-display text-lg text-foreground">
+        {review.name}
+      </span>
+      {review.verified && (
+        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+          <CheckCircle className="w-3.5 h-3.5 text-primary" />
+          Verified Buyer
+        </span>
+      )}
+    </div>
+  </div>
+);
+
+const VideoCard = ({ video, onClick }: { video: typeof videoReviews[0]; onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="relative w-full aspect-[3/4] rounded-xl bg-muted overflow-hidden group"
+  >
+    <img
+      src={video.thumbnail}
+      alt="Video review"
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent">
+      <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+        <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+      </div>
+    </div>
+  </button>
+);
 
 const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   return (
     <section className="py-12 px-2 bg-muted/20">
-      <div className="mx-auto">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="font-display text-3xl md:text-5xl text-foreground mb-2">
-            23,515+ Five Star Reviews
+            23,513+ Five Star Reviews
           </h2>
         </div>
 
-        {/* Video Reviews - Fully Circular */}
-        <div className="flex justify-center gap-3 md:gap-6 mb-10">
-          {videoReviews.map((video) => (
-            <button
-              key={video.id}
-              onClick={() => setSelectedVideo(video.videoUrl)}
-              className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
-            >
-              <img
-                src={video.thumbnail}
-                alt="Video review"
-                className="w-full h-full object-cover rounded-full"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-background/90 flex items-center justify-center">
-                  <Play className="w-5 h-5 md:w-6 md:h-6 text-foreground ml-0.5 fill-foreground" />
+        {/* Mobile Layout - Circular videos + review cards */}
+        <div className="md:hidden">
+          {/* Video Reviews - Circular */}
+          <div className="flex justify-center gap-3 mb-10">
+            {videoReviews.map((video) => (
+              <button
+                key={video.id}
+                onClick={() => setSelectedVideo(video.videoUrl)}
+                className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
+              >
+                <img
+                  src={video.thumbnail}
+                  alt="Video review"
+                  className="w-full h-full object-cover rounded-full"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
+                  <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+                    <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
+
+          {/* Written Reviews */}
+          <div className="grid grid-cols-1 gap-4 px-1">
+            {reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
         </div>
 
-        {/* Written Reviews */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto px-1">
-          {reviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-card p-6 rounded-sm border border-border"
-            >
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-destructive text-destructive"
-                  />
-                ))}
-              </div>
-
-              {/* Review Text */}
-              <p className="font-body text-sm text-foreground/80 italic leading-relaxed mb-4">
-                "{review.review}"
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center justify-between">
-                <span className="font-display text-lg text-foreground">
-                  {review.name}
-                </span>
-                {review.verified && (
-                  <span className="flex items-center gap-1 text-xs text-primary">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    Verified Purchase
-                  </span>
-                )}
-              </div>
+        {/* Tablet/Desktop Layout - 3x2 Grid with alternating video/review */}
+        <div className="hidden md:grid grid-cols-3 gap-4 px-2">
+          {desktopGridItems.map((item, index) => (
+            <div key={index} className="h-full">
+              {item.type === 'video' ? (
+                <VideoCard 
+                  video={item.data as typeof videoReviews[0]} 
+                  onClick={() => setSelectedVideo((item.data as typeof videoReviews[0]).videoUrl)} 
+                />
+              ) : (
+                <ReviewCard review={item.data as typeof reviews[0]} />
+              )}
             </div>
           ))}
         </div>
