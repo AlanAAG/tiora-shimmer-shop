@@ -76,7 +76,7 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
           <CarouselContent>
             {images.map((image, index) => (
               <CarouselItem key={index} className="basis-full">
-                <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl">
+                <div className="relative aspect-[4/5] overflow-hidden bg-muted rounded-2xl">
                   {index === 0 && product.isBestSeller && (
                     <span className="absolute top-4 left-4 z-10 bg-foreground/90 text-background text-[10px] tracking-widest uppercase px-3 py-1.5 font-body rounded-lg">
                       Best Seller
