@@ -12,9 +12,11 @@ import Newsletter from "@/components/home/Newsletter";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <DiscountBanner />
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
-      <main className="pt-16 lg:pt-20">
+      <main className="pt-28 lg:pt-32">
         <CollectionsMarquee />
         <Hero />
         <MostPopular />
