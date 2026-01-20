@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -14,6 +14,7 @@ import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { Loader2, Package } from "lucide-react";
 
 type CollectionType = "all" | "best-sellers" | "rings" | "earrings" | "bracelets" | "necklaces";
+type CategoryFilter = "all" | "rings" | "earrings" | "bracelets" | "necklaces";
 
 const collectionConfig: Record<CollectionType, { name: string; filter: (p: Product) => boolean }> = {
   "all": { 
@@ -42,15 +43,33 @@ const collectionConfig: Record<CollectionType, { name: string; filter: (p: Produ
   },
 };
 
+const categoryFilters: { value: CategoryFilter; label: string }[] = [
+  { value: "all", label: "All" },
+  { value: "rings", label: "Rings" },
+  { value: "earrings", label: "Earrings" },
+  { value: "bracelets", label: "Bracelets" },
+  { value: "necklaces", label: "Necklaces" },
+];
+
 const Shop = () => {
   const [searchParams] = useSearchParams();
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
 
   // Get collection from URL or default to "all"
   const collectionParam = searchParams.get("collection") as CollectionType || "all";
   const collection = collectionConfig[collectionParam] ? collectionParam : "all";
   
   const collectionName = collectionConfig[collection].name;
-  const mockProducts = allProducts.filter(collectionConfig[collection].filter);
+  
+  // Show category filter only for "all" and "best-sellers"
+  const showCategoryFilter = collection === "all" || collection === "best-sellers";
+  
+  // Apply both collection and category filters
+  const mockProducts = allProducts.filter((p) => {
+    const passesCollection = collectionConfig[collection].filter(p);
+    const passesCategory = categoryFilter === "all" || p.category === categoryFilter;
+    return passesCollection && passesCategory;
+  });
 
   // Fetch Shopify products
   const { data: shopifyProducts, isLoading, error } = useShopifyProducts(50);
@@ -68,6 +87,7 @@ const Shop = () => {
   // Scroll to top on collection change
   useEffect(() => {
     window.scrollTo(0, 0);
+    setCategoryFilter("all"); // Reset category filter when collection changes
   }, [collection]);
 
   const hasShopifyProducts = shopifyProducts && shopifyProducts.length > 0;
@@ -91,15 +111,36 @@ const Shop = () => {
       {/* Filter Section */}
       <CollectionFilter productCount={totalProductCount} />
 
+      {/* Category Filter for All/Best Sellers */}
+      {showCategoryFilter && (
+        <section className="px-4 md:px-8 lg:px-16 pb-4">
+          <div className="flex flex-wrap gap-2">
+            {categoryFilters.map((filter) => (
+              <button
+                key={filter.value}
+                onClick={() => setCategoryFilter(filter.value)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  categoryFilter === filter.value
+                    ? "bg-foreground text-background"
+                    : "bg-muted text-foreground hover:bg-muted/80"
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Product Grid */}
-      <section className="px-4 pb-8">
+      <section className="px-4 md:px-8 lg:px-16 pb-8">
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : hasShopifyProducts ? (
-          // Shopify Products
-          <div className="grid grid-cols-2 gap-4">
+          // Shopify Products - 4 columns on md+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <SaleBanner />
             {shopifyProducts.map((product) => (
               <ShopifyProductCard
@@ -109,8 +150,8 @@ const Shop = () => {
             ))}
           </div>
         ) : (
-          // Show empty state or fallback to mock products
-          <div className="grid grid-cols-2 gap-4">
+          // Show empty state or fallback to mock products - 4 columns on md+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <SaleBanner />
             
             {mockProducts.length > 0 ? (
@@ -124,7 +165,7 @@ const Shop = () => {
               ))
             ) : (
               // Empty state
-              <div className="col-span-2 flex flex-col items-center justify-center py-20 text-center">
+              <div className="col-span-2 md:col-span-4 flex flex-col items-center justify-center py-20 text-center">
                 <Package className="w-16 h-16 text-muted-foreground mb-4" />
                 <h3 className="font-display text-xl text-foreground mb-2">No products found</h3>
                 <p className="font-body text-muted-foreground max-w-md">
