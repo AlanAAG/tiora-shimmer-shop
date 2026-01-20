@@ -24,9 +24,11 @@ const Header = ({ showBanner = true }: HeaderProps) => {
   ];
 
   const headerTop = showBanner ? "top-10" : "top-0";
+  // When hiding, translate by full header height + banner height if banner is shown
+  const hideTransform = showBanner ? "-translate-y-[calc(100%+2.5rem)]" : "-translate-y-full";
 
   return (
-    <header className={`fixed ${headerTop} left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}>
+    <header className={`fixed ${headerTop} left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-transform duration-300 ${isVisible ? "translate-y-0" : hideTransform}`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Left Icons - Mobile */}
