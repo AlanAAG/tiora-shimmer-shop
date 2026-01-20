@@ -199,7 +199,7 @@ const Footer = () => {
           <img 
             src={tioraLogo} 
             alt="Tiora" 
-            className="h-24 w-auto opacity-40"
+            className="h-32 w-auto opacity-40"
           />
         </div>
 
