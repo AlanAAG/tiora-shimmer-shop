@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { useScrollHeader } from "@/hooks/useScrollHeader";
 import tioraLogo from "@/assets/tiora-logo.png";
 
-const Header = () => {
+interface HeaderProps {
+  showBanner?: boolean;
+}
+
+const Header = ({ showBanner = true }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isVisible = useScrollHeader();
 
   const navLinks = [
     { name: "Shop All", href: "/shop" },
@@ -17,8 +23,10 @@ const Header = () => {
     { name: "Necklaces", href: "/shop?collection=necklaces" },
   ];
 
+  const headerTop = showBanner ? "top-10" : "top-0";
+
   return (
-    <header className="fixed top-10 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <header className={`fixed ${headerTop} left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Left Icons - Mobile */}
