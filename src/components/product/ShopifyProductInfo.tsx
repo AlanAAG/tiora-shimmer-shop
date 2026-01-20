@@ -140,30 +140,32 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
         )}
       </Button>
 
-      {/* Description Toggle */}
-      {product.description && (
-        <Collapsible open={openCollapsibles["description"]} onOpenChange={() => toggleCollapsible("description")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 text-left border-t border-border">
-            <div className="flex items-center gap-3">
-              <Info className="w-4 h-4" />
-              <span className="font-body text-sm font-medium">Product Details</span>
-            </div>
-            {openCollapsibles["description"] ? (
-              <Minus className="w-4 h-4 text-muted-foreground" />
-            ) : (
-              <Plus className="w-4 h-4 text-muted-foreground" />
-            )}
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
-            {product.description}
-          </CollapsibleContent>
-        </Collapsible>
-      )}
-
       {/* Collapsible Info */}
-      <div className="border-t border-border pt-4 space-y-0">
+      <div className="border-t border-border space-y-0">
+        {/* Description Toggle */}
+        {product.description && (
+          <Collapsible open={openCollapsibles["description"]} onOpenChange={() => toggleCollapsible("description")}>
+            <CollapsibleTrigger className="flex items-center justify-between w-full h-14 text-left">
+              <div className="flex items-center gap-3">
+                <Info className="w-4 h-4" />
+                <span className="font-body text-sm">Product Details</span>
+              </div>
+              {openCollapsibles["description"] ? (
+                <Minus className="w-4 h-4 text-muted-foreground" />
+              ) : (
+                <Plus className="w-4 h-4 text-muted-foreground" />
+              )}
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
+              {product.description}
+            </CollapsibleContent>
+          </Collapsible>
+        )}
+
+        <div className="border-t border-border" />
+
         <Collapsible open={openCollapsibles["returns"]} onOpenChange={() => toggleCollapsible("returns")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
+          <CollapsibleTrigger className="flex items-center justify-between w-full h-14 text-left">
             <div className="flex items-center gap-3">
               <RotateCcw className="w-4 h-4" />
               <span className="font-body text-sm">Easy 14-Day Returns</span>
@@ -182,7 +184,7 @@ export const ShopifyProductInfo = ({ product }: ShopifyProductInfoProps) => {
         <div className="border-t border-border" />
 
         <Collapsible open={openCollapsibles["shipping"]} onOpenChange={() => toggleCollapsible("shipping")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
+          <CollapsibleTrigger className="flex items-center justify-between w-full h-14 text-left">
             <div className="flex items-center gap-3">
               <Truck className="w-4 h-4" />
               <span className="font-body text-sm">Free Shipping Available</span>

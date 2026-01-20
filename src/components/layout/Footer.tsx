@@ -240,8 +240,17 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Bottom - Logo & Copyright */}
-          <div className="mt-10 pt-6 border-t border-primary-foreground/20">
+          {/* Logo */}
+          <div className="mt-10 pt-6 border-t border-primary-foreground/20 flex justify-center">
+            <img 
+              src={tioraLogo} 
+              alt="Tiora" 
+              className="h-24 md:h-32 brightness-0 invert"
+            />
+          </div>
+
+          {/* Bottom - Copyright */}
+          <div className="mt-6 pt-4 border-t border-primary-foreground/20">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-primary-foreground/70">
                 <span>© 2026, Tiora</span>
