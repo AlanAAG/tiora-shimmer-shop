@@ -39,8 +39,8 @@ const formatPrice = (price: number) => {
 
 const MostPopular = () => {
   return (
-    <section className="py-8 px-2 bg-background">
-      <div className="mx-auto">
+    <section className="py-8 px-4 md:px-8 lg:px-16 bg-background">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="font-display text-4xl md:text-5xl text-foreground italic mb-3">
