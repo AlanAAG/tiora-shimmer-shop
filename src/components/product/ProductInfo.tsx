@@ -14,7 +14,7 @@ interface ProductInfoProps {
 
 export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [stackType, setStackType] = useState<"single" | "bundle">("single");
+  const [stackType, setStackType] = useState<"single" | "bundle">("bundle");
   const [selectedMaterial, setSelectedMaterial] = useState<"gold" | "silver">("gold");
   const [selectedBundle, setSelectedBundle] = useState<string | null>(null);
   const [openCollapsibles, setOpenCollapsibles] = useState<Record<string, boolean>>({});
@@ -85,7 +85,7 @@ export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
           <span className="font-display text-2xl text-foreground">
             {formatPrice(product.price)}
           </span>
-          <span className="bg-red-500 text-white text-xs px-2 py-1 font-body tracking-wide">
+          <span className="bg-red-500 text-white text-xs px-2 py-1 font-body tracking-wide rounded-lg">
             SAVE {formatPrice(product.comparePrice - product.price)}
           </span>
         </div>
@@ -99,7 +99,7 @@ export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
           <button
             onClick={() => setStackType("single")}
             className={cn(
-              "py-3 px-4 border text-sm font-body transition-all",
+              "py-3 px-4 border text-sm font-body transition-all rounded-xl",
               stackType === "single"
                 ? "bg-muted border-foreground"
                 : "border-border hover:border-foreground/50"
@@ -110,7 +110,7 @@ export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
           <button
             onClick={() => setStackType("bundle")}
             className={cn(
-              "py-3 px-4 border text-sm font-body transition-all",
+              "py-3 px-4 border text-sm font-body transition-all rounded-xl",
               stackType === "bundle"
                 ? "bg-muted border-foreground"
                 : "border-border hover:border-foreground/50"
@@ -250,31 +250,31 @@ export const ProductInfo = ({ product, reviews }: ProductInfoProps) => {
             <Link
               key={pairProduct.id}
               to={`/product/${pairProduct.slug}`}
-              className="flex items-center gap-4 p-3 border border-border hover:border-foreground/50 transition-colors"
+              className="flex items-center gap-3 p-3 border border-border hover:border-foreground/50 transition-colors rounded-2xl"
             >
-              <div className="w-20 h-20 bg-muted overflow-hidden flex-shrink-0">
+              <div className="w-16 h-16 bg-muted overflow-hidden flex-shrink-0 rounded-xl">
                 <img
                   src={pairProduct.image}
                   alt={pairProduct.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-1">
-                <h4 className="font-display text-base text-foreground">{pairProduct.name}</h4>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-muted-foreground line-through text-xs">
+              <div className="flex-1 min-w-0">
+                <h4 className="font-display text-sm text-foreground truncate">{pairProduct.name}</h4>
+                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                  <span className="text-muted-foreground line-through text-[10px]">
                     {formatPrice(pairProduct.comparePrice)}
                   </span>
-                  <span className="font-body text-sm text-foreground">
+                  <span className="font-body text-xs text-foreground">
                     {formatPrice(pairProduct.price)}
                   </span>
-                  <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5">
+                  <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-md">
                     {Math.round(((pairProduct.comparePrice - pairProduct.price) / pairProduct.comparePrice) * 100)}% OFF
                   </span>
                 </div>
               </div>
-              <Button variant="outline" size="sm" className="flex-shrink-0">
-                ADD TO BAG
+              <Button variant="outline" size="sm" className="flex-shrink-0 text-[10px] px-2 h-7">
+                ADD
               </Button>
             </Link>
           ))}

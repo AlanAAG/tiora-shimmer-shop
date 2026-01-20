@@ -36,7 +36,7 @@ export const CollectionStory = ({ product }: CollectionStoryProps) => {
           </div>
 
           {/* Video Placeholder - Right */}
-          <div className="relative aspect-[4/5] bg-muted overflow-hidden rounded-sm">
+          <div className="relative aspect-[4/5] bg-muted overflow-hidden rounded-2xl">
             <img
               src={product.image}
               alt="Collection video thumbnail"

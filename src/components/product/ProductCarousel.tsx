@@ -66,7 +66,7 @@ export const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
                     <span className="font-body text-xs text-foreground">
                       {formatPrice(product.price)}
                     </span>
-                    <span className="bg-red-500 text-white text-[9px] px-1 py-0.5 rounded">
+                    <span className="bg-red-500 text-white text-[9px] px-1 py-0.5 rounded-md">
                       {Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)}% OFF
                     </span>
                   </div>
