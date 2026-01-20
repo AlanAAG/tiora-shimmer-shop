@@ -8,7 +8,6 @@ import FilterDrawer from "@/components/shop/FilterDrawer";
 import ProductCard from "@/components/shop/ProductCard";
 import ShopifyProductCard from "@/components/shop/ShopifyProductCard";
 import SaleBanner from "@/components/shop/SaleBanner";
-import ShopTrustSection from "@/components/shop/ShopTrustSection";
 import { allProducts, Product } from "@/data/products";
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { Loader2, Package } from "lucide-react";
@@ -160,9 +159,6 @@ const Shop = () => {
           </div>
         )}
       </section>
-
-      {/* Trust Section */}
-      <ShopTrustSection />
 
       <Footer />
     </div>
