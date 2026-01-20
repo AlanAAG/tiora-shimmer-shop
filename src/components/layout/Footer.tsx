@@ -25,7 +25,6 @@ const trustBadges = [
 
 const shopLinks = [
   { name: "Best Sellers", to: "/shop?collection=best-sellers" },
-  { name: "Necklaces", to: "/shop?collection=necklaces" },
   { name: "Earrings", to: "/shop?collection=earrings" },
   { name: "Bracelets", to: "/shop?collection=bracelets" },
   { name: "Rings", to: "/shop?collection=rings" },
@@ -35,15 +34,12 @@ const shopLinks = [
 const brandLinks = [
   { name: "About Tiora", to: "/about" },
   { name: "Reviews", to: "/reviews" },
-  { name: "Giving Confidence", to: "/giving-confidence" },
 ];
 
 const helpLinks = [
   { name: "Returns", to: "/help" },
   { name: "FAQ", to: "/help" },
   { name: "Jewelry Care", to: "/care-guide" },
-  { name: "Privacy Policy", to: "/privacy" },
-  { name: "Accessibility", to: "/accessibility" },
   { name: "Contact", to: "/contact" },
 ];
 
@@ -251,7 +247,7 @@ const Footer = () => {
                 <span>© 2026, Tiora</span>
                 <Link to="/terms" className="hover:text-primary-foreground transition-colors">Terms of service</Link>
                 <Link to="/privacy" className="hover:text-primary-foreground transition-colors">Privacy policy</Link>
-                <Link to="/cancellation" className="hover:text-primary-foreground transition-colors">Cancellation policy</Link>
+                <Link to="/refund" className="hover:text-primary-foreground transition-colors">Refund policy</Link>
               </div>
             </div>
           </div>
