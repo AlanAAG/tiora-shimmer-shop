@@ -52,7 +52,7 @@ const Header = () => {
             <img 
               src={tioraLogo} 
               alt="Tiora" 
-              className="h-20 lg:h-24 w-auto"
+              className="h-20 lg:h-32 w-auto"
             />
           </Link>
 
