@@ -1,29 +1,51 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Mail, MapPin, Send } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import DiscountBanner from "@/components/home/DiscountBanner";
 import { z } from "zod";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
-  email: z.string().trim().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
+  contactMethod: z.enum(["email", "whatsapp"], { required_error: "Please select a contact method" }),
+  email: z.string().trim().max(255, "Email must be less than 255 characters").optional(),
+  whatsapp: z.string().trim().max(20, "WhatsApp number must be less than 20 characters").optional(),
   subject: z.string().trim().min(1, "Subject is required").max(200, "Subject must be less than 200 characters"),
   message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000, "Message must be less than 2000 characters"),
+}).refine((data) => {
+  if (data.contactMethod === "email") {
+    return data.email && data.email.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+  }
+  if (data.contactMethod === "whatsapp") {
+    return data.whatsapp && data.whatsapp.length >= 10;
+  }
+  return false;
+}, {
+  message: "Please provide a valid email or WhatsApp number",
+  path: ["email"],
 });
 
-type ContactFormData = z.infer<typeof contactSchema>;
+type ContactFormData = {
+  name: string;
+  contactMethod: "email" | "whatsapp";
+  email: string;
+  whatsapp: string;
+  subject: string;
+  message: string;
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
+    contactMethod: "email",
     email: "",
+    whatsapp: "",
     subject: "",
     message: "",
   });
@@ -33,10 +55,14 @@ const Contact = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name as keyof ContactFormData]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+  };
+
+  const handleContactMethodChange = (value: "email" | "whatsapp") => {
+    setFormData((prev) => ({ ...prev, contactMethod: value }));
+    setErrors((prev) => ({ ...prev, email: undefined, whatsapp: undefined }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,7 +74,12 @@ const Contact = () => {
       const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
       result.error.errors.forEach((err) => {
         if (err.path[0]) {
-          fieldErrors[err.path[0] as keyof ContactFormData] = err.message;
+          const field = err.path[0] as keyof ContactFormData;
+          if (field === "email" && formData.contactMethod === "whatsapp") {
+            fieldErrors.whatsapp = "Please provide a valid WhatsApp number";
+          } else {
+            fieldErrors[field] = err.message;
+          }
         }
       });
       setErrors(fieldErrors);
@@ -56,31 +87,26 @@ const Contact = () => {
     }
 
     setIsSubmitting(true);
-
-    // Simulate form submission (replace with actual API call when backend is ready)
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast.success("Message sent!", {
       description: "Thank you for reaching out. We'll get back to you within 24-48 hours.",
     });
 
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setFormData({ name: "", contactMethod: "email", email: "", whatsapp: "", subject: "", message: "" });
     setIsSubmitting(false);
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <DiscountBanner />
-      </div>
-      <Header />
+      <Header showBanner={false} />
 
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="pt-32 md:pt-36 pb-12 bg-gradient-hero"
+        className="pt-24 md:pt-28 pb-12 bg-gradient-hero"
       >
         <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
           <motion.h1
@@ -161,6 +187,23 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="w-5 h-5 text-[#25D366]" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg text-foreground mb-1">WhatsApp</h3>
+                    <a 
+                      href="https://wa.me/918800823166" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-muted-foreground hover:text-[#25D366] transition-colors"
+                    >
+                      +91 8800823166
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-5 h-5 text-primary" />
                   </div>
@@ -205,23 +248,64 @@ const Contact = () => {
                     )}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="font-body text-sm text-foreground">
-                      Email Address
+                  {/* Contact Method Selection */}
+                  <div className="space-y-3">
+                    <Label className="font-body text-sm text-foreground">
+                      How should we contact you?
                     </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`rounded-xl ${errors.email ? "border-destructive" : ""}`}
-                    />
-                    {errors.email && (
-                      <p className="text-sm text-destructive">{errors.email}</p>
-                    )}
+                    <RadioGroup
+                      value={formData.contactMethod}
+                      onValueChange={handleContactMethodChange}
+                      className="flex gap-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="email" id="contact-email" />
+                        <Label htmlFor="contact-email" className="font-body text-sm cursor-pointer">Email</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="whatsapp" id="contact-whatsapp" />
+                        <Label htmlFor="contact-whatsapp" className="font-body text-sm cursor-pointer">WhatsApp</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
+
+                  {formData.contactMethod === "email" ? (
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="font-body text-sm text-foreground">
+                        Email Address
+                      </Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`rounded-xl ${errors.email ? "border-destructive" : ""}`}
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-destructive">{errors.email}</p>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <Label htmlFor="whatsapp" className="font-body text-sm text-foreground">
+                        WhatsApp Number
+                      </Label>
+                      <Input
+                        id="whatsapp"
+                        name="whatsapp"
+                        type="tel"
+                        placeholder="+91 XXXXXXXXXX"
+                        value={formData.whatsapp}
+                        onChange={handleChange}
+                        className={`rounded-xl ${errors.whatsapp ? "border-destructive" : ""}`}
+                      />
+                      {errors.whatsapp && (
+                        <p className="text-sm text-destructive">{errors.whatsapp}</p>
+                      )}
+                    </div>
+                  )}
 
                   <div className="space-y-2">
                     <Label htmlFor="subject" className="font-body text-sm text-foreground">

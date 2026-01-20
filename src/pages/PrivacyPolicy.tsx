@@ -1,4 +1,3 @@
-import DiscountBanner from "@/components/home/DiscountBanner";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { motion } from "framer-motion";
@@ -6,11 +5,10 @@ import { motion } from "framer-motion";
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
-      <DiscountBanner />
-      <Header />
+      <Header showBanner={false} />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-12 bg-secondary/30">
+      <section className="pt-24 md:pt-28 pb-12 bg-secondary/30">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -182,6 +180,7 @@ const PrivacyPolicy = () => {
             </p>
             <div className="bg-secondary/50 rounded-xl p-6 mb-8">
               <p className="mb-2"><strong>Email:</strong> admin@tiora.co</p>
+              <p className="mb-2"><strong>WhatsApp:</strong> +91 8800823166</p>
               <p><strong>Address:</strong> Sector 80, dpt b1, Gurugram, HR, 122012, IN</p>
             </div>
           </motion.div>
