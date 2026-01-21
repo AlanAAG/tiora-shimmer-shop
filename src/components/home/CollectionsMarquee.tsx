@@ -3,10 +3,10 @@ import productNecklace from "@/assets/product-necklace.jpg";
 import productBracelet from "@/assets/product-bracelet.jpg";
 import productEarrings from "@/assets/product-earrings.jpg";
 import productRing from "@/assets/product-ring.jpg";
-import heroImage from "@/assets/hero-image.jpg";
+import allItemsImage from "@/assets/collections-all-items.png";
 
 const collections = [
-  { name: "All Items", image: heroImage, href: "/shop" },
+  { name: "All Items", image: allItemsImage, href: "/shop" },
   { name: "Best Sellers", image: productNecklace, href: "/shop?collection=best-sellers" },
   { name: "Bracelets", image: productBracelet, href: "/bracelets" },
   { name: "Necklaces", image: productNecklace, href: "/necklaces" },
