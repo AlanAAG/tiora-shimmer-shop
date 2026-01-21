@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import productNecklace from "@/assets/product-necklace.jpg";
 import productBracelet from "@/assets/product-bracelet.jpg";
 import productEarrings from "@/assets/product-earrings.jpg";
-import productRing from "@/assets/product-ring.jpg";
 import allItemsImage from "@/assets/collections-all-items.png";
 import bestSellersImage from "@/assets/collections-best-sellers.png";
+import braceletsImage from "@/assets/collections-bracelets.png";
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },
   { name: "Best Sellers", image: bestSellersImage, href: "/shop?collection=best-sellers" },
-  { name: "Bracelets", image: productBracelet, href: "/bracelets" },
+  { name: "Bracelets", image: braceletsImage, href: "/bracelets" },
   { name: "Necklaces", image: productNecklace, href: "/necklaces" },
   { name: "Earrings", image: productEarrings, href: "/earrings" },
 ];
