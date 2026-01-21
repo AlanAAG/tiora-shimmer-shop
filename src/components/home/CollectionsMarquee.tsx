@@ -54,11 +54,7 @@ const CollectionsMarquee = () => {
                 <img
                   src={collection.image}
                   alt={collection.name}
-                  className={
-                    collection.imageFit === "contain"
-                      ? "w-full h-full object-contain bg-background scale-[1.08] group-hover:scale-[1.15] transition-transform duration-300"
-                      : "w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  }
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <span className="text-xs font-body text-foreground/80 group-hover:text-primary transition-colors">
