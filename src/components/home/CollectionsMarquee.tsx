@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import productNecklace from "@/assets/product-necklace.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
 import allItemsImage from "@/assets/collections-all-items.png";
 import bestSellersImage from "@/assets/collections-best-sellers.png";
 import braceletsImage from "@/assets/collections-bracelets.png";
+import earringsImage from "@/assets/collections-earrings.png";
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },
   { name: "Best Sellers", image: bestSellersImage, href: "/shop?collection=best-sellers" },
   { name: "Bracelets", image: braceletsImage, href: "/bracelets" },
-  { name: "Earrings", image: productEarrings, href: "/earrings" },
+  { name: "Earrings", image: earringsImage, href: "/earrings", imageFit: "contain" },
   { name: "Necklaces", image: productNecklace, href: "/necklaces", comingSoon: true },
 ];
 
@@ -53,7 +52,11 @@ const CollectionsMarquee = () => {
                 <img
                   src={collection.image}
                   alt={collection.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className={
+                    collection.imageFit === "contain"
+                      ? "w-full h-full object-contain bg-background transition-transform duration-300"
+                      : "w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  }
                 />
               </div>
               <span className="text-xs font-body text-foreground/80 group-hover:text-primary transition-colors">
