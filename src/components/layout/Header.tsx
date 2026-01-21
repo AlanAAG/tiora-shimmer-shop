@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
@@ -13,14 +13,44 @@ interface HeaderProps {
 const Header = ({ showBanner = true }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isVisible = useScrollHeader();
-
-  const navLinks = [
-    { name: "Shop All", href: "/shop" },
-    { name: "Best Sellers", href: "/shop?collection=best-sellers" },
-    { name: "Rings", href: "/shop?collection=rings" },
-    { name: "Earrings", href: "/shop?collection=earrings" },
-    { name: "Bracelets", href: "/shop?collection=bracelets" },
+  const location = useLocation();
+  
+  const isHomePage = location.pathname === "/";
+  
+  // Get current collection from URL
+  const currentCollection = new URLSearchParams(location.search).get("collection");
+  
+  const baseNavLinks = [
+    { name: "Shop All", href: "/shop", collection: null },
+    { name: "Best Sellers", href: "/shop?collection=best-sellers", collection: "best-sellers" },
+    { name: "Rings", href: "/shop?collection=rings", collection: "rings" },
+    { name: "Earrings", href: "/shop?collection=earrings", collection: "earrings" },
+    { name: "Bracelets", href: "/shop?collection=bracelets", collection: "bracelets" },
   ];
+  
+  // Build dynamic nav links for desktop
+  const getDesktopNavLinks = () => {
+    if (isHomePage) {
+      return baseNavLinks;
+    }
+    
+    // Filter out current collection if on a collection page
+    const filteredLinks = baseNavLinks.filter(link => {
+      if (currentCollection && link.collection === currentCollection) {
+        return false;
+      }
+      // Also filter if on /shop without collection
+      if (location.pathname === "/shop" && !currentCollection && link.href === "/shop") {
+        return false;
+      }
+      return true;
+    });
+    
+    // Add Homepage as the first item
+    return [{ name: "Homepage", href: "/", collection: null }, ...filteredLinks];
+  };
+  
+  const desktopNavLinks = getDesktopNavLinks();
 
   const headerTop = showBanner ? "top-10" : "top-0";
   // When hiding, translate by full header height + banner height if banner is shown
@@ -46,7 +76,7 @@ const Header = ({ showBanner = true }: HeaderProps) => {
 
           {/* Navigation - Desktop */}
           <nav className="hidden lg:flex items-center gap-5 mr-auto pl-4">
-            {navLinks.map((link) => (
+            {desktopNavLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
@@ -83,7 +113,7 @@ const Header = ({ showBanner = true }: HeaderProps) => {
       {isMenuOpen && (
         <div className="lg:hidden bg-background border-t border-border animate-fade-in">
           <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
+            {baseNavLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
