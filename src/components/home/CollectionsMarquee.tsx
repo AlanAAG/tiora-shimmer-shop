@@ -54,7 +54,7 @@ const CollectionsMarquee = () => {
                   alt={collection.name}
                   className={
                     collection.imageFit === "contain"
-                      ? "w-full h-full object-contain bg-background transition-transform duration-300"
+                      ? "w-full h-full object-contain bg-background scale-[1.08] group-hover:scale-[1.15] transition-transform duration-300"
                       : "w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   }
                 />
