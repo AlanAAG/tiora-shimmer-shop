@@ -5,12 +5,14 @@ import allItemsImage from "@/assets/collections-all-items.png";
 import bestSellersImage from "@/assets/collections-best-sellers.png";
 import braceletsImage from "@/assets/collections-bracelets.png";
 import earringsImage from "@/assets/collections-earrings.png";
+import ringsImage from "@/assets/collections-rings.png";
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },
   { name: "Best Sellers", image: bestSellersImage, href: "/shop?collection=best-sellers" },
   { name: "Bracelets", image: braceletsImage, href: "/bracelets" },
-  { name: "Earrings", image: earringsImage, href: "/earrings", imageFit: "contain" },
+  { name: "Rings", image: ringsImage, href: "/rings" },
+  { name: "Earrings", image: earringsImage, href: "/earrings" },
   { name: "Necklaces", image: productNecklace, href: "/necklaces", comingSoon: true },
 ];
 
