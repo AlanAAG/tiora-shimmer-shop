@@ -10,10 +10,10 @@ import ringsImage from "@/assets/collections-rings.png";
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },
   { name: "Best Sellers", image: bestSellersImage, href: "/shop?collection=best-sellers" },
-  { name: "Bracelets", image: braceletsImage, href: "/bracelets" },
-  { name: "Rings", image: ringsImage, href: "/rings" },
-  { name: "Earrings", image: earringsImage, href: "/earrings" },
-  { name: "Necklaces", image: productNecklace, href: "/necklaces", comingSoon: true },
+  { name: "Bracelets", image: braceletsImage, href: "/shop?collection=bracelets" },
+  { name: "Rings", image: ringsImage, href: "/shop?collection=rings" },
+  { name: "Earrings", image: earringsImage, href: "/shop?collection=earrings" },
+  { name: "Necklaces", image: productNecklace, href: "/shop?collection=necklaces", comingSoon: true },
 ];
 
 const CollectionsMarquee = () => {
