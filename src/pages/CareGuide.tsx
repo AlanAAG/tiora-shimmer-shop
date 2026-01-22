@@ -62,11 +62,11 @@ const CareGuide = () => {
         </section>
 
         {/* Hero Image */}
-        <section className="pb-16">
+        <section className="pb-16 px-6 md:max-w-2xl md:mx-auto">
           <img
             src={careGuideHero}
             alt="Elegant gold jewellery care"
-            className="w-full h-auto object-cover"
+            className="w-full h-auto object-cover rounded-2xl"
           />
         </section>
 
