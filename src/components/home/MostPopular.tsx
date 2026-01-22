@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useShopifyCollection } from "@/hooks/useShopifyProducts";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -158,7 +158,8 @@ const ProductSkeleton = () => (
 );
 
 const MostPopular = () => {
-  const { data: products, isLoading, error } = useShopifyCollection("homepage", 12);
+  const { data: allProducts, isLoading, error } = useShopifyProducts(9);
+  const products = allProducts || [];
 
   return (
     <section className="py-8 px-4 md:px-8 lg:px-16 bg-background">
