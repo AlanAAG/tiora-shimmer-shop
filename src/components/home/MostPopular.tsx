@@ -141,7 +141,7 @@ const ProductSkeleton = () => (
 );
 
 const MostPopular = () => {
-  const { data: products, isLoading, error } = useShopifyCollection("Best Sellers", 9);
+  const { data: products, isLoading, error } = useShopifyCollection("frontpage", 9);
 
   return (
     <section className="py-8 px-4 md:px-8 lg:px-16 bg-background">
