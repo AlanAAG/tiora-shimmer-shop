@@ -1,4 +1,4 @@
-import { Award, Heart, Eye } from "lucide-react";
+import { Award, Heart, Eye, ShieldCheck } from "lucide-react";
 
 const trustItems = [
   {
@@ -15,6 +15,11 @@ const trustItems = [
     icon: Eye,
     title: "100% Transparency",
     description: "Know exactly what you're wearing",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Anti-Tarnish Guaranteed",
+    description: "Protected by our signature 1-year finish and rub-off warranty",
   },
 ];
 
@@ -44,16 +49,16 @@ const TrustSection = () => {
             </p>
           </div>
 
-          <div className="flex flex-row justify-center items-start gap-4 md:gap-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {trustItems.map((item, index) => (
-              <div key={index} className="text-center flex-1 max-w-[200px]">
-                <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                  <item.icon className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+              <div key={index} className="text-center">
+                <div className="w-12 h-12 md:w-14 md:h-14 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center">
+                  <item.icon className="w-6 h-6 md:w-7 md:h-7 text-primary" />
                 </div>
-                <h3 className="font-display text-sm md:text-lg text-foreground mb-1">
+                <h3 className="font-display text-sm md:text-base text-foreground mb-1">
                   {item.title}
                 </h3>
-                <p className="text-xs md:text-sm text-muted-foreground">
+                <p className="text-xs md:text-sm text-muted-foreground leading-snug">
                   {item.description}
                 </p>
               </div>
