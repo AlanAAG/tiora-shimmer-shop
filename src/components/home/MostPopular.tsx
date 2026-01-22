@@ -1,43 +1,165 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { ShoppingBag, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import productNecklace from "@/assets/product-necklace.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
-import productRing from "@/assets/product-ring.jpg";
+import { useShopifyCollection } from "@/hooks/useShopifyProducts";
+import { ShopifyProduct } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
+import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
-interface Product {
-  id: number;
-  name: string;
-  material: string;
-  price: number;
-  comparePrice: number;
-  image: string;
-  discount: string;
-  badge?: string;
+interface ProductCardProps {
+  product: ShopifyProduct;
 }
 
-// Mock products - will be replaced with Shopify data
-const products: Product[] = [
-  { id: 1, name: "Serpentine Ring", material: "18k Gold Plated", price: 4500, comparePrice: 6000, image: productRing, discount: "25%", badge: "Best Seller" },
-  { id: 2, name: "Pearl Drop Earrings", material: "Silver Plated", price: 3200, comparePrice: 4200, image: productEarrings, discount: "25%", badge: "Best Seller" },
-  { id: 3, name: "Chain Link Bracelet", material: "18k Gold Plated", price: 5500, comparePrice: 7300, image: productBracelet, discount: "25%", badge: "Best Seller" },
-  { id: 4, name: "Layered Necklace", material: "Gold Tone", price: 6800, comparePrice: 9000, image: productNecklace, discount: "25%", badge: "Best Seller" },
-  { id: 5, name: "Serpent Earrings", material: "18k Gold Plated", price: 3800, comparePrice: 5000, image: productEarrings, discount: "25%", badge: "Best Seller" },
-  { id: 6, name: "Crystal Pendant", material: "Silver Plated", price: 4200, comparePrice: 5600, image: productNecklace, discount: "25%", badge: "Best Seller" },
-  { id: 7, name: "Twisted Bangle", material: "18k Gold Plated", price: 4900, comparePrice: 6500, image: productBracelet, discount: "25%", badge: "Best Seller" },
-  { id: 8, name: "Statement Ring", material: "Gold Tone", price: 3600, comparePrice: 4800, image: productRing, discount: "25%", badge: "Best Seller" },
-];
+const ProductCard = ({ product }: ProductCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const { addItem, isLoading } = useCartStore();
+  
+  const { node } = product;
+  const price = parseFloat(node.priceRange.minVariantPrice.amount);
+  const comparePrice = node.compareAtPriceRange?.minVariantPrice?.amount 
+    ? parseFloat(node.compareAtPriceRange.minVariantPrice.amount) 
+    : null;
+  const currency = node.priceRange.minVariantPrice.currencyCode;
+  
+  const hasDiscount = comparePrice && comparePrice > price;
+  const discountPercent = hasDiscount ? Math.round(((comparePrice - price) / comparePrice) * 100) : 0;
+  
+  const primaryImage = node.images.edges[0]?.node.url;
+  const hoverImage = node.images.edges[1]?.node.url || primaryImage;
 
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
-  }).format(price);
+  const formatPrice = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+    }).format(amount);
+  };
+
+  const handleAddToBag = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const firstVariant = node.variants.edges[0]?.node;
+    if (!firstVariant) {
+      toast.error("Product unavailable");
+      return;
+    }
+    
+    await addItem({
+      product,
+      variantId: firstVariant.id,
+      variantTitle: firstVariant.title,
+      price: firstVariant.price,
+      quantity: 1,
+      selectedOptions: firstVariant.selectedOptions,
+    });
+    
+    toast.success("Added to cart", {
+      description: node.title,
+    });
+  };
+
+  // Determine material from title
+  const titleLower = node.title.toLowerCase();
+  const hasSilver = titleLower.includes("silver");
+  const primaryMaterial = hasSilver ? "silver" : "gold";
+
+  return (
+    <Link 
+      to={`/product/${node.handle}`}
+      className="group flex-shrink-0"
+      style={{ width: 'calc(23vw - 1rem)', maxWidth: '220px', minWidth: '160px' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Image Container */}
+      <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-xl border border-accent">
+        {primaryImage ? (
+          <img
+            src={isHovered ? hoverImage : primaryImage}
+            alt={node.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            No Image
+          </div>
+        )}
+        
+        {/* Badges */}
+        <div className="absolute top-2 left-2 flex flex-row gap-1.5">
+          {hasDiscount && (
+            <span className="bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded-lg font-medium">
+              {discountPercent}% OFF
+            </span>
+          )}
+        </div>
+
+        {/* Quick Add Button */}
+        <button
+          onClick={handleAddToBag}
+          disabled={isLoading}
+          className="absolute bottom-2 right-2 w-8 h-8 bg-background border border-border rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground hover:text-background disabled:opacity-50"
+        >
+          {isLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <ShoppingBag className="w-4 h-4" />
+          )}
+        </button>
+      </div>
+
+      {/* Product Info */}
+      <div className="pt-2 space-y-1">
+        <h3 className="font-display text-sm text-foreground line-clamp-1">
+          {node.title}
+        </h3>
+        <div className="flex items-center gap-2">
+          {hasDiscount && comparePrice && (
+            <span className="font-body text-xs text-muted-foreground line-through">
+              {formatPrice(comparePrice)}
+            </span>
+          )}
+          <span className="font-body text-sm font-medium text-foreground">
+            {formatPrice(price)}
+          </span>
+        </div>
+        {/* Material indicator */}
+        <div className="flex items-center gap-2 pt-1">
+          <span 
+            className={`w-3 h-3 rounded-full border border-border ${
+              primaryMaterial === "gold" 
+                ? "bg-amber-400" 
+                : "bg-gray-300"
+            }`}
+          />
+          <span className="font-body text-xs text-muted-foreground">
+            {primaryMaterial === "gold" ? "Gold Plated" : "Silver Plated"}
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
 };
 
+const ProductSkeleton = () => (
+  <div 
+    className="flex-shrink-0"
+    style={{ width: 'calc(23vw - 1rem)', maxWidth: '220px', minWidth: '160px' }}
+  >
+    <Skeleton className="aspect-[3/4] rounded-xl" />
+    <div className="pt-2 space-y-2">
+      <Skeleton className="h-4 w-3/4" />
+      <Skeleton className="h-4 w-1/2" />
+      <Skeleton className="h-3 w-1/3" />
+    </div>
+  </div>
+);
+
 const MostPopular = () => {
+  const { data: products, isLoading, error } = useShopifyCollection("homepage", 12);
+
   return (
     <section className="py-8 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
@@ -54,65 +176,20 @@ const MostPopular = () => {
         {/* Scrollable Products */}
         <div className="overflow-x-auto scrollbar-hide mb-6">
           <div className="flex gap-3 min-w-max pl-4 md:pl-0" style={{ width: 'max-content' }}>
-            {products.map((product) => (
-              <Link 
-                key={product.id} 
-                to={`/product/${product.id}`}
-                className="group flex-shrink-0"
-                style={{ width: 'calc(23vw - 1rem)', maxWidth: '220px', minWidth: '160px' }}
-              >
-                {/* Image Container */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-xl">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  
-                  {/* Badges - Single Line */}
-                  <div className="absolute top-2 left-2 flex flex-row gap-1.5">
-                    <span className="bg-background/90 text-foreground text-xs font-body tracking-wider px-3 py-1 rounded whitespace-nowrap">
-                      Best Seller
-                    </span>
-                    <span className="bg-destructive text-destructive-foreground text-xs font-body tracking-wider px-3 py-1 rounded whitespace-nowrap">
-                      25% Off
-                    </span>
-                  </div>
-
-                  {/* Quick Add Button */}
-                  <button className="absolute bottom-2 right-2 w-8 h-8 bg-background/90 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background">
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Product Info - Outside the box */}
-                <div className="pt-2">
-                  <h3 className="font-body text-sm font-medium text-foreground truncate">
-                    {product.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {product.material}
-                  </p>
-                  <div className="mt-1.5 flex items-center gap-2">
-                    <span className="text-muted-foreground line-through text-xs">
-                      {formatPrice(product.comparePrice)}
-                    </span>
-                    <span className="text-foreground font-medium text-sm">
-                      {formatPrice(product.price)}
-                    </span>
-                  </div>
-                  <p className="text-xs text-primary mt-0.5">
-                    with 25% off auto-applied
-                  </p>
-                  
-                  {/* Material Options */}
-                  <div className="flex gap-1.5 mt-2">
-                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 to-amber-500 border border-foreground/20" />
-                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border border-foreground/20" />
-                  </div>
-                </div>
-              </Link>
-            ))}
+            {isLoading ? (
+              // Loading skeletons
+              Array.from({ length: 6 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
+            ) : error || !products || products.length === 0 ? (
+              <div className="flex items-center justify-center w-full py-12 text-muted-foreground">
+                No products found
+              </div>
+            ) : (
+              products.map((product) => (
+                <ProductCard key={product.node.id} product={product} />
+              ))
+            )}
           </div>
         </div>
 
