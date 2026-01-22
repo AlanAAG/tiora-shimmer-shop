@@ -18,8 +18,8 @@ const trustItems = [
   },
   {
     icon: ShieldCheck,
-    title: "Anti-Tarnish Guaranteed",
-    description: "Protected by our signature 1-year finish and rub-off warranty",
+    title: "Guaranteed Shine",
+    description: "Full one-year anti-tarnish warranty.",
   },
 ];
 
