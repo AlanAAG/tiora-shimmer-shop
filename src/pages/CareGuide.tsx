@@ -61,29 +61,34 @@ const CareGuide = () => {
           </p>
         </section>
 
-        {/* Hero Image */}
-        <section className="pb-16 px-6 md:max-w-2xl md:mx-auto">
-          <img
-            src={careGuideHero}
-            alt="Elegant gold jewellery care"
-            className="w-full h-auto object-cover rounded-2xl"
-          />
-        </section>
+        {/* Image & Accordion Section */}
+        <section className="px-6 max-w-6xl mx-auto pb-16">
+          <div className="flex flex-col md:flex-row md:gap-12 lg:gap-16">
+            {/* Hero Image */}
+            <div className="md:w-1/2 mb-8 md:mb-0">
+              <img
+                src={careGuideHero}
+                alt="Elegant gold jewellery care"
+                className="w-full h-auto object-cover rounded-2xl md:sticky md:top-40"
+              />
+            </div>
 
-        {/* Accordion Section */}
-        <section className="px-6 max-w-2xl mx-auto">
-          <Accordion type="single" collapsible className="w-full">
-            {careGuideItems.map((item) => (
-              <AccordionItem key={item.id} value={item.id} className="border-border">
-                <AccordionTrigger className="text-left font-display text-lg md:text-xl py-6 hover:no-underline">
-                  {item.title}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-body leading-relaxed pb-6">
-                  {item.content}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+            {/* Accordion */}
+            <div className="md:w-1/2">
+              <Accordion type="single" collapsible className="w-full">
+                {careGuideItems.map((item) => (
+                  <AccordionItem key={item.id} value={item.id} className="border-border">
+                    <AccordionTrigger className="text-left font-display text-lg md:text-xl py-6 hover:no-underline">
+                      {item.title}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground font-body leading-relaxed pb-6">
+                      {item.content}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
         </section>
       </main>
 
