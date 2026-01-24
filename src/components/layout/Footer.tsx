@@ -37,8 +37,8 @@ const brandLinks = [
 ];
 
 const helpLinks = [
-  { name: "Returns", to: "/help" },
-  { name: "FAQ", to: "/help" },
+  { name: "FAQ", to: "/faq" },
+  { name: "Returns", to: "/faq" },
   { name: "Jewelry Care", to: "/care-guide" },
   { name: "Contact", to: "/contact" },
 ];
