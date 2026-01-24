@@ -34,7 +34,7 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
           <CarouselContent className="-ml-3">
             {images.map((image, index) => (
               <CarouselItem key={index} className="pl-3 basis-[85%]">
-                <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl">
+                <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
                   <img
                     src={image.url}
                     alt={image.altText || `${product.title} - View ${index + 1}`}
@@ -51,7 +51,7 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
       <div className="hidden md:block space-y-4">
         <div className="grid grid-cols-2 gap-4">
           {images.slice(0, 2).map((image, index) => (
-            <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl">
+            <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
               <img
                 src={image.url}
                 alt={image.altText || `${product.title} - View ${index + 1}`}
@@ -65,7 +65,7 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
         {images.length > 2 && (
           <div className="grid grid-cols-2 gap-4">
             {images.slice(2, 6).map((image, index) => (
-              <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl">
+              <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
                 <img
                   src={image.url}
                   alt={image.altText || `${product.title} - View ${index + 3}`}
