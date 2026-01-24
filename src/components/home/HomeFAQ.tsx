@@ -67,7 +67,7 @@ const HomeFAQ = () => {
               variant="outline"
               className="rounded-xl px-8 py-3 h-auto font-body text-base border-foreground/20 hover:bg-foreground hover:text-background transition-colors"
             >
-              <Link to="/help">Read All FAQs</Link>
+              <Link to="/faq">Read All FAQs</Link>
             </Button>
           </div>
         </div>

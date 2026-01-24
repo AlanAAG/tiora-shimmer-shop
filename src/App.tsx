@@ -14,6 +14,7 @@ import CareGuide from "./pages/CareGuide";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,12 +30,12 @@ function AppContent() {
       <Route path="/product/:slug" element={<ProductPage />} />
       <Route path="/about" element={<About />} />
       <Route path="/reviews" element={<Reviews />} />
-      <Route path="/help" element={<CareGuide />} />
+      <Route path="/help" element={<FAQ />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="/care-guide" element={<CareGuide />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path="/terms" element={<TermsOfService />} />
       <Route path="/contact" element={<Contact />} />
-      <Route path="/earrings" element={<Shop />} />
       <Route path="/bracelets" element={<Shop />} />
       <Route path="/necklaces" element={<Shop />} />
         <Route path="*" element={<NotFound />} />
