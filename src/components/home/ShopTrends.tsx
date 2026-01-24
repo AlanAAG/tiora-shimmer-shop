@@ -1,51 +1,51 @@
-import { Link } from "react-router-dom";
-import productNecklace from "@/assets/product-necklace.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
-import productRing from "@/assets/product-ring.jpg";
-import heroImage from "@/assets/hero-image.jpg";
+import trendSculptedSilver from "@/assets/trend-sculpted-silver.png";
+import trendMoltenFlow from "@/assets/trend-molten-flow.png";
+import trendGoldenCascade from "@/assets/trend-golden-cascade.png";
+import trendArchitecturalGold from "@/assets/trend-architectural-gold.png";
+import trendHammeredGold from "@/assets/trend-hammered-gold.png";
+import trendSculpturalGold from "@/assets/trend-sculptural-gold.png";
 
 const trends = [
   {
     id: 1,
-    title: "Valentine's Day",
-    description: "For your valentine, your galentine, and yourself",
-    image: productNecklace,
+    title: "Sculpted Silver",
+    description: "Cool tones for effortless polish.",
+    image: trendSculptedSilver,
     productIds: [1, 2],
   },
   {
     id: 2,
-    title: "Serpentina",
-    description: "Rebirth, Renewal, Resilience",
-    image: productBracelet,
+    title: "Molten Flow",
+    description: "Soft curves that catch every light.",
+    image: trendMoltenFlow,
     productIds: [3, 4],
   },
   {
     id: 3,
-    title: "Getaway",
-    description: "Chase an endless summer",
-    image: heroImage,
+    title: "Golden Cascade",
+    description: "Artful design for a striking finish.",
+    image: trendGoldenCascade,
     productIds: [1, 3],
   },
   {
     id: 4,
-    title: "Minimalist",
-    description: "Elegant simplicity for every day",
-    image: productEarrings,
+    title: "Architectural Gold",
+    description: "Clean pieces for a sharp look.",
+    image: trendArchitecturalGold,
     productIds: [2, 4],
   },
   {
     id: 5,
-    title: "Statement",
-    description: "Bold pieces that speak for themselves",
-    image: productRing,
+    title: "Hammered Gold",
+    description: "A rich finish for immediate impact.",
+    image: trendHammeredGold,
     productIds: [1, 2, 3],
   },
   {
     id: 6,
-    title: "Layered Look",
-    description: "Stack and layer your favorites",
-    image: productNecklace,
+    title: "Sculptural Gold",
+    description: "Fine details for a sophisticated edge.",
+    image: trendSculpturalGold,
     productIds: [1, 4],
   },
 ];
