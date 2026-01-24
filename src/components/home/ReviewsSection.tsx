@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Star, Play, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Link } from "react-router-dom";
+import reviewVideo1 from "@/assets/review-video-1.mp4";
 
 const reviews = [
   {
@@ -29,6 +30,11 @@ interface ProductData {
   handle: string;
   imageUrl: string;
   title: string;
+}
+
+interface VideoData {
+  src: string;
+  poster?: string;
 }
 
 const ReviewCard = ({ review, product }: { review: typeof reviews[0]; product?: ProductData }) => (
@@ -66,27 +72,167 @@ const ReviewCard = ({ review, product }: { review: typeof reviews[0]; product?: 
   </Link>
 );
 
-const VideoCard = ({ product, onClick }: { product?: ProductData; onClick: () => void }) => (
-  <button
-    onClick={onClick}
-    className="relative w-full aspect-[3/4] md:aspect-square rounded-xl bg-muted overflow-hidden group"
-  >
-    <img
-      src={product?.imageUrl || "/placeholder.svg"}
-      alt={product?.title || "Video review"}
-      className="w-full h-full object-cover"
-    />
-    <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent">
-      <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
-        <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+const VideoCard = ({ 
+  video, 
+  product, 
+  onClick,
+  sectionRef 
+}: { 
+  video?: VideoData;
+  product?: ProductData; 
+  onClick: () => void;
+  sectionRef: React.RefObject<HTMLElement>;
+}) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!video?.src || !sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play();
+          } else {
+            videoRef.current?.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [video?.src, sectionRef]);
+
+  if (video?.src) {
+    return (
+      <button
+        onClick={onClick}
+        className="relative w-full aspect-square rounded-xl bg-muted overflow-hidden group"
+      >
+        <video
+          ref={videoRef}
+          src={video.src}
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+            <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      className="relative w-full aspect-square rounded-xl bg-muted overflow-hidden group"
+    >
+      <img
+        src={product?.imageUrl || "/placeholder.svg"}
+        alt={product?.title || "Video review"}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent">
+        <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+          <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+        </div>
       </div>
-    </div>
-  </button>
-);
+    </button>
+  );
+};
+
+const MobileVideoCircle = ({ 
+  video, 
+  product, 
+  onClick,
+  sectionRef 
+}: { 
+  video?: VideoData;
+  product?: ProductData; 
+  onClick: () => void;
+  sectionRef: React.RefObject<HTMLElement>;
+}) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!video?.src || !sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play();
+          } else {
+            videoRef.current?.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [video?.src, sectionRef]);
+
+  if (video?.src) {
+    return (
+      <button
+        onClick={onClick}
+        className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
+      >
+        <video
+          ref={videoRef}
+          src={video.src}
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover rounded-full"
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
+          <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+            <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      to={product ? `/product/${product.handle}` : "#"}
+      className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
+    >
+      <img
+        src={product?.imageUrl || "/placeholder.svg"}
+        alt={product?.title || "Video review"}
+        className="w-full h-full object-cover rounded-full"
+      />
+      <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
+        <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+          <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
+        </div>
+      </div>
+    </Link>
+  );
+};
 
 const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const { data: products = [] } = useShopifyCollection("all-items", 6);
+
+  // Video sources - first video is the uploaded one, others are placeholders
+  const videoSources: (VideoData | undefined)[] = [
+    { src: reviewVideo1 },
+    undefined,
+    undefined,
+  ];
 
   // Map products to review/video cards
   const productData: ProductData[] = products.map((p) => ({
@@ -100,8 +246,14 @@ const ReviewsSection = () => {
   const reviewProducts = [productData[0], productData[2], productData[4]];
   const videoProducts = [productData[1], productData[3], productData[5]];
 
+  const handleVideoClick = (videoSrc?: string) => {
+    if (videoSrc) {
+      setSelectedVideo(videoSrc);
+    }
+  };
+
   return (
-    <section className="py-12 px-4 md:px-8 lg:px-16 bg-background">
+    <section ref={sectionRef} className="py-12 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
         {/* Beige container for tablet/desktop */}
         <div className="md:bg-[hsl(35,30%,95%)] md:rounded-2xl md:p-10">
@@ -117,22 +269,13 @@ const ReviewsSection = () => {
             {/* Video Reviews - Circular */}
             <div className="flex justify-center gap-3 mb-10">
               {videoProducts.map((product, idx) => (
-                <Link
+                <MobileVideoCircle
                   key={idx}
-                  to={product ? `/product/${product.handle}` : "#"}
-                  className="relative w-28 h-28 rounded-full bg-muted overflow-hidden group border-2 border-foreground/30"
-                >
-                  <img
-                    src={product?.imageUrl || "/placeholder.svg"}
-                    alt={product?.title || "Video review"}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
-                    <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
-                      <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
-                    </div>
-                  </div>
-                </Link>
+                  video={videoSources[idx]}
+                  product={product}
+                  onClick={() => handleVideoClick(videoSources[idx]?.src)}
+                  sectionRef={sectionRef}
+                />
               ))}
             </div>
 
@@ -148,27 +291,51 @@ const ReviewsSection = () => {
           <div className="hidden md:grid grid-cols-3 gap-5">
             {/* Row 1: Review, Video, Review */}
             <ReviewCard review={reviews[0]} product={reviewProducts[0]} />
-            <VideoCard product={videoProducts[0]} onClick={() => setSelectedVideo("#")} />
+            <VideoCard 
+              video={videoSources[0]} 
+              product={videoProducts[0]} 
+              onClick={() => handleVideoClick(videoSources[0]?.src)} 
+              sectionRef={sectionRef}
+            />
             <ReviewCard review={reviews[1]} product={reviewProducts[1]} />
             
             {/* Row 2: Video, Review, Video */}
-            <VideoCard product={videoProducts[1]} onClick={() => setSelectedVideo("#")} />
+            <VideoCard 
+              video={videoSources[1]} 
+              product={videoProducts[1]} 
+              onClick={() => handleVideoClick(videoSources[1]?.src)} 
+              sectionRef={sectionRef}
+            />
             <ReviewCard review={reviews[2]} product={reviewProducts[2]} />
-            <VideoCard product={videoProducts[2]} onClick={() => setSelectedVideo("#")} />
+            <VideoCard 
+              video={videoSources[2]} 
+              product={videoProducts[2]} 
+              onClick={() => handleVideoClick(videoSources[2]?.src)} 
+              sectionRef={sectionRef}
+            />
           </div>
         </div>
 
-        {/* Video Dialog */}
+        {/* Video Dialog - Fullscreen with 1:1 aspect ratio */}
         <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-          <DialogContent className="max-w-lg p-0 bg-black border-none">
+          <DialogContent className="max-w-[90vmin] w-full p-0 bg-black border-none">
             <button
               onClick={() => setSelectedVideo(null)}
               className="absolute top-4 right-4 z-10 text-white"
             >
               <X className="w-6 h-6" />
             </button>
-            <div className="aspect-[9/16] bg-black flex items-center justify-center">
-              <p className="text-white/50">Video Player</p>
+            <div className="aspect-square bg-black flex items-center justify-center">
+              {selectedVideo && (
+                <video
+                  src={selectedVideo}
+                  autoPlay
+                  loop
+                  playsInline
+                  controls
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
           </DialogContent>
         </Dialog>
