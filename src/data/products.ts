@@ -426,7 +426,7 @@ export const faqItems = [
     answer: "We engineer our jewellery for durability and style. The core is solid 316L Stainless Steel—the same grade used in luxury watches—which provides weight and strength. It is then finished with a layer of 18k Gold or Sterling Silver plating to give you the luxurious look of fine jewellery without the fragile nature of soft metals.",
   },
   {
-    question: "Are your pieces skin-friendly? (Will this turn my skin green?)",
+    question: "Are your pieces skin-friendly?",
     answer: "Yes, 100%. The \"green ring\" on skin is caused by chemical reactions with copper or nickel found in brass jewellery. Tiora pieces use a Surgical-Grade Stainless Steel core which is biologically inert and Nickel-Free. It will never rust, oxidize, or leave a green mark on your skin, even in the Indian heat.",
   },
   {
