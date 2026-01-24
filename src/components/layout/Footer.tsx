@@ -24,11 +24,11 @@ const trustBadges = [
 ];
 
 const shopLinks = [
+  { name: "All Items", to: "/shop" },
   { name: "Best Sellers", to: "/shop?collection=best-sellers" },
+  { name: "Rings", to: "/shop?collection=rings" },
   { name: "Earrings", to: "/shop?collection=earrings" },
   { name: "Bracelets", to: "/shop?collection=bracelets" },
-  { name: "Rings", to: "/shop?collection=rings" },
-  { name: "Sale", to: "/shop?collection=sale" },
 ];
 
 const brandLinks = [
