@@ -19,7 +19,7 @@ const trustBadges = [
   {
     icon: RotateCcw,
     title: "Easy Returns",
-    description: "14-day returns",
+    description: "7-day returns",
   },
 ];
 
