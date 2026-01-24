@@ -2,10 +2,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { motion } from "framer-motion";
-import aboutImage1 from "@/assets/about-image-1.png";
-import aboutImage2 from "@/assets/about-image-2.png";
-import aboutImage3 from "@/assets/about-image-3.png";
-import aboutImage4 from "@/assets/about-image-4.png";
+import aboutPlaceholder1 from "@/assets/about-placeholder-1.png";
+import aboutPlaceholder2 from "@/assets/about-placeholder-2.png";
+import aboutPlaceholder3 from "@/assets/about-placeholder-3.png";
+import aboutPlaceholder4 from "@/assets/about-placeholder-4.png";
 
 const About = () => {
   const coreBeliefs = [
@@ -104,31 +104,13 @@ const About = () => {
           
           {/* Image Section after each core belief */}
           <section className="w-full">
-            {index === 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 w-full">
-                <div className="aspect-square overflow-hidden">
-                  <img src={aboutImage1} alt="Tiora jewelry - elegant earrings" className="w-full h-full object-cover" />
-                </div>
-                <div className="aspect-square overflow-hidden">
-                  <img src={aboutImage2} alt="Tiora jewelry - gold ring" className="w-full h-full object-cover" />
-                </div>
-                <div className="aspect-square overflow-hidden">
-                  <img src={aboutImage3} alt="Tiora jewelry - gold and silver rings" className="w-full h-full object-cover" />
-                </div>
-                <div className="aspect-square overflow-hidden">
-                  <img src={aboutImage4} alt="Tiora jewelry - sculptural piece" className="w-full h-full object-cover" />
-                </div>
-              </div>
-            ) : (
-              <div className="aspect-[16/9] md:aspect-[21/9] w-full bg-muted flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <div className="w-16 h-16 mx-auto mb-4 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">📷</span>
-                  </div>
-                  <p className="font-body text-sm tracking-wide">Image Placeholder {index + 1}</p>
-                </div>
-              </div>
-            )}
+            <div className="aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
+              <img 
+                src={index === 0 ? aboutPlaceholder1 : index === 1 ? aboutPlaceholder2 : aboutPlaceholder3} 
+                alt={`Tiora jewelry - ${belief.title}`} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
           </section>
         </div>
       ))}
@@ -174,7 +156,7 @@ const About = () => {
             <div className="w-16 h-px bg-primary mx-auto"></div>
           </motion.div>
 
-          {/* Image Placeholder for Materials */}
+          {/* Image for Materials */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -182,13 +164,12 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-12"
           >
-            <div className="aspect-[16/9] md:aspect-[21/9] w-full bg-muted rounded-lg flex items-center justify-center">
-              <div className="text-center text-muted-foreground">
-                <div className="w-16 h-16 mx-auto mb-4 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
-                  <span className="text-2xl">📷</span>
-                </div>
-                <p className="font-body text-sm tracking-wide">Materials Image Placeholder</p>
-              </div>
+            <div className="aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden rounded-lg">
+              <img 
+                src={aboutPlaceholder4} 
+                alt="Tiora jewelry materials - gold and silver" 
+                className="w-full h-full object-cover" 
+              />
             </div>
           </motion.div>
 
