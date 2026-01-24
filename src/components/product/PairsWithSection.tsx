@@ -74,12 +74,12 @@ export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps
           return (
             <div 
               key={product.node.id} 
-              className="flex items-center gap-4 p-3 bg-white rounded-2xl border border-border"
+              className="flex items-center gap-5 p-4 bg-white rounded-2xl border border-border"
             >
               {/* Product Image */}
               <Link 
                 to={`/product/${product.node.handle}`}
-                className="shrink-0 w-24 h-24 bg-muted rounded-xl overflow-hidden"
+                className="shrink-0 w-32 h-32 bg-muted rounded-xl overflow-hidden"
               >
                 {image && (
                   <img
@@ -93,19 +93,19 @@ export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps
               {/* Product Info */}
               <div className="flex-1 min-w-0">
                 <Link to={`/product/${product.node.handle}`}>
-                  <h4 className="font-display text-sm text-foreground line-clamp-2 hover:text-primary transition-colors">
+                  <h4 className="font-display text-base font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors">
                     {product.node.title}
                   </h4>
                 </Link>
                 {price && (
-                  <p className="font-body text-sm text-foreground mt-1">
+                  <p className="font-body text-base font-bold text-foreground mt-1">
                     {formatPrice(price.amount, price.currencyCode)}
                   </p>
                 )}
                 <Button
                   variant="outline"
                   size="sm"
-                  className="mt-2 text-xs h-8 px-4 rounded-xl"
+                  className="mt-3 text-xs h-9 px-5 rounded-xl"
                   onClick={() => handleAddToBag(product)}
                   disabled={isAddingToCart || !firstVariant?.availableForSale}
                 >
