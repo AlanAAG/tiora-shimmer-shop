@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import productNecklace from "@/assets/product-necklace.jpg";
-import allItemsImage from "@/assets/collections-all-items.png";
-import bestSellersImage from "@/assets/collections-best-sellers.png";
-import braceletsImage from "@/assets/collections-bracelets.png";
-import earringsImage from "@/assets/collections-earrings.png";
-import ringsImage from "@/assets/collections-rings.png";
+import allItemsImage from "@/assets/collection-all-items-zoomed.png";
+import bestSellersImage from "@/assets/collection-best-sellers-zoomed.png";
+import braceletsImage from "@/assets/collection-bracelets-zoomed.png";
+import earringsImage from "@/assets/collection-earrings-zoomed.png";
+import ringsImage from "@/assets/collection-rings-zoomed.png";
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },
