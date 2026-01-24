@@ -7,6 +7,7 @@ import MostPopular from "@/components/home/MostPopular";
 import ShopTrends from "@/components/home/ShopTrends";
 import TrustSection from "@/components/home/TrustSection";
 import ReviewsSection from "@/components/home/ReviewsSection";
+import HomeFAQ from "@/components/home/HomeFAQ";
 
 
 const Index = () => {
@@ -23,7 +24,7 @@ const Index = () => {
         <ShopTrends />
         <TrustSection />
         <ReviewsSection />
-        
+        <HomeFAQ />
       </main>
       <Footer />
     </div>
