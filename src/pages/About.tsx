@@ -198,7 +198,7 @@ const About = () => {
               2. Silver Plated
             </h3>
             <p className="font-body text-muted-foreground leading-relaxed max-w-3xl">
-              Our Silver Plated collection features classic silver, plated over zinc, steel, or brass to create lighter and classier additions to your jewelry collection. Silver jewelry that is timeless and resistant to tarnishing, the shinier and lighter finish is the perfect blend of sophisticated metal in contemporary form. Each piece embodies our signature liquid metal aesthetic.
+              Our Silver Plated collection features classic silver, plated over stainless steel to create lighter and classier additions to your jewelry collection. Silver jewelry that is timeless and resistant to tarnishing, the shinier and lighter finish is the perfect blend of sophisticated metal in contemporary form. Each piece embodies our signature liquid metal aesthetic.
             </p>
           </motion.div>
         </div>
