@@ -10,6 +10,7 @@ import { CollectionStory } from "@/components/product/CollectionStory";
 import { RecommendedCarousel } from "@/components/product/RecommendedCarousel";
 import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductReviews } from "@/components/product/ProductReviews";
+import { ShopifyProductReviews } from "@/components/product/ShopifyProductReviews";
 import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/products";
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyProductInfo } from "@/components/product/ShopifyProductInfo";
@@ -84,6 +85,12 @@ const ProductPage = () => {
 
         {/* FAQ Section */}
         <ProductFAQ items={faqItems} />
+
+        {/* Reviews Section */}
+        <ShopifyProductReviews 
+          productTitle={shopifyProduct.title} 
+          productHandle={shopifyProduct.handle} 
+        />
 
         <Footer />
       </div>
