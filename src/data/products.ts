@@ -423,7 +423,7 @@ export const sampleReviews: Review[] = [
 export const faqItems = [
   {
     question: "What materials are used?",
-    answer: "Our pieces are crafted with 18K gold plating over brass or sterling silver. We use hypoallergenic materials to ensure comfort for sensitive skin.",
+    answer: "Our pieces are crafted with 18K gold or silver plating over stainless steel. We use hypoallergenic materials to ensure comfort for sensitive skin.",
   },
   {
     question: "How do I care for my jewelry?",
