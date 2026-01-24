@@ -4,7 +4,7 @@ import Footer from "@/components/layout/Footer";
 const RefundPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header showBanner={false} />
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
           <h1 className="font-display text-4xl md:text-5xl text-center mb-4">Refund Policy</h1>
