@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { PairsWithSection } from "./PairsWithSection";
+
 interface ShopifyProductInfoProps {
   product: ShopifyProduct['node'];
 }
@@ -147,5 +149,8 @@ export const ShopifyProductInfo = ({
           </CollapsibleContent>
         </Collapsible>
       </div>
+
+      {/* Pairs With Section */}
+      <PairsWithSection currentProductHandle={product.handle} />
     </div>;
 };
