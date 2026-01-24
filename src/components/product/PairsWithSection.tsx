@@ -11,17 +11,15 @@ interface PairsWithSectionProps {
 }
 
 export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps) => {
-  const { data: products, isLoading } = useShopifyCollection('best-sellers', 10);
+  const { data: products, isLoading } = useShopifyCollection("best-sellers", 10);
   const { addItem, isLoading: isAddingToCart } = useCartStore();
 
   // Filter out current product and get 2 different products
-  const pairsWithProducts = products
-    ?.filter(p => p.node.handle !== currentProductHandle)
-    .slice(0, 2) || [];
+  const pairsWithProducts = products?.filter((p) => p.node.handle !== currentProductHandle).slice(0, 2) || [];
 
   const formatPrice = (amount: string, currencyCode: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currencyCode,
     }).format(parseFloat(amount));
   };
@@ -72,12 +70,12 @@ export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps
           const image = product.node.images.edges[0]?.node;
 
           return (
-            <div 
-              key={product.node.id} 
+            <div
+              key={product.node.id}
               className="flex items-center gap-5 p-4 bg-white rounded-2xl border border-border"
             >
               {/* Product Image */}
-              <Link 
+              <Link
                 to={`/product/${product.node.handle}`}
                 className="shrink-0 w-32 h-32 bg-muted rounded-xl overflow-hidden"
               >
@@ -93,12 +91,12 @@ export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps
               {/* Product Info */}
               <div className="flex-1 min-w-0">
                 <Link to={`/product/${product.node.handle}`}>
-                  <h4 className="font-display text-base font-semibold text-foreground line-clamp-2 hover:text-primary transition-colors">
+                  <h4 className="font-display text-base font-bold text-foreground line-clamp-2 hover:text-primary transition-colors">
                     {product.node.title}
                   </h4>
                 </Link>
                 {price && (
-                  <p className="font-body text-base font-bold text-foreground mt-1">
+                  <p className="font-body text-base font-semibold text-foreground mt-1">
                     {formatPrice(price.amount, price.currencyCode)}
                   </p>
                 )}
