@@ -423,23 +423,23 @@ export const sampleReviews: Review[] = [
 export const faqItems = [
   {
     question: "What materials are used?",
-    answer: "Our pieces are crafted with 18K gold or silver plating over stainless steel. We use hypoallergenic materials to ensure comfort for sensitive skin.",
+    answer: "We engineer our jewellery for durability and style. The core is solid 316L Stainless Steel—the same grade used in luxury watches—which provides weight and strength. It is then finished with a layer of 18k Gold or Sterling Silver plating to give you the luxurious look of fine jewellery without the fragile nature of soft metals.",
   },
   {
-    question: "How do I care for my jewelry?",
-    answer: "Store your pieces in a cool, dry place away from direct sunlight. Avoid contact with water, perfume, and lotions. Clean gently with a soft cloth.",
+    question: "Are your pieces skin-friendly? (Will this turn my skin green?)",
+    answer: "Yes, 100%. The \"green ring\" on skin is caused by chemical reactions with copper or nickel found in brass jewellery. Tiora pieces use a Surgical-Grade Stainless Steel core which is biologically inert and Nickel-Free. It will never rust, oxidize, or leave a green mark on your skin, even in the Indian heat.",
   },
   {
-    question: "What is your return policy?",
-    answer: "We offer free returns within 14 days of delivery. Items must be unworn and in original packaging. Contact our support team to initiate a return.",
+    question: "How long does the gold plating last?",
+    answer: "With mindful care, the shine can last for years. Because we plate over Steel (a hard, durable metal) rather than soft brass, the finish is robust. However, since this is traditional plating, it deserves care. To keep the finish distinct, we recommend keeping it away from heavy sweat, water, and perfumes.",
+  },
+  {
+    question: "How do I care for my jewellery?",
+    answer: "Treat it like a tailored blazer—durable, but better kept dry. Last On, First Off: Wear your jewellery after applying perfume and lotion. Keep it Dry: Remove before showering or swimming to protect the plating. Wipe it Down: Use a soft cloth after wearing to remove body oils.",
   },
   {
     question: "How long does shipping take?",
-    answer: "Standard shipping takes 5-7 business days. Express shipping (2-3 days) is available for an additional fee. Free shipping on orders above ₹3,000.",
-  },
-  {
-    question: "Are your pieces nickel-free?",
-    answer: "Yes! All our jewelry is nickel-free and hypoallergenic, making them safe for sensitive skin.",
+    answer: "We ship across all of India. Order Processing: 1–3 business days. Estimated Delivery: 3–7 business days. Note: While we aim for speed, delays caused by courier partners or external factors are not Tiora's liability. If your shipment arrives damaged, complaints must be reported within 24 hours of delivery with photo proof so we can assist you immediately.",
   },
 ];
 
