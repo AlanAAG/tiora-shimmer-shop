@@ -14,7 +14,7 @@ const About = () => {
     {
       title: "Quality & Craftsmanship",
       subtitle: "TIMELESS DESIGN. EVERYDAY LUXURY.",
-      description: "Our jewelry embodies a liquid metal aesthetic with meticulous attention to detail. Each piece is crafted with 925 sterling silver, ensuring beauty that lasts and style that transcends seasons. We believe quality should never be compromised.",
+      description: "Our jewelry embodies a liquid metal aesthetic with meticulous attention to detail. Each piece is crafted with surgical grade stainless steel and a thick layer of 18k gold or silver plating, ensuring beauty that lasts and style that transcends seasons. We believe quality should never be compromised.",
       secondParagraph: "From concept to creation, every Tiora piece undergoes rigorous quality checks. We create accessible luxury that doesn't sacrifice durability or design, so you can focus on being your most vibrant, confident self."
     },
     {
