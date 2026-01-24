@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Reviews from "./pages/Reviews";
 import CareGuide from "./pages/CareGuide";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ function AppContent() {
       <Route path="/help" element={<CareGuide />} />
       <Route path="/care-guide" element={<CareGuide />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfService />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/earrings" element={<Shop />} />
       <Route path="/bracelets" element={<Shop />} />
