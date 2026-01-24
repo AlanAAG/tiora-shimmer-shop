@@ -74,7 +74,7 @@ export const PairsWithSection = ({ currentProductHandle }: PairsWithSectionProps
           return (
             <div 
               key={product.node.id} 
-              className="flex items-center gap-4 p-3 bg-muted/30 rounded-2xl border border-border/50"
+              className="flex items-center gap-4 p-3 bg-white rounded-2xl border border-border"
             >
               {/* Product Image */}
               <Link 
