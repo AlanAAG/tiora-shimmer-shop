@@ -8,19 +8,19 @@ import reviewVideo1 from "@/assets/review-video-1.mp4";
 const reviews = [
   {
     id: 1,
-    name: "Jacki",
+    name: "Priya",
     review: "SO Cute and beautiful. Im really impressed with these. I stepped out if my comfort zone and really loved what i got out if it!",
     verified: true,
   },
   {
     id: 2,
-    name: "Natasha",
+    name: "Ananya",
     review: "Been eyeing this piece for months. Glad I finally went for it... it does NOT disappoint!",
     verified: true,
   },
   {
     id: 3,
-    name: "Kristine",
+    name: "Meera",
     review: "Obsessed! I work in the jewelry industry and I'm very picky about quality. Their silver color is beautiful & bright. Even their packaging is great!",
     verified: true,
   },
@@ -260,7 +260,7 @@ const ReviewsSection = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-2">
-              23,513+ Five Star Reviews
+              115+ Five Star Reviews
             </h2>
           </div>
 
