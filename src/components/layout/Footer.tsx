@@ -38,7 +38,7 @@ const brandLinks = [
 
 const helpLinks = [
   { name: "FAQ", to: "/faq" },
-  { name: "Returns", to: "/return" },
+  { name: "Return & Refund", to: "/refund" },
   { name: "Jewelry Care", to: "/care-guide" },
   { name: "Contact", to: "/contact" },
 ];
@@ -296,7 +296,7 @@ const Footer = () => {
                   Privacy policy
                 </Link>
                 <Link to="/refund" className="hover:text-primary-foreground transition-colors">
-                  Refund policy
+                  Return & Refund policy
                 </Link>
               </div>
             </div>
