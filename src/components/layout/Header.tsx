@@ -8,11 +8,13 @@ import tioraLogo from "@/assets/tiora-logo.png";
 
 interface HeaderProps {
   showBanner?: boolean;
+  disableScrollHide?: boolean;
 }
 
-const Header = ({ showBanner = true }: HeaderProps) => {
+const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isVisible = useScrollHeader();
+  const scrollVisibility = useScrollHeader();
+  const isVisible = disableScrollHide ? true : scrollVisibility;
   const location = useLocation();
   
   const isHomePage = location.pathname === "/";

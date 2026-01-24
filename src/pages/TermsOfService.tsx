@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const TermsOfService = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header showBanner={false} disableScrollHide={true} />
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 bg-secondary/30">
