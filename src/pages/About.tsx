@@ -183,7 +183,7 @@ const About = () => {
               1. 18k Gold Plated
             </h3>
             <p className="font-body text-muted-foreground leading-relaxed max-w-3xl">
-              Our 18k Gold Plated jewelry is crafted with meticulous attention to detail, ensuring a luxurious and lasting finish. Our gold jewelry is plated over a base of zinc, steel, or brass, providing a perfect balance of beauty and strength. The warm golden hue adds a touch of opulence to any outfit, making it ideal for both everyday elegance and special occasions.
+              Our 18k Gold Plated jewelry is crafted with meticulous attention to detail, ensuring a luxurious and lasting finish. Our gold jewelry is plated over a base of stainless steel, providing a perfect balance of beauty and strength. The warm golden hue adds a touch of opulence to any outfit, making it ideal for both everyday elegance and special occasions.
             </p>
           </motion.div>
 
