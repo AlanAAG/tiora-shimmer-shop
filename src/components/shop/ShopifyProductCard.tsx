@@ -57,10 +57,15 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
     });
   };
 
-  // Determine material from options or title (default to gold)
+  // Determine material from variant selectedOptions, fallback to title
+  const firstVariant = node.variants.edges[0]?.node;
+  const materialOption = firstVariant?.selectedOptions?.find(
+    opt => opt.name.toLowerCase() === "jewelry material"
+  );
+  const materialValue = materialOption?.value?.toLowerCase() || "";
   const titleLower = node.title.toLowerCase();
-  const hasSilver = titleLower.includes("silver");
-  const primaryMaterial = hasSilver ? "silver" : "gold";
+  const isSilver = materialValue.includes("silver") || titleLower.includes("silver");
+  const primaryMaterial = isSilver ? "silver" : "gold";
 
   return (
     <div className="group">

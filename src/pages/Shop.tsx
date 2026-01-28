@@ -9,6 +9,7 @@ import ProductCard from "@/components/shop/ProductCard";
 import ShopifyProductCard from "@/components/shop/ShopifyProductCard";
 import SaleBanner from "@/components/shop/SaleBanner";
 import { allProducts, Product } from "@/data/products";
+import { ShopifyProduct } from "@/lib/shopify";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Loader2, Package } from "lucide-react";
 
@@ -63,6 +64,7 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
 const Shop = () => {
   const [searchParams] = useSearchParams();
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
+  const [sortOption, setSortOption] = useState<string>("featured");
 
   // Get collection from URL or default to "all"
   const collectionParam = searchParams.get("collection") as CollectionType || "all";
@@ -84,25 +86,56 @@ const Shop = () => {
   // Fetch Shopify products by collection
   const { data: shopifyProducts, isLoading } = useShopifyCollection(shopifyCollectionHandle, 50);
 
-  // Apply category filter to Shopify products (only for "all" and "best-sellers")
-  const filteredShopifyProducts = shopifyProducts?.filter((product) => {
-    if (categoryFilter === "all") return true;
+  // Helper to check if product matches category
+  const matchesCategory = (node: ShopifyProduct['node'], category: CategoryFilter): boolean => {
+    if (category === "all") return true;
     
-    const { node } = product;
     const tags = node.tags.map(t => t.toLowerCase());
     const productType = node.productType.toLowerCase();
     const title = node.title.toLowerCase();
+    const description = node.description.toLowerCase();
     
-    const catLower = categoryFilter.toLowerCase();
-    const catSingular = catLower.slice(0, -1);
+    const catLower = category.toLowerCase();
+    const catSingular = catLower.slice(0, -1); // e.g., "rings" -> "ring"
     
     return tags.includes(catLower) || 
            tags.includes(catSingular) ||
            productType.includes(catLower) ||
            productType.includes(catSingular) ||
            title.includes(catLower) ||
-           title.includes(catSingular);
-  }) || [];
+           title.includes(catSingular) ||
+           description.includes(catLower) ||
+           description.includes(catSingular);
+  };
+
+  // Sort products helper
+  const sortProducts = (products: ShopifyProduct[]): ShopifyProduct[] => {
+    const sorted = [...products];
+    
+    switch (sortOption) {
+      case "price-low":
+        return sorted.sort((a, b) => 
+          parseFloat(a.node.priceRange.minVariantPrice.amount) - 
+          parseFloat(b.node.priceRange.minVariantPrice.amount)
+        );
+      case "price-high":
+        return sorted.sort((a, b) => 
+          parseFloat(b.node.priceRange.minVariantPrice.amount) - 
+          parseFloat(a.node.priceRange.minVariantPrice.amount)
+        );
+      case "newest":
+        // Shopify products are typically returned newest first, so reverse for oldest first, keep as is for newest
+        return sorted;
+      case "featured":
+      default:
+        return sorted;
+    }
+  };
+
+  // Apply category filter and sorting to Shopify products
+  const filteredShopifyProducts = sortProducts(
+    shopifyProducts?.filter((product) => matchesCategory(product.node, categoryFilter)) || []
+  );
 
   // Get badge text for products
   const getBadgeText = () => {
@@ -118,6 +151,7 @@ const Shop = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setCategoryFilter("all"); // Reset category filter when collection changes
+    setSortOption("featured"); // Reset sort when collection changes
   }, [collection]);
 
   const hasShopifyProducts = filteredShopifyProducts.length > 0;
@@ -144,6 +178,8 @@ const Shop = () => {
         categoryFilter={categoryFilter}
         onCategoryChange={(category) => setCategoryFilter(category as CategoryFilter)}
         showCategoryFilter={showCategoryFilter}
+        sortOption={sortOption}
+        onSortChange={setSortOption}
       />
 
       {/* Product Grid */}

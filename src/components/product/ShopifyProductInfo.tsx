@@ -35,10 +35,14 @@ export const ShopifyProductInfo = ({
   const hasDiscount = comparePrice && comparePrice > price;
   const discount = hasDiscount ? Math.round((comparePrice - price) / comparePrice * 100) : 0;
 
-  // Determine material from product title or variant
+  // Determine material from variant selectedOptions, fallback to title
+  const materialOption = selectedVariant?.selectedOptions?.find(
+    opt => opt.name.toLowerCase() === "jewelry material"
+  );
+  const materialValue = materialOption?.value?.toLowerCase() || "";
   const productTitle = product.title.toLowerCase();
-  const isGold = productTitle.includes('gold') || productTitle.includes('aurea');
-  const materialLabel = isGold ? 'Gold-plated' : 'Silver-plated';
+  const isSilver = materialValue.includes("silver") || productTitle.includes("silver");
+  const materialLabel = isSilver ? 'Silver-plated' : 'Gold-plated';
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -94,7 +98,7 @@ export const ShopifyProductInfo = ({
 
       {/* Material Indicator */}
       <div className="flex items-center gap-2">
-        <span className={cn("w-4 h-4 rounded-full border", isGold ? "bg-amber-400 border-amber-500" : "bg-slate-300 border-slate-400")} />
+        <span className={cn("w-4 h-4 rounded-full border", !isSilver ? "bg-amber-400 border-amber-500" : "bg-slate-300 border-slate-400")} />
         <span className="font-body text-sm text-foreground">{materialLabel}</span>
       </div>
 
