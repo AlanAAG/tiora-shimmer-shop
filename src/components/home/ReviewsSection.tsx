@@ -4,6 +4,8 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Link } from "react-router-dom";
 import reviewVideo1 from "@/assets/review-video-1.mp4";
+import reviewVideo2 from "@/assets/review-video-2.mp4";
+import reviewVideo3 from "@/assets/review-video-3.mp4";
 
 const reviews = [
   {
@@ -227,11 +229,11 @@ const ReviewsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { data: products = [] } = useShopifyCollection("all-items", 6);
 
-  // Video sources - first video is the uploaded one, others are placeholders
-  const videoSources: (VideoData | undefined)[] = [
+  // Video sources - all three review videos
+  const videoSources: VideoData[] = [
     { src: reviewVideo1 },
-    undefined,
-    undefined,
+    { src: reviewVideo2 },
+    { src: reviewVideo3 },
   ];
 
   // Map products to review/video cards
