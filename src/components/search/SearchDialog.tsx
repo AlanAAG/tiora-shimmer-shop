@@ -91,11 +91,11 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden p-0 max-w-lg mx-auto top-[20%] translate-y-0">
+      <DialogContent className="overflow-hidden p-0 max-w-lg mx-4 sm:mx-auto top-[20%] translate-y-0 rounded-2xl">
         <VisuallyHidden>
           <DialogTitle>Search Products</DialogTitle>
         </VisuallyHidden>
-        <Command className="rounded-lg border-0" shouldFilter={false}>
+        <Command className="rounded-2xl border-0" shouldFilter={false}>
           <div className="flex items-center border-b px-3">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
             <input
