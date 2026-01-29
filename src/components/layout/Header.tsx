@@ -4,6 +4,7 @@ import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
+import { SearchDialog } from "@/components/search/SearchDialog";
 import tioraLogo from "@/assets/tiora-logo.png";
 
 interface HeaderProps {
@@ -13,6 +14,7 @@ interface HeaderProps {
 
 const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const scrollVisibility = useScrollHeader();
   const isVisible = disableScrollHide ? true : scrollVisibility;
   const location = useLocation();
@@ -71,7 +73,7 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={() => setIsSearchOpen(true)}>
               <Search className="w-5 h-5" />
             </Button>
           </div>
@@ -98,9 +100,8 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             />
           </Link>
 
-          {/* Right Icons */}
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="hidden lg:flex">
+            <Button variant="ghost" size="icon" className="hidden lg:flex" onClick={() => setIsSearchOpen(true)}>
               <Search className="w-5 h-5" />
             </Button>
             <Button variant="ghost" size="icon">
@@ -128,6 +129,9 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
           </nav>
         </div>
       )}
+
+      {/* Search Dialog */}
+      <SearchDialog open={isSearchOpen} onOpenChange={setIsSearchOpen} />
     </header>
   );
 };
