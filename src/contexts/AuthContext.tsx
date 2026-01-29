@@ -15,14 +15,24 @@ interface AuthContextType {
   refreshProfile: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Default context value for when used outside provider
+const defaultAuthContext: AuthContextType = {
+  user: null,
+  session: null,
+  profile: null,
+  loading: true,
+  signUp: async () => ({ error: new Error('Auth not initialized') }),
+  signIn: async () => ({ error: new Error('Auth not initialized') }),
+  signOut: async () => {},
+  resetPassword: async () => ({ error: new Error('Auth not initialized') }),
+  updatePassword: async () => ({ error: new Error('Auth not initialized') }),
+  refreshProfile: async () => {},
+};
+
+const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
