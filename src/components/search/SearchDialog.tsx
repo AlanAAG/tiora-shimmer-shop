@@ -91,7 +91,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden p-0 max-w-lg mx-4 sm:mx-auto top-[20%] translate-y-0 rounded-2xl">
+      <DialogContent className="overflow-hidden p-0 w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] md:w-[calc(100%-6rem)] max-w-2xl left-1/2 -translate-x-1/2 top-[20%] translate-y-0 rounded-2xl">
         <VisuallyHidden>
           <DialogTitle>Search Products</DialogTitle>
         </VisuallyHidden>
