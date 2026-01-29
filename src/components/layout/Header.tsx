@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { SearchDialog } from "@/components/search/SearchDialog";
+import { useAuth } from "@/contexts/AuthContext";
 import tioraLogo from "@/assets/tiora-logo.png";
 
 interface HeaderProps {
@@ -18,8 +19,28 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
   const scrollVisibility = useScrollHeader();
   const isVisible = disableScrollHide ? true : scrollVisibility;
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, profile, loading } = useAuth();
   
   const isHomePage = location.pathname === "/";
+  
+  const handleAccountClick = () => {
+    if (user) {
+      navigate("/account");
+    } else {
+      navigate("/login");
+    }
+  };
+  
+  const getUserInitial = () => {
+    if (profile?.full_name) {
+      return profile.full_name.charAt(0).toUpperCase();
+    }
+    if (user?.email) {
+      return user.email.charAt(0).toUpperCase();
+    }
+    return null;
+  };
   
   // Get current collection from URL
   const currentCollection = new URLSearchParams(location.search).get("collection");
@@ -104,8 +125,19 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             <Button variant="ghost" size="icon" className="hidden lg:flex" onClick={() => setIsSearchOpen(true)}>
               <Search className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon">
-              <User className="w-5 h-5" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleAccountClick}
+              className="relative"
+            >
+              {user && getUserInitial() ? (
+                <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
+                  {getUserInitial()}
+                </div>
+              ) : (
+                <User className="w-5 h-5" />
+              )}
             </Button>
             <CartDrawer />
           </div>
