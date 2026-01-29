@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
+import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -17,6 +18,10 @@ import RefundPolicy from "./pages/RefundPolicy";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
+import AuthPage from "./pages/AuthPage";
+import AccountPage from "./pages/AccountPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const queryClient = new QueryClient();
 
@@ -25,33 +30,43 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/shop" element={<Shop />} />
-      <Route path="/product/:slug" element={<ProductPage />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/reviews" element={<Reviews />} />
-      <Route path="/help" element={<FAQ />} />
-      <Route path="/faq" element={<FAQ />} />
-      <Route path="/care-guide" element={<CareGuide />} />
-      <Route path="/privacy" element={<PrivacyPolicy />} />
-      <Route path="/terms" element={<TermsOfService />} />
-      <Route path="/refund" element={<RefundPolicy />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/bracelets" element={<Shop />} />
-      <Route path="/necklaces" element={<Shop />} />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:slug" element={<ProductPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/reviews" element={<Reviews />} />
+        <Route path="/help" element={<FAQ />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/care-guide" element={<CareGuide />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/refund" element={<RefundPolicy />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/bracelets" element={<Shop />} />
+        <Route path="/necklaces" element={<Shop />} />
+        {/* Auth routes */}
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/signup" element={<AuthPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        {/* Account routes */}
+        <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
 }
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppContent />
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
