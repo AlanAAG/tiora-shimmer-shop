@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 import { Loader2, ShoppingBag } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import Autoplay from "embla-carousel-autoplay"; // Ensure this is installed
+import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// We remove the props interface because the component will now fetch its own data
 export const RecommendedCarousel = () => {
-  // 1. Fetch real data from the "best-sellers" (or "frontpage") collection
+  // 1. Fetching real Shopify data (using "frontpage" or "best-sellers")
   const { data: products, isLoading, error } = useShopifyCollection("frontpage", 10);
   const { addItem, isLoading: isAdding } = useCartStore();
 
   if (error || (!isLoading && !products?.length)) return null;
 
-  const handleAddToBag = async (e: React.MouseEvent, product: any) => {
+  const handleQuickAdd = async (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -40,30 +40,30 @@ export const RecommendedCarousel = () => {
   return (
     <section className="py-8 md:py-12 bg-background">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <h2 className="font-display text-2xl md:text-3xl mb-6 italic">You May Also Like</h2>
+        <h2 className="font-display text-2xl md:text-3xl mb-8 italic">Recommended for You</h2>
 
         <Carousel
           opts={{
             align: "start",
-            loop: true,
+            loop: true, // Enables loop logic
           }}
-          // 2. Continuous scroll: stopOnInteraction: false keeps it moving after clicks
           plugins={[
             Autoplay({
               delay: 3000,
               stopOnInteraction: false,
-              stopOnMouseEnter: false, // Ensures it doesn't stop on hover
+              stopOnMouseEnter: false, // EXTREMELY IMPORTANT: Keeps it scrolling on hover
             }),
           ]}
           className="w-full"
         >
           <CarouselContent className="-ml-3 md:-ml-4">
             {isLoading
-              ? Array.from({ length: 4 }).map((_, i) => (
+              ? // Skeletons to prevent layout shift
+                Array.from({ length: 4 }).map((_, i) => (
                   <CarouselItem key={i} className="pl-3 md:pl-4 basis-1/2 md:basis-1/4">
                     <Skeleton className="aspect-[3/4] rounded-2xl mb-3" />
                     <Skeleton className="h-4 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-1/4" />
                   </CarouselItem>
                 ))
               : products?.map((product) => {
@@ -72,7 +72,7 @@ export const RecommendedCarousel = () => {
                   const currency = node.priceRange.minVariantPrice.currencyCode;
                   const image = node.images.edges[0]?.node.url;
 
-                  // Simple material logic
+                  // Logic to detect material from title
                   const isSilver = node.title.toLowerCase().includes("silver");
 
                   return (
@@ -85,33 +85,33 @@ export const RecommendedCarousel = () => {
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
 
-                          {/* Quick Add Button from Home design */}
+                          {/* Quick Add Button (Matching Homepage design) */}
                           <button
-                            onClick={(e) => handleAddToBag(e, product)}
+                            onClick={(e) => handleQuickAdd(e, product)}
                             disabled={isAdding}
-                            className="absolute bottom-2 right-2 w-8 h-8 bg-background border border-border rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground hover:text-background"
+                            className="absolute bottom-3 right-3 w-10 h-10 bg-background/90 backdrop-blur-sm border border-border rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-foreground hover:text-background"
                           >
                             {isAdding ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
-                              <ShoppingBag className="w-4 h-4" />
+                              <ShoppingBag className="w-5 h-5" />
                             )}
                           </button>
                         </div>
 
-                        {/* Material Swatches */}
-                        <div className="flex items-center gap-1 mb-1.5">
+                        {/* Material Dots */}
+                        <div className="flex items-center gap-1.5 mb-2">
                           <div
-                            className={`w-3 h-3 rounded-full border border-border ${!isSilver ? "bg-amber-400" : "bg-gray-300"}`}
+                            className={`w-3.5 h-3.5 rounded-full border border-border ${!isSilver ? "bg-gradient-to-br from-amber-300 to-amber-500" : "bg-gradient-to-br from-gray-200 to-gray-400"}`}
                           />
-                          <span className="text-[10px] text-muted-foreground uppercase tracking-tighter">
-                            {isSilver ? "Silver" : "18k Gold"}
+                          <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-body">
+                            {isSilver ? "Silver Plated" : "18k Gold Plated"}
                           </span>
                         </div>
 
-                        <h3 className="font-display text-sm text-foreground mb-0.5 line-clamp-1">{node.title}</h3>
+                        <h3 className="font-display text-sm text-foreground mb-1 line-clamp-1">{node.title}</h3>
 
-                        <p className="font-body text-xs font-medium text-foreground">
+                        <p className="font-body text-sm font-medium text-foreground">
                           {new Intl.NumberFormat("en-US", {
                             style: "currency",
                             currency: currency,
@@ -122,8 +122,8 @@ export const RecommendedCarousel = () => {
                   );
                 })}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex -left-4" />
-          <CarouselNext className="hidden md:flex -right-4" />
+          <CarouselPrevious className="hidden md:flex -left-4 bg-background/80" />
+          <CarouselNext className="hidden md:flex -right-4 bg-background/80" />
         </Carousel>
       </div>
     </section>
