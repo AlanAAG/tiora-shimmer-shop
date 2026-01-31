@@ -7,9 +7,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// We remove the props interface because the component will now fetch its own data
 export const RecommendedCarousel = () => {
-  // 1. Fetching real Shopify data (using "frontpage" or "best-sellers")
+  // Fetches real Shopify data internally
   const { data: products, isLoading, error } = useShopifyCollection("frontpage", 10);
   const { addItem, isLoading: isAdding } = useCartStore();
 
@@ -45,21 +44,20 @@ export const RecommendedCarousel = () => {
         <Carousel
           opts={{
             align: "start",
-            loop: true, // Enables loop logic
+            loop: true,
           }}
           plugins={[
             Autoplay({
               delay: 3000,
               stopOnInteraction: false,
-              stopOnMouseEnter: false, // EXTREMELY IMPORTANT: Keeps it scrolling on hover
+              stopOnMouseEnter: false,
             }),
           ]}
           className="w-full"
         >
           <CarouselContent className="-ml-3 md:-ml-4">
             {isLoading
-              ? // Skeletons to prevent layout shift
-                Array.from({ length: 4 }).map((_, i) => (
+              ? Array.from({ length: 4 }).map((_, i) => (
                   <CarouselItem key={i} className="pl-3 md:pl-4 basis-1/2 md:basis-1/4">
                     <Skeleton className="aspect-[3/4] rounded-2xl mb-3" />
                     <Skeleton className="h-4 w-3/4 mb-2" />
@@ -71,8 +69,6 @@ export const RecommendedCarousel = () => {
                   const price = parseFloat(node.priceRange.minVariantPrice.amount);
                   const currency = node.priceRange.minVariantPrice.currencyCode;
                   const image = node.images.edges[0]?.node.url;
-
-                  // Logic to detect material from title
                   const isSilver = node.title.toLowerCase().includes("silver");
 
                   return (
@@ -84,8 +80,6 @@ export const RecommendedCarousel = () => {
                             alt={node.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
-
-                          {/* Quick Add Button (Matching Homepage design) */}
                           <button
                             onClick={(e) => handleQuickAdd(e, product)}
                             disabled={isAdding}
@@ -99,7 +93,6 @@ export const RecommendedCarousel = () => {
                           </button>
                         </div>
 
-                        {/* Material Dots */}
                         <div className="flex items-center gap-1.5 mb-2">
                           <div
                             className={`w-3.5 h-3.5 rounded-full border border-border ${!isSilver ? "bg-gradient-to-br from-amber-300 to-amber-500" : "bg-gradient-to-br from-gray-200 to-gray-400"}`}
@@ -110,12 +103,8 @@ export const RecommendedCarousel = () => {
                         </div>
 
                         <h3 className="font-display text-sm text-foreground mb-1 line-clamp-1">{node.title}</h3>
-
                         <p className="font-body text-sm font-medium text-foreground">
-                          {new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: currency,
-                          }).format(price)}
+                          {new Intl.NumberFormat("en-US", { style: "currency", currency: currency }).format(price)}
                         </p>
                       </Link>
                     </CarouselItem>
