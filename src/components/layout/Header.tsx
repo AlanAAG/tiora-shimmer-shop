@@ -148,7 +148,7 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
       {isMenuOpen && (
         <div className="lg:hidden bg-background border-t border-border animate-fade-in">
           <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
-            {baseNavLinks.map((link) => (
+            {desktopNavLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
