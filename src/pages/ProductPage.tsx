@@ -8,6 +8,7 @@ import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductMarquee } from "@/components/product/ProductMarquee";
 import { CollectionStory } from "@/components/product/CollectionStory";
 import { RecommendedCarousel } from "@/components/product/RecommendedCarousel";
+import { BestsellersCarousel } from "@/components/product/BestsellersCarousel";
 import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { ShopifyProductReviews } from "@/components/product/ShopifyProductReviews";
@@ -86,6 +87,12 @@ const ProductPage = () => {
         {/* FAQ Section */}
         <ProductFAQ items={faqItems} />
 
+        {/* Bestsellers Carousel */}
+        <BestsellersCarousel 
+          products={allProducts.filter(p => p.slug !== slug)} 
+          title="Recommended Products"
+        />
+
         {/* Reviews Section */}
         <ShopifyProductReviews 
           productTitle={shopifyProduct.title} 
@@ -163,6 +170,12 @@ const ProductPage = () => {
 
       {/* FAQ Section */}
       <ProductFAQ items={faqItems} />
+
+      {/* Bestsellers Carousel */}
+      <BestsellersCarousel 
+        products={allProducts.filter(p => p.id !== mockProduct.id)} 
+        title="Recommended Products"
+      />
 
       {/* Reviews Section */}
       <ProductReviews reviews={sampleReviews} product={mockProduct} />
