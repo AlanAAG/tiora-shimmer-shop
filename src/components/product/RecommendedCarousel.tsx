@@ -1,78 +1,129 @@
 import { Link } from "react-router-dom";
+import { Loader2, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Product, formatPrice } from "@/data/products";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "@/components/ui/carousel";
+import { useShopifyCollection } from "@/hooks/useShopifyProducts";
+import { useCartStore } from "@/stores/cartStore";
+import { toast } from "sonner";
+import Autoplay from "embla-carousel-autoplay"; // Ensure this is installed
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
 
-interface RecommendedCarouselProps {
-  products: Product[];
-}
+export const RecommendedCarousel = () => {
+  // 1. Fetch real data from the "best-sellers" (or "frontpage") collection
+  const { data: products, isLoading, error } = useShopifyCollection("frontpage", 10);
+  const { addItem, isLoading: isAdding } = useCartStore();
 
-export const RecommendedCarousel = ({ products }: RecommendedCarouselProps) => {
-  if (!products.length) return null;
+  if (error || (!isLoading && !products?.length)) return null;
+
+  const handleAddToBag = async (e: React.MouseEvent, product: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const firstVariant = product.node.variants.edges[0]?.node;
+    if (!firstVariant) {
+      toast.error("Product unavailable");
+      return;
+    }
+
+    await addItem({
+      product,
+      variantId: firstVariant.id,
+      variantTitle: firstVariant.title,
+      price: firstVariant.price,
+      quantity: 1,
+      selectedOptions: firstVariant.selectedOptions,
+    });
+
+    toast.success("Added to cart", { description: product.node.title });
+  };
 
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-8 md:py-12 bg-background">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <h2 className="font-display text-2xl md:text-3xl mb-6 italic">You May Also Like</h2>
+
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
+          // 2. Continuous scroll: stopOnInteraction: false keeps it moving after clicks
+          plugins={[
+            Autoplay({
+              delay: 3000,
+              stopOnInteraction: false,
+              stopOnMouseEnter: false, // Ensures it doesn't stop on hover
+            }),
+          ]}
           className="w-full"
         >
           <CarouselContent className="-ml-3 md:-ml-4">
-            {products.map((product) => (
-              <CarouselItem 
-                key={product.id} 
-                className="pl-3 md:pl-4 basis-1/2 md:basis-1/4"
-              >
-                <Link to={`/product/${product.slug}`} className="group block">
-                  <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-muted rounded-2xl border border-border">
-                    {product.isBestSeller && (
-                      <span className="absolute top-2 left-2 z-10 bg-foreground/90 text-background text-[10px] tracking-widest uppercase px-2 py-1 rounded-lg font-body">
-                        Best Seller
-                      </span>
-                    )}
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  
-                  {/* Material Options */}
-                  <div className="flex items-center gap-1 mb-1.5">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-border" />
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400 border border-border" />
-                  </div>
+            {isLoading
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <CarouselItem key={i} className="pl-3 md:pl-4 basis-1/2 md:basis-1/4">
+                    <Skeleton className="aspect-[3/4] rounded-2xl mb-3" />
+                    <Skeleton className="h-4 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </CarouselItem>
+                ))
+              : products?.map((product) => {
+                  const { node } = product;
+                  const price = parseFloat(node.priceRange.minVariantPrice.amount);
+                  const currency = node.priceRange.minVariantPrice.currencyCode;
+                  const image = node.images.edges[0]?.node.url;
 
-                  <h3 className="font-display text-sm text-foreground mb-0.5 line-clamp-1">
-                    {product.name}
-                  </h3>
-                  <p className="text-[10px] text-muted-foreground font-body mb-1.5">
-                    18k Gold Plated
-                  </p>
-                  <div className="flex items-center gap-1.5 flex-wrap mb-2">
-                    <span className="font-body text-xs text-foreground">
-                      {formatPrice(product.price)}
-                    </span>
-                  </div>
-                  
-                  <Button variant="outline" size="sm" className="w-full text-xs h-8 rounded-xl">
-                    ADD+
-                  </Button>
-                </Link>
-              </CarouselItem>
-            ))}
+                  // Simple material logic
+                  const isSilver = node.title.toLowerCase().includes("silver");
+
+                  return (
+                    <CarouselItem key={node.id} className="pl-3 md:pl-4 basis-1/2 md:basis-1/4">
+                      <Link to={`/product/${node.handle}`} className="group block">
+                        <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-muted rounded-2xl border border-border">
+                          <img
+                            src={image}
+                            alt={node.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+
+                          {/* Quick Add Button from Home design */}
+                          <button
+                            onClick={(e) => handleAddToBag(e, product)}
+                            disabled={isAdding}
+                            className="absolute bottom-2 right-2 w-8 h-8 bg-background border border-border rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-foreground hover:text-background"
+                          >
+                            {isAdding ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <ShoppingBag className="w-4 h-4" />
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Material Swatches */}
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <div
+                            className={`w-3 h-3 rounded-full border border-border ${!isSilver ? "bg-amber-400" : "bg-gray-300"}`}
+                          />
+                          <span className="text-[10px] text-muted-foreground uppercase tracking-tighter">
+                            {isSilver ? "Silver" : "18k Gold"}
+                          </span>
+                        </div>
+
+                        <h3 className="font-display text-sm text-foreground mb-0.5 line-clamp-1">{node.title}</h3>
+
+                        <p className="font-body text-xs font-medium text-foreground">
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: currency,
+                          }).format(price)}
+                        </p>
+                      </Link>
+                    </CarouselItem>
+                  );
+                })}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex -left-4 bg-background border-border hover:bg-muted" />
-          <CarouselNext className="hidden md:flex -right-4 bg-background border-border hover:bg-muted" />
+          <CarouselPrevious className="hidden md:flex -left-4" />
+          <CarouselNext className="hidden md:flex -right-4" />
         </Carousel>
       </div>
     </section>
