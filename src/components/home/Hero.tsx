@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 const Hero = () => {
-  return <section className="relative aspect-[3/4] md:aspect-[16/9] lg:aspect-[2/1] flex flex-col justify-end overflow-hidden mt-4">
+  return <section className="relative aspect-[4/3] md:aspect-[3/1] lg:aspect-[3.5/1] flex flex-col justify-end overflow-hidden mt-4">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img src={heroImage} alt="Tiora jewelry collection" className="w-full h-full object-cover" />
