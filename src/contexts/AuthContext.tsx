@@ -7,10 +7,10 @@ interface AuthContextType {
   session: Session | null;
   profile: UserProfile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signUp: (phone: string, password: string, fullName: string, email?: string) => Promise<{ error: Error | null }>;
+  signIn: (phone: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<{ error: Error | null }>;
+  resetPassword: (phone: string) => Promise<{ error: Error | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
 }
@@ -76,7 +76,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           // Link guest orders to new user
           if (event === 'SIGNED_IN') {
-            await linkGuestOrders(session.user.email, session.user.id);
+            const userPhone = session.user.phone || session.user.user_metadata?.phone;
+            const userEmail = session.user.email || session.user.user_metadata?.email;
+            await linkGuestOrders(session.user.id, userPhone, userEmail);
             await syncLocalStylePreferences(session.user.id);
           }
         }, 0);
@@ -102,15 +104,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, []);
 
-  const linkGuestOrders = async (email: string | undefined, userId: string) => {
-    if (!email) return;
-    
+  const linkGuestOrders = async (userId: string, phone?: string, email?: string) => {
     try {
-      await supabase
-        .from('orders')
-        .update({ user_id: userId })
-        .eq('guest_email', email)
-        .is('user_id', null);
+      // Link by phone first (primary identifier)
+      if (phone) {
+        await supabase
+          .from('orders')
+          .update({ user_id: userId })
+          .eq('guest_phone', phone)
+          .is('user_id', null);
+      }
+      
+      // Also link by email if provided
+      if (email) {
+        await supabase
+          .from('orders')
+          .update({ user_id: userId })
+          .eq('guest_email', email)
+          .is('user_id', null);
+      }
     } catch (error) {
       console.error('Error linking guest orders:', error);
     }
@@ -136,14 +148,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (phone: string, password: string, fullName: string, email?: string) => {
+    // Format phone with +91 prefix if not already present
+    const formattedPhone = phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '')}`;
+    
     const { error } = await supabase.auth.signUp({
-      email,
+      phone: formattedPhone,
       password,
       options: {
-        emailRedirectTo: window.location.origin,
         data: {
-          full_name: fullName
+          full_name: fullName,
+          phone: formattedPhone,
+          email: email || null
         }
       }
     });
@@ -151,9 +167,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error: error as Error | null };
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (phone: string, password: string) => {
+    // Format phone with +91 prefix if not already present
+    const formattedPhone = phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '')}`;
+    
     const { error } = await supabase.auth.signInWithPassword({
-      email,
+      phone: formattedPhone,
       password
     });
     
@@ -167,12 +186,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile(null);
   };
 
-  const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`
-    });
-    
-    return { error: error as Error | null };
+  const resetPassword = async (phone: string) => {
+    // For phone-based auth, password reset would typically use SMS
+    // Since OTP is disabled, we'll return an error guiding users to contact support
+    return { 
+      error: new Error('Please contact support to reset your password.') 
+    };
   };
 
   const updatePassword = async (newPassword: string) => {

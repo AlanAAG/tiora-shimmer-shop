@@ -4,19 +4,19 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, Phone } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
@@ -24,17 +24,33 @@ const AuthPage = () => {
   
   const from = (location.state as { from?: string })?.from || "/account";
 
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // Validate Indian mobile number (10 digits)
+  const validatePhone = (phoneNumber: string) => {
+    const cleanPhone = phoneNumber.replace(/\D/g, '');
+    return /^[6-9]\d{9}$/.test(cleanPhone);
+  };
+
+  const validateEmail = (emailValue: string) => {
+    if (!emailValue) return true; // Email is optional
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+  };
+
+  const formatPhoneDisplay = (value: string) => {
+    // Remove non-digits and limit to 10 digits
+    const digits = value.replace(/\D/g, '').slice(0, 10);
+    return digits;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(formatPhoneDisplay(e.target.value));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setSuccessMessage("");
     
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+    if (!validatePhone(phone)) {
+      setError("Please enter a valid 10-digit Indian mobile number");
       return;
     }
     
@@ -47,23 +63,29 @@ const AuthPage = () => {
       setError("Please enter your full name");
       return;
     }
+
+    if (!isLogin && !validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
     
     setLoading(true);
     
     try {
       if (isLogin) {
-        const { error } = await signIn(email, password);
+        const { error } = await signIn(phone, password);
         if (error) {
           setError(error.message);
         } else {
           navigate(from, { replace: true });
         }
       } else {
-        const { error } = await signUp(email, password, fullName.trim());
+        const { error } = await signUp(phone, password, fullName.trim(), email.trim() || undefined);
         if (error) {
           setError(error.message);
         } else {
-          setSuccessMessage("Account created! Please check your email to verify your account.");
+          // No OTP verification - go directly to account
+          navigate(from, { replace: true });
         }
       }
     } catch (err) {
@@ -93,7 +115,7 @@ const AuthPage = () => {
             </h1>
             <p className="text-muted-foreground text-center mb-8">
               {isLogin 
-                ? "Sign in to access your jewellery wallet" 
+                ? "Sign in with your phone number" 
                 : "Join us for a personalized shopping experience"
               }
             </p>
@@ -101,12 +123,6 @@ const AuthPage = () => {
             {error && (
               <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg mb-6">
                 {error}
-              </div>
-            )}
-            
-            {successMessage && (
-              <div className="bg-primary/10 text-primary text-sm p-3 rounded-lg mb-6">
-                {successMessage}
               </div>
             )}
             
@@ -128,33 +144,50 @@ const AuthPage = () => {
               )}
               
               <div className="space-y-2">
-                <Label htmlFor="email">
-                  Email <span className="text-destructive">*</span>
+                <Label htmlFor="phone">
+                  Phone Number <span className="text-destructive">*</span>
                 </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-12"
-                />
+                <div className="relative">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-muted-foreground">
+                    <Phone className="w-4 h-4" />
+                    <span className="text-sm font-medium">+91</span>
+                  </div>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    placeholder="9876543210"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    className="h-12 pl-20"
+                    maxLength={10}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Enter your 10-digit mobile number
+                </p>
               </div>
+
+              {!isLogin && (
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-muted-foreground">
+                    Email <span className="text-xs">(Optional: For order updates)</span>
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="h-12"
+                  />
+                </div>
+              )}
               
               <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="password">
-                    Password <span className="text-destructive">*</span>
-                  </Label>
-                  {isLogin && (
-                    <Link 
-                      to="/forgot-password" 
-                      className="text-xs text-primary hover:underline"
-                    >
-                      Forgot password?
-                    </Link>
-                  )}
-                </div>
+                <Label htmlFor="password">
+                  Password <span className="text-destructive">*</span>
+                </Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -191,7 +224,6 @@ const AuthPage = () => {
                   onClick={() => {
                     setIsLogin(!isLogin);
                     setError("");
-                    setSuccessMessage("");
                   }}
                   className="text-primary hover:underline font-medium"
                 >
@@ -199,6 +231,20 @@ const AuthPage = () => {
                 </button>
               </p>
             </div>
+
+            {isLogin && (
+              <div className="mt-4 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Forgot your password?{" "}
+                  <a 
+                    href="mailto:support@tiora.in" 
+                    className="text-primary hover:underline"
+                  >
+                    Contact support
+                  </a>
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>

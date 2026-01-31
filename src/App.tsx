@@ -20,8 +20,6 @@ import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/AuthPage";
 import AccountPage from "./pages/AccountPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const queryClient = new QueryClient();
 
@@ -48,8 +46,6 @@ function AppContent() {
         {/* Auth routes */}
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
         {/* Account routes */}
         <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<NotFound />} />
