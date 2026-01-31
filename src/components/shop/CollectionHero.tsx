@@ -29,7 +29,7 @@ const CollectionHero = ({ collectionName, collectionSlug, description }: Collect
 
   return (
     <section className="px-0 md:px-8 lg:px-16 pt-0 md:pt-6 pb-2">
-      <div className="relative w-full aspect-[2/1] md:aspect-[3.5/1] rounded-none md:rounded-2xl overflow-hidden">
+      <div className="relative w-full aspect-[4/3] md:aspect-[7/3] rounded-none md:rounded-2xl overflow-hidden">
         <img
           src={heroImage}
           alt={collectionName}
