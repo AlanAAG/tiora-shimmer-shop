@@ -16,18 +16,16 @@ import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/p
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyProductInfo } from "@/components/product/ShopifyProductInfo";
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
-import { ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-center";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  
-  // Try to get Shopify product first
+
   const { data: shopifyProduct, isLoading: shopifyLoading } = useShopifyProduct(slug);
   const { data: shopifyProducts } = useShopifyProducts(8);
-  
-  // Fallback to mock product
+
   const mockProduct = slug ? getProductBySlug(slug) : undefined;
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
@@ -49,19 +47,16 @@ const ProductPage = () => {
 
   // Use Shopify product if available
   if (shopifyProduct) {
-    const relatedProducts = shopifyProducts?.filter(p => p.node.handle !== slug).slice(0, 4) || [];
-    
     return (
       <div className="min-h-screen bg-background">
         <div className="fixed top-0 left-0 right-0 z-50">
           <DiscountBanner />
         </div>
         <Header />
-        
-        {/* Breadcrumb */}
+
         <div className="container mx-auto px-6 pt-32 pb-4">
-          <Link 
-            to="/shop" 
+          <Link
+            to="/shop"
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -69,7 +64,6 @@ const ProductPage = () => {
           </Link>
         </div>
 
-        {/* Main Product Section */}
         <section className="container mx-auto px-6 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
             <div className="md:col-span-7">
@@ -81,30 +75,23 @@ const ProductPage = () => {
           </div>
         </section>
 
-        {/* Marquee */}
         <ProductMarquee />
 
-        {/* FAQ Section */}
         <ProductFAQ items={faqItems} />
 
-        {/* Bestsellers Carousel */}
-        <BestsellersCarousel 
+        {/* <BestsellersCarousel 
           products={allProducts.filter(p => p.slug !== slug)} 
           title="Recommended Products"
-        />
+        /> 
+        */}
 
-        {/* Reviews Section */}
-        <ShopifyProductReviews 
-          productTitle={shopifyProduct.title} 
-          productHandle={shopifyProduct.handle} 
-        />
+        <ShopifyProductReviews productTitle={shopifyProduct.title} productHandle={shopifyProduct.handle} />
 
         <Footer />
       </div>
     );
   }
 
-  // Fallback to mock product
   if (!mockProduct) {
     return (
       <div className="min-h-screen bg-background">
@@ -129,11 +116,10 @@ const ProductPage = () => {
         <DiscountBanner />
       </div>
       <Header />
-      
-      {/* Breadcrumb */}
+
       <div className="max-w-6xl mx-auto px-4 md:px-6 pt-32 pb-4">
-        <Link 
-          to="/shop" 
+        <Link
+          to="/shop"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -141,43 +127,32 @@ const ProductPage = () => {
         </Link>
       </div>
 
-      {/* Main Product Section - Two Column Layout */}
       <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Left Column - Images (wider) */}
           <div className="lg:col-span-7">
             <ProductImageGallery product={mockProduct} />
           </div>
-          
-          {/* Right Column - Product Info */}
           <div className="lg:col-span-5">
-            <ProductInfo 
-              product={mockProduct} 
-              reviews={sampleReviews} 
-            />
+            <ProductInfo product={mockProduct} reviews={sampleReviews} />
           </div>
         </div>
       </section>
 
-      {/* Recommended Products Carousel */}
-      <RecommendedCarousel products={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)} />
+      {/* <RecommendedCarousel products={allProducts.filter(p => p.id !== mockProduct.id).slice(0, 8)} />
+       */}
 
-      {/* Marquee */}
       <ProductMarquee />
 
-      {/* Collection Story Section */}
       <CollectionStory product={mockProduct} />
 
-      {/* FAQ Section */}
       <ProductFAQ items={faqItems} />
 
-      {/* Bestsellers Carousel */}
-      <BestsellersCarousel 
+      {/* <BestsellersCarousel 
         products={allProducts.filter(p => p.id !== mockProduct.id)} 
         title="Recommended Products"
-      />
+      /> 
+      */}
 
-      {/* Reviews Section */}
       <ProductReviews reviews={sampleReviews} product={mockProduct} />
 
       <Footer />
