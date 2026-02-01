@@ -41,9 +41,9 @@ export const BestsellersCarousel = ({
     align: "start",
     dragFree: true
   }, [AutoScroll({
-    speed: 0.8,
+    speed: 0.5,
     stopOnInteraction: false,
-    stopOnMouseEnter: true
+    stopOnMouseEnter: false
   })]);
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
