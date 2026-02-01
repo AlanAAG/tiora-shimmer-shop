@@ -89,7 +89,7 @@ const ProductPage = () => {
 
         {/* Bestsellers Carousel */}
         <BestsellersCarousel 
-          products={allProducts.filter(p => p.slug !== slug)} 
+          currentProductHandle={slug}
           title="Recommended Products"
         />
 
@@ -173,7 +173,7 @@ const ProductPage = () => {
 
       {/* Bestsellers Carousel */}
       <BestsellersCarousel 
-        products={allProducts.filter(p => p.id !== mockProduct.id)} 
+        currentProductHandle={slug}
         title="Recommended Products"
       />
 
