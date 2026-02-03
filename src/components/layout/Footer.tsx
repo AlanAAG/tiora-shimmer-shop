@@ -171,28 +171,12 @@ const Footer = () => {
               <h3 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Stay Connected</h3>
               <div className="flex gap-2">
                 <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                >
-                  <Facebook className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/tiora.official/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
                 >
                   <Instagram className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://pinterest.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                >
-                  <PinterestIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>
