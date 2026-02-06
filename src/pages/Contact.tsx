@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Helmet } from "react-helmet-async";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -99,6 +100,14 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Contact Us | TIORA</title>
+        <meta
+          name="description"
+          content="Get in touch with TIORA. We'd love to hear from you. Whether you have a question about our pieces, need styling advice, or just want to say hello."
+        />
+        <link rel="canonical" href="https://tiora.in/contact" />
+      </Helmet>
       <Header showBanner={false} />
 
       {/* Hero Section */}

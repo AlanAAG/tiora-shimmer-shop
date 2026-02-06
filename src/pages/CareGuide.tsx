@@ -13,15 +13,15 @@ import { Helmet } from "react-helmet-async";
 const careGuideItems = [
   {
     id: "materials",
-    title: "Our Materials",
+    title: "Our Materials: The Demi-Fine Standard",
     content:
-      "All Tiora jewelry is crafted with high-quality stainless steel as the base, finished with luxurious 18k gold plating. Our pieces are designed to be waterproof, hypoallergenic, and tarnish-resistant—perfect for everyday wear.",
+      "Tiora specializes in Demi-Fine jewelry, bridging the gap between fashion and fine jewelry. We use high-quality 316L Stainless Steel as a hypoallergenic base, finished with luxurious 18k gold PVD plating. This combination ensures our pieces are waterproof, tarnish-resistant, and perfect for everyday wear.",
   },
   {
     id: "general-care",
     title: "Waterproof & Life-Proof",
     content:
-      "Wear it in the shower, at the gym, or while swimming—our 18k gold plating is built for life. Our stainless steel base ensures your jewelry won't turn your skin green. For the best shine, rinse with fresh water after exposure to chlorine or salt water.",
+      "Wear it in the shower, at the gym, or while swimming—our 18k gold PVD plating is built for life. Our stainless steel base ensures your jewelry won't turn your skin green. For the best shine, rinse with fresh water after exposure to chlorine or salt water.",
   },
   {
     id: "cleaning",
@@ -37,9 +37,9 @@ const careGuideItems = [
   },
   {
     id: "durability",
-    title: "Built to Last",
+    title: "Why PVD Plating?",
     content:
-      "Our 18k gold PVD plating is up to 10x thicker than standard gold plating. This advanced process bonds the gold to the stainless steel at a molecular level, creating an incredibly durable finish that stands up to daily life.",
+      "We use PVD (Physical Vapor Deposition) Plating, a high-tech vacuum coating process that produces a brilliant decorative and functional finish. Our 18k gold PVD plating is up to 10x thicker and more durable than standard gold plating. This advanced process bonds the gold to the stainless steel at a molecular level, ensuring your jewelry won't fade or tarnish like typical gold-plated brass.",
   },
 ];
 
