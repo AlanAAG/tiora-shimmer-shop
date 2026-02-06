@@ -2,6 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Helmet } from "react-helmet-async";
 
 const faqSections = [
   {
@@ -104,6 +105,14 @@ const faqSections = [
 const FAQ = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Frequently Asked Questions | TIORA</title>
+        <meta
+          name="description"
+          content="Find answers to your questions about TIORA's jewelry, materials (18k gold plating, stainless steel), care instructions, shipping, and returns."
+        />
+        <link rel="canonical" href="https://tiora.in/faq" />
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

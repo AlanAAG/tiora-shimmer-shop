@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
+import { Helmet } from "react-helmet-async";
 
 type CategoryFilter = "all" | "bracelets" | "earrings" | "rings";
 
@@ -113,6 +114,14 @@ const Reviews = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Customer Reviews | TIORA</title>
+        <meta
+          name="description"
+          content={`Read over ${totalReviews}+ reviews from our happy customers. See why women love TIORA's 18k gold-plated, waterproof, and tarnish-resistant jewelry.`}
+        />
+        <link rel="canonical" href="https://tiora.in/reviews" />
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

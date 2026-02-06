@@ -63,9 +63,9 @@ const Footer = () => {
                 <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center">
                   <badge.icon className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-display text-sm md:text-base font-semibold text-primary-foreground mb-1">
+                <div className="font-display text-sm md:text-base font-semibold text-primary-foreground mb-1">
                   {badge.title}
-                </h3>
+                </div>
                 <p className="font-body text-xs md:text-sm text-primary-foreground/70">{badge.description}</p>
               </div>
             ))}
@@ -75,7 +75,7 @@ const Footer = () => {
           <div className="md:hidden">
             {/* Join Tiora Circle */}
             <div className="mb-8">
-              <h3 className="font-display text-2xl italic mb-3">Join the Tiora Circle</h3>
+              <div className="font-display text-2xl italic mb-3">Join the Tiora Circle</div>
               <p className="font-body text-xs text-primary-foreground/80 mb-4">
                 Unlock 15% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
               </p>
@@ -95,7 +95,7 @@ const Footer = () => {
 
             {/* Stay Connected */}
             <div className="mb-8">
-              <h3 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Stay Connected</h3>
+              <div className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Stay Connected</div>
               <div className="flex flex-col gap-4">
                 <div className="flex gap-3">
                   <a
@@ -151,7 +151,7 @@ const Footer = () => {
             {/* Left Side - Newsletter + Social */}
             <div className="col-span-2">
               {/* Join Tiora Circle */}
-              <h3 className="font-display text-2xl italic mb-2">Join the Tiora Circle</h3>
+              <div className="font-display text-2xl italic mb-2">Join the Tiora Circle</div>
               <p className="font-body text-xs text-primary-foreground/80 mb-4 max-w-xs">
                 Unlock 15% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
               </p>
@@ -169,7 +169,7 @@ const Footer = () => {
               </div>
 
               {/* Stay Connected */}
-              <h3 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Stay Connected</h3>
+              <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Stay Connected</div>
               <div className="flex flex-col gap-4">
                 <div className="flex gap-2">
                   <a
@@ -192,7 +192,7 @@ const Footer = () => {
 
             {/* Right Side - Link Columns - All 4 in one row */}
             <div>
-              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Shop</h4>
+              <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Shop</div>
               <ul className="space-y-1.5">
                 {shopLinks.map((link) => (
                   <li key={link.name}>
@@ -208,7 +208,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Brand</h4>
+              <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Brand</div>
               <ul className="space-y-1.5">
                 {brandLinks.map((link) => (
                   <li key={link.name}>
@@ -224,7 +224,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Help</h4>
+              <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Help</div>
               <ul className="space-y-1.5">
                 {helpLinks.map((link) => (
                   <li key={link.name}>
@@ -240,7 +240,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Legal</h4>
+              <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Legal</div>
               <ul className="space-y-1.5">
                 {legalLinks.map((link) => (
                   <li key={link.name}>

@@ -1,9 +1,18 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Helmet } from "react-helmet-async";
 
 const RefundPolicy = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Refund Policy | TIORA</title>
+        <meta
+          name="description"
+          content="TIORA's Refund Policy. We operate on a strict Refund-Only Policy to ensure quality and hygiene. Learn more about our return process."
+        />
+        <link rel="canonical" href="https://tiora.in/refund" />
+      </Helmet>
       <Header showBanner={false} />
       <main className="flex-1 pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">

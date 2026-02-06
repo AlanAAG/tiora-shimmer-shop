@@ -61,7 +61,7 @@ async function fetchProductHandles() {
       throw new Error(`GraphQL Errors: ${JSON.stringify(json.errors)}`);
     }
 
-    return json.data.products.edges.map((edge: any) => edge.node.handle);
+    return json.data.products.edges.map((edge: { node: { handle: string } }) => edge.node.handle);
   } catch (error) {
     console.error('Error fetching product handles:', error);
     return [];
