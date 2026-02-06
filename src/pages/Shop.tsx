@@ -12,6 +12,7 @@ import { allProducts, Product } from "@/data/products";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Loader2, Package } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 type CollectionType = "all" | "best-sellers" | "rings" | "earrings" | "bracelets" | "necklaces";
 type CategoryFilter = "all" | "rings" | "earrings" | "bracelets" | "necklaces";
@@ -161,6 +162,14 @@ const Shop = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{`${collectionName} | TIORA Shop`}</title>
+        <meta
+          name="description"
+          content={`Shop TIORA's collection of ${collectionName.toLowerCase()}. Sculptural jewelry for the bold and authentic.`}
+        />
+        <link rel="canonical" href={`https://tiora.in/shop${collection !== 'all' ? `?collection=${collection}` : ''}`} />
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

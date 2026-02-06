@@ -17,6 +17,7 @@ import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProduct
 import { ShopifyProductInfo } from "@/components/product/ShopifyProductInfo";
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
 import { ChevronLeft, Loader2 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -50,9 +51,35 @@ const ProductPage = () => {
   // Use Shopify product if available
   if (shopifyProduct) {
     const relatedProducts = shopifyProducts?.filter(p => p.node.handle !== slug).slice(0, 4) || [];
-    
+    const productSchema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": shopifyProduct.title,
+      "description": shopifyProduct.description,
+      "image": shopifyProduct.images.edges[0]?.node.url,
+      "brand": {
+        "@type": "Brand",
+        "name": "TIORA"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://tiora.in/product/${slug}`,
+        "priceCurrency": shopifyProduct.priceRange.minVariantPrice.currencyCode,
+        "price": shopifyProduct.priceRange.minVariantPrice.amount,
+        "availability": shopifyProduct.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+      }
+    };
+
     return (
       <div className="min-h-screen bg-background">
+        <Helmet>
+          <title>{`${shopifyProduct.title} | TIORA`}</title>
+          <meta name="description" content={shopifyProduct.description.substring(0, 160)} />
+          <link rel="canonical" href={`https://tiora.in/product/${slug}`} />
+          <script type="application/ld+json">
+            {JSON.stringify(productSchema)}
+          </script>
+        </Helmet>
         <div className="fixed top-0 left-0 right-0 z-50">
           <DiscountBanner />
         </div>
@@ -108,6 +135,10 @@ const ProductPage = () => {
   if (!mockProduct) {
     return (
       <div className="min-h-screen bg-background">
+        <Helmet>
+          <title>Product Not Found | TIORA</title>
+          <meta name="description" content="Product not found." />
+        </Helmet>
         <div className="fixed top-0 left-0 right-0 z-50">
           <DiscountBanner />
         </div>
@@ -123,8 +154,35 @@ const ProductPage = () => {
     );
   }
 
+  const mockProductSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": mockProduct.name,
+    "description": mockProduct.description,
+    "image": `https://tiora.in${mockProduct.image}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "TIORA"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://tiora.in/product/${slug}`,
+      "priceCurrency": "INR",
+      "price": mockProduct.price,
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{`${mockProduct.name} | TIORA`}</title>
+        <meta name="description" content={mockProduct.description.substring(0, 160)} />
+        <link rel="canonical" href={`https://tiora.in/product/${slug}`} />
+        <script type="application/ld+json">
+          {JSON.stringify(mockProductSchema)}
+        </script>
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

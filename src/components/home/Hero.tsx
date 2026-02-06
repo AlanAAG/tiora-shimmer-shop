@@ -5,7 +5,7 @@ const Hero = () => {
   return <section className="relative aspect-[8/9] md:aspect-[2/1] lg:aspect-[7/3] flex flex-col justify-end overflow-hidden mt-4">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <img src={heroImage} alt="Tiora jewelry collection" className="w-full h-full object-cover" />
+        <img src={heroImage} alt="Tiora jewelry collection featuring sculptural gold and silver pieces" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/20 to-transparent" />
       </div>
 
