@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
           name="description"
           content="TIORA's Privacy Policy. Learn how we collect, use, and protect your information. Your privacy is important to us."
         />
-        <link rel="canonical" href="https://tiora.in/privacy" />
+        <link rel="canonical" href="https://tiora.co/privacy" />
       </Helmet>
       <Header showBanner={false} />
       

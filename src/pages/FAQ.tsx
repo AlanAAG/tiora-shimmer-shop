@@ -111,7 +111,7 @@ const FAQ = () => {
           name="description"
           content="Find answers to your questions about TIORA's jewelry, materials (18k gold plating, stainless steel), care instructions, shipping, and returns."
         />
-        <link rel="canonical" href="https://tiora.in/faq" />
+        <link rel="canonical" href="https://tiora.co/faq" />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

@@ -64,6 +64,7 @@ const Footer = () => {
             "@id": "https://tiora.co",
             "url": "https://tiora.co",
             "telephone": "+91 0000000000",
+            "priceRange": "₹1,800 - ₹3,500",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "Phase II, Udyog Vihar, Sector 20",
@@ -71,6 +72,11 @@ const Footer = () => {
               "addressRegion": "Haryana",
               "postalCode": "122016",
               "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 28.504,
+              "longitude": 77.084
             }
           })}
         </script>

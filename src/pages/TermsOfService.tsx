@@ -13,7 +13,7 @@ const TermsOfService = () => {
           name="description"
           content="Read TIORA's Terms of Service. Understand your rights and responsibilities when using our services and purchasing our jewelry."
         />
-        <link rel="canonical" href="https://tiora.in/terms" />
+        <link rel="canonical" href="https://tiora.co/terms" />
       </Helmet>
       <Header showBanner={false} />
       

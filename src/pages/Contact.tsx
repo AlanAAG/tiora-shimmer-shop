@@ -106,7 +106,7 @@ const Contact = () => {
           name="description"
           content="Get in touch with TIORA. We'd love to hear from you. Whether you have a question about our pieces, need styling advice, or just want to say hello."
         />
-        <link rel="canonical" href="https://tiora.in/contact" />
+        <link rel="canonical" href="https://tiora.co/contact" />
       </Helmet>
       <Header showBanner={false} />
 

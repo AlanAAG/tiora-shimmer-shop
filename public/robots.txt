@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tiora.in/sitemap.xml
+Sitemap: https://tiora.co/sitemap.xml

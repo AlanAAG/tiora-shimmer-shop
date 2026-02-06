@@ -37,8 +37,9 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
                 <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
                   <img
                     src={image.url}
-                    alt={image.altText || `${product.title} - View ${index + 1}`}
+                    alt={image.altText || `Waterproof gold plated ${product.title} - Tiora Jewelry - View ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
               </CarouselItem>
@@ -54,8 +55,9 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
             <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
               <img
                 src={image.url}
-                alt={image.altText || `${product.title} - View ${index + 1}`}
+                alt={image.altText || `Waterproof gold plated ${product.title} - Tiora Jewelry - View ${index + 1}`}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                loading="eager"
               />
             </div>
           ))}
@@ -68,8 +70,9 @@ export const ShopifyImageGallery = ({ product }: ShopifyImageGalleryProps) => {
               <div key={index} className="relative aspect-[3/4] overflow-hidden bg-muted rounded-2xl border border-border/50">
                 <img
                   src={image.url}
-                  alt={image.altText || `${product.title} - View ${index + 3}`}
+                  alt={image.altText || `Waterproof gold plated ${product.title} - Tiora Jewelry - View ${index + 3}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
               </div>
             ))}
