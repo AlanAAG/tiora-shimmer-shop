@@ -51,6 +51,13 @@ const ProductPage = () => {
   // Use Shopify product if available
   if (shopifyProduct) {
     const relatedProducts = shopifyProducts?.filter(p => p.node.handle !== slug).slice(0, 4) || [];
+
+    // Construct SEO description
+    const baseDesc = shopifyProduct.description.substring(0, 150).trim();
+    const metaDescription = baseDesc.toLowerCase().includes('tarnish')
+      ? baseDesc
+      : `${baseDesc}... Waterproof & tarnish-resistant 18k gold-plated jewelry.`;
+
     const productSchema = {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -73,8 +80,8 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen bg-background">
         <Helmet>
-          <title>{`${shopifyProduct.title} | TIORA`}</title>
-          <meta name="description" content={shopifyProduct.description.substring(0, 160)} />
+          <title>{`${shopifyProduct.title} | 18k Gold-Plated Jewelry | TIORA`}</title>
+          <meta name="description" content={metaDescription} />
           <link rel="canonical" href={`https://tiora.in/product/${slug}`} />
           <script type="application/ld+json">
             {JSON.stringify(productSchema)}

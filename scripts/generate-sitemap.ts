@@ -1,10 +1,14 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 const BASE_URL = 'https://tiora.in';
-// Use process.cwd() to be safe with paths in different environments
-const PRODUCTS_FILE = resolve(process.cwd(), 'src/data/products.ts');
 const OUTPUT_FILE = resolve(process.cwd(), 'public/sitemap.xml');
+
+// Shopify Constants
+const SHOPIFY_STORE_PERMANENT_DOMAIN = 'jtv22j-ew.myshopify.com';
+const SHOPIFY_STOREFRONT_TOKEN = 'e4ae94ae9cc93e3130d277bcd0f1df39';
+const SHOPIFY_API_VERSION = '2025-07';
+const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
 const staticRoutes = [
   '/',
@@ -21,30 +25,61 @@ const staticRoutes = [
   '/necklaces'
 ];
 
-function extractSlugs(content: string): string[] {
-  const regex = /slug:\s*"([^"]+)"/g;
-  const slugs: string[] = [];
-  let match;
-  while ((match = regex.exec(content)) !== null) {
-    slugs.push(match[1]);
+async function fetchProductHandles() {
+  const query = `
+    query GetProductHandles($first: Int!) {
+      products(first: $first) {
+        edges {
+          node {
+            handle
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(SHOPIFY_STOREFRONT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN
+      },
+      body: JSON.stringify({
+        query,
+        variables: { first: 250 }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    if (json.errors) {
+      throw new Error(`GraphQL Errors: ${JSON.stringify(json.errors)}`);
+    }
+
+    return json.data.products.edges.map((edge: any) => edge.node.handle);
+  } catch (error) {
+    console.error('Error fetching product handles:', error);
+    return [];
   }
-  return slugs;
 }
 
-function generateSitemap() {
-  console.log('Reading products file from:', PRODUCTS_FILE);
-  try {
-    const content = readFileSync(PRODUCTS_FILE, 'utf-8');
-    const slugs = extractSlugs(content);
+async function generateSitemap() {
+  console.log('Generating sitemap...');
 
-    console.log(`Found ${slugs.length} products.`);
+  const productHandles = await fetchProductHandles();
+  console.log(`Found ${productHandles.length} products from Shopify.`);
 
-    const routes = [
-      ...staticRoutes,
-      ...slugs.map(slug => `/product/${slug}`)
-    ];
+  const routes = [
+    ...staticRoutes,
+    ...productHandles.map((handle: string) => `/product/${handle}`)
+  ];
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routes.map(route => `  <url>
     <loc>${BASE_URL}${route}</loc>
@@ -53,12 +88,9 @@ ${routes.map(route => `  <url>
   </url>`).join('\n')}
 </urlset>`;
 
-    console.log('Writing sitemap to:', OUTPUT_FILE);
-    writeFileSync(OUTPUT_FILE, sitemap);
-    console.log('Sitemap generated successfully.');
-  } catch (error) {
-    console.error('Error generating sitemap:', error);
-  }
+  console.log('Writing sitemap to:', OUTPUT_FILE);
+  writeFileSync(OUTPUT_FILE, sitemap);
+  console.log('Sitemap generated successfully.');
 }
 
 generateSitemap();

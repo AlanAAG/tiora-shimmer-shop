@@ -2,8 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCartSync } from "@/hooks/useCartSync";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -26,8 +26,13 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   useCartSync();
+  const location = useLocation();
+
   return (
     <>
+      <Helmet>
+        <link rel="canonical" href={`https://tiora.in${location.pathname}`} />
+      </Helmet>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Index />} />

@@ -96,15 +96,23 @@ const Footer = () => {
             {/* Stay Connected */}
             <div className="mb-8">
               <h3 className="font-body text-sm font-semibold tracking-wider uppercase mb-4">Stay Connected</h3>
-              <div className="flex gap-3">
-                <a
-                  href="https://www.instagram.com/tiora.official/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-3">
+                  <a
+                    href="https://www.instagram.com/tiora.official/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
+                  >
+                    <Instagram className="w-5 h-5" />
+                  </a>
+                </div>
+
+                {/* Google Review Badge */}
+                <div className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded text-sm font-bold w-fit">
+                  <div className="flex text-yellow-500 text-xs">★★★★★</div>
+                  <span>4.9/5 on Google</span>
+                </div>
               </div>
             </div>
 
@@ -162,15 +170,23 @@ const Footer = () => {
 
               {/* Stay Connected */}
               <h3 className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Stay Connected</h3>
-              <div className="flex gap-2">
-                <a
-                  href="https://www.instagram.com/tiora.official/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                >
-                  <Instagram className="w-4 h-4" />
-                </a>
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-2">
+                  <a
+                    href="https://www.instagram.com/tiora.official/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
+                  >
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                </div>
+
+                {/* Google Review Badge */}
+                <div className="inline-flex items-center gap-2 bg-white text-black px-3 py-1.5 rounded text-xs font-bold w-fit">
+                  <div className="flex text-yellow-500 text-[10px]">★★★★★</div>
+                  <span>4.9/5 on Google</span>
+                </div>
               </div>
             </div>
 
