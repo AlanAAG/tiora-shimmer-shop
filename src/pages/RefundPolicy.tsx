@@ -11,7 +11,7 @@ const RefundPolicy = () => {
           name="description"
           content="TIORA's Refund Policy. We operate on a strict Refund-Only Policy to ensure quality and hygiene. Learn more about our return process."
         />
-        <link rel="canonical" href="https://tiora.in/refund" />
+        <link rel="canonical" href="https://tiora.co/refund" />
       </Helmet>
       <Header showBanner={false} />
       <main className="flex-1 pt-24 pb-16">

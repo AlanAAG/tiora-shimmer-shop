@@ -53,8 +53,9 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
                   )}
                   <img
                     src={image}
-                    alt={`Waterproof 18k gold-plated ${product.name} - Tiora - View ${index + 1}`}
+                    alt={`Waterproof gold plated ${product.name} - Tiora Jewelry - View ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
               </CarouselItem>
@@ -84,8 +85,9 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
                   )}
                   <img
                     src={image}
-                    alt={`Waterproof 18k gold-plated ${product.name} - Tiora - View ${index + 1}`}
+                    alt={`Waterproof gold plated ${product.name} - Tiora Jewelry - View ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
               </CarouselItem>
@@ -125,8 +127,9 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
             >
               <img
                 src={image}
-                alt={`Waterproof 18k gold-plated ${product.name} - Tiora - Thumbnail ${index + 1}`}
+                alt={`Waterproof gold plated ${product.name} - Tiora Jewelry - Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </button>
           ))}

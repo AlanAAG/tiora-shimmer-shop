@@ -120,7 +120,7 @@ const Reviews = () => {
           name="description"
           content={`Read over ${totalReviews}+ reviews from our happy customers. See why women love TIORA's 18k gold-plated, waterproof, and tarnish-resistant jewelry.`}
         />
-        <link rel="canonical" href="https://tiora.in/reviews" />
+        <link rel="canonical" href="https://tiora.co/reviews" />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

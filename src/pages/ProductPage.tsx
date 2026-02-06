@@ -52,6 +52,13 @@ const ProductPage = () => {
   if (shopifyProduct) {
     const relatedProducts = shopifyProducts?.filter(p => p.node.handle !== slug).slice(0, 4) || [];
 
+    // Calculate price range from variants
+    const variants = shopifyProduct.variants.edges.map(e => e.node);
+    const prices = variants.map(v => parseFloat(v.price.amount));
+    const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+    const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
+    const currencyCode = shopifyProduct.priceRange.minVariantPrice.currencyCode;
+
     // Construct SEO description
     const baseDesc = shopifyProduct.description.substring(0, 150).trim();
     const metaDescription = baseDesc.toLowerCase().includes('tarnish')
@@ -62,7 +69,7 @@ const ProductPage = () => {
       "@context": "https://schema.org",
       "@type": "Product",
       "name": shopifyProduct.title,
-      "description": shopifyProduct.description,
+      "description": `${shopifyProduct.description} Features: Waterproof, Hypoallergenic, Tarnish-resistant.`,
       "image": shopifyProduct.images.edges[0]?.node.url,
       "material": "18k Gold Plated Stainless Steel",
       "brand": {
@@ -70,10 +77,12 @@ const ProductPage = () => {
         "name": "TIORA"
       },
       "offers": {
-        "@type": "Offer",
+        "@type": "AggregateOffer",
         "url": `https://tiora.co/product/${slug}`,
-        "priceCurrency": shopifyProduct.priceRange.minVariantPrice.currencyCode,
-        "price": shopifyProduct.priceRange.minVariantPrice.amount,
+        "priceCurrency": "INR",
+        "lowPrice": minPrice,
+        "highPrice": maxPrice,
+        "offerCount": variants.length,
         "availability": shopifyProduct.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
       }
     };
@@ -166,7 +175,7 @@ const ProductPage = () => {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": mockProduct.name,
-    "description": mockProduct.description,
+    "description": `${mockProduct.description} Features: Waterproof, Hypoallergenic, Tarnish-resistant.`,
     "image": `https://tiora.co${mockProduct.image}`,
     "material": "18k Gold Plated Stainless Steel",
     "brand": {
@@ -174,10 +183,12 @@ const ProductPage = () => {
       "name": "TIORA"
     },
     "offers": {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
       "url": `https://tiora.co/product/${slug}`,
       "priceCurrency": "INR",
-      "price": mockProduct.price,
+      "lowPrice": mockProduct.price,
+      "highPrice": mockProduct.price,
+      "offerCount": 1,
       "availability": "https://schema.org/InStock"
     }
   };

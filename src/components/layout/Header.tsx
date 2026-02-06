@@ -43,7 +43,14 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
   };
   
   // Get current collection from URL
-  const currentCollection = new URLSearchParams(location.search).get("collection");
+  let currentCollection = new URLSearchParams(location.search).get("collection");
+
+  if (!currentCollection && location.pathname.startsWith("/shop/")) {
+    const pathParts = location.pathname.split("/");
+    if (pathParts.length >= 3) {
+      currentCollection = pathParts[2];
+    }
+  }
   
   const baseNavLinks = [
     { name: "Shop All", href: "/shop", collection: null },

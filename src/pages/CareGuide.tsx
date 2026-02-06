@@ -52,7 +52,7 @@ const CareGuide = () => {
           name="description"
           content="Learn how to care for your TIORA jewelry. Waterproof, tarnish-resistant 18k gold-plated stainless steel designed for everyday wear."
         />
-        <link rel="canonical" href="https://tiora.in/care-guide" />
+        <link rel="canonical" href="https://tiora.co/care-guide" />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

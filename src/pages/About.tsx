@@ -70,7 +70,7 @@ const About = () => {
             className="text-center px-6"
           >
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4">
-              TIORA | Waterproof & Hypoallergenic 18k Gold-Plated Jewelry in Gurgaon
+              About TIORA | High-Quality Hypoallergenic Jewelry in Gurgaon
             </h1>
             <p className="font-body text-lg text-primary-foreground/80 max-w-xl mx-auto tracking-wide">
               Crafting confidence, one piece at a time
@@ -117,7 +117,8 @@ const About = () => {
               <img 
                 src={index === 0 ? aboutPlaceholder1 : index === 1 ? aboutPlaceholder2 : aboutPlaceholder3} 
                 alt={`Tiora jewelry - ${belief.title}`} 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
           </section>
@@ -177,7 +178,8 @@ const About = () => {
               <img 
                 src={aboutPlaceholder4} 
                 alt="Tiora jewelry materials - gold and silver" 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
           </motion.div>

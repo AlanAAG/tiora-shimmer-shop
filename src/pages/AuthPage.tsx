@@ -179,7 +179,7 @@ const AuthPage = () => {
             {isLogin && <div className="mt-4 text-center">
                 <p className="text-xs text-muted-foreground">
                   Forgot your password?{" "}
-                  <a href="mailto:support@tiora.in" className="text-primary hover:underline">
+                  <a href="mailto:support@tiora.co" className="text-primary hover:underline">
                     Contact support
                   </a>
                 </p>
