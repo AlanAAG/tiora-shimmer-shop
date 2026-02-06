@@ -53,7 +53,7 @@ const About = () => {
           name="description"
           content="Learn about TIORA's mission to create sculptural jewelry for the bold and authentic. Celebrating confidence and empowerment through timeless design."
         />
-        <link rel="canonical" href="https://tiora.in/about" />
+        <link rel="canonical" href="https://tiora.co/about" />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
@@ -70,7 +70,7 @@ const About = () => {
             className="text-center px-6"
           >
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4">
-              TIORA'S VISION
+              TIORA | Waterproof & Hypoallergenic 18k Gold-Plated Jewelry in Gurgaon
             </h1>
             <p className="font-body text-lg text-primary-foreground/80 max-w-xl mx-auto tracking-wide">
               Crafting confidence, one piece at a time

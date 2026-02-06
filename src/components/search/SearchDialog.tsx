@@ -224,7 +224,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                 </CommandItem>
                 <CommandItem
                   onSelect={() => {
-                    navigate("/shop?collection=best-sellers");
+                    navigate("/shop/best-sellers");
                     onOpenChange(false);
                   }}
                   className="cursor-pointer"
@@ -234,7 +234,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                 </CommandItem>
                 <CommandItem
                   onSelect={() => {
-                    navigate("/shop?collection=rings");
+                    navigate("/shop/rings");
                     onOpenChange(false);
                   }}
                   className="cursor-pointer"

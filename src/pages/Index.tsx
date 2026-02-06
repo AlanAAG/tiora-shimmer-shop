@@ -18,9 +18,9 @@ const Index = () => {
         <title>TIORA | Premium 18k Gold-Plated & Waterproof Jewelry</title>
         <meta
           name="description"
-          content="Shop premium demi-fine jewelry for everyday wear. Waterproof, tarnish-resistant, and hypoallergenic 18k gold-plated statement pieces designed for self-expression."
+          content="Shop Tiora's premium 18k gold-plated jewelry. Waterproof, tarnish-resistant, and hypoallergenic stainless steel pieces designed in Gurgaon for everyday elegance."
         />
-        <link rel="canonical" href="https://tiora.in/" />
+        <link rel="canonical" href="https://tiora.co/" />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

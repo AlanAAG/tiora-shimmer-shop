@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
@@ -64,11 +64,12 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
+  const { collection: paramCollection } = useParams<{ collection: string }>();
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
   const [sortOption, setSortOption] = useState<string>("featured");
 
   // Get collection from URL or default to "all"
-  const collectionParam = searchParams.get("collection") as CollectionType || "all";
+  const collectionParam = (paramCollection as CollectionType) || (searchParams.get("collection") as CollectionType) || "all";
   const collection = collectionConfig[collectionParam] ? collectionParam : "all";
   
   const collectionName = collectionConfig[collection].name;
@@ -168,7 +169,7 @@ const Shop = () => {
           name="description"
           content={`Shop TIORA's collection of ${collectionName.toLowerCase()}. Sculptural jewelry for the bold and authentic.`}
         />
-        <link rel="canonical" href={`https://tiora.in/shop${collection !== 'all' ? `?collection=${collection}` : ''}`} />
+        <link rel="canonical" href={`https://tiora.co/shop${collection !== 'all' ? `/${collection}` : ''}`} />
       </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

@@ -64,13 +64,14 @@ const ProductPage = () => {
       "name": shopifyProduct.title,
       "description": shopifyProduct.description,
       "image": shopifyProduct.images.edges[0]?.node.url,
+      "material": "18k Gold Plated Stainless Steel",
       "brand": {
         "@type": "Brand",
         "name": "TIORA"
       },
       "offers": {
         "@type": "Offer",
-        "url": `https://tiora.in/product/${slug}`,
+        "url": `https://tiora.co/product/${slug}`,
         "priceCurrency": shopifyProduct.priceRange.minVariantPrice.currencyCode,
         "price": shopifyProduct.priceRange.minVariantPrice.amount,
         "availability": shopifyProduct.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
@@ -82,7 +83,7 @@ const ProductPage = () => {
         <Helmet>
           <title>{`${shopifyProduct.title} | 18k Gold-Plated Jewelry | TIORA`}</title>
           <meta name="description" content={metaDescription} />
-          <link rel="canonical" href={`https://tiora.in/product/${slug}`} />
+          <link rel="canonical" href={`https://tiora.co/product/${slug}`} />
           <script type="application/ld+json">
             {JSON.stringify(productSchema)}
           </script>
@@ -166,14 +167,15 @@ const ProductPage = () => {
     "@type": "Product",
     "name": mockProduct.name,
     "description": mockProduct.description,
-    "image": `https://tiora.in${mockProduct.image}`,
+    "image": `https://tiora.co${mockProduct.image}`,
+    "material": "18k Gold Plated Stainless Steel",
     "brand": {
       "@type": "Brand",
       "name": "TIORA"
     },
     "offers": {
       "@type": "Offer",
-      "url": `https://tiora.in/product/${slug}`,
+      "url": `https://tiora.co/product/${slug}`,
       "priceCurrency": "INR",
       "price": mockProduct.price,
       "availability": "https://schema.org/InStock"
@@ -185,7 +187,7 @@ const ProductPage = () => {
       <Helmet>
         <title>{`${mockProduct.name} | TIORA`}</title>
         <meta name="description" content={mockProduct.description.substring(0, 160)} />
-        <link rel="canonical" href={`https://tiora.in/product/${slug}`} />
+        <link rel="canonical" href={`https://tiora.co/product/${slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(mockProductSchema)}
         </script>
