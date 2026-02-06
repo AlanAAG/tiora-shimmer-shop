@@ -15,31 +15,31 @@ const careGuideItems = [
     id: "materials",
     title: "Our Materials",
     content:
-      "All Tiora jewellery is crafted with high-quality stainless steel as the base, finished with luxurious 18k gold plating or elegant silver plating. Our pieces are designed to be durable, hypoallergenic, and resistant to tarnishing—perfect for everyday wear while maintaining their beautiful lustre.",
+      "All Tiora jewelry is crafted with high-quality stainless steel as the base, finished with luxurious 18k gold plating. Our pieces are designed to be waterproof, hypoallergenic, and tarnish-resistant—perfect for everyday wear.",
   },
   {
     id: "general-care",
-    title: "General Care",
+    title: "Waterproof & Life-Proof",
     content:
-      "To safeguard the shine of your jewellery and its plating, avoid exposing it to excessive water, perfumes, lotions, and sweat. We recommend always removing your jewellery before swimming, exercising, or bathing. Putting on your jewellery should be the last step of your routine—after applying makeup, perfume, and hairspray.",
+      "Wear it in the shower, at the gym, or while swimming—our 18k gold plating is built for life. Our stainless steel base ensures your jewelry won't turn your skin green. For the best shine, rinse with fresh water after exposure to chlorine or salt water.",
   },
   {
     id: "cleaning",
-    title: "Cleaning Your Jewellery",
+    title: "Cleaning Your Jewelry",
     content:
-      "You can gently clean your jewellery with a soft, lint-free cloth after each use to remove any dirt, oils, or residue. For a deeper clean, use a mild soap diluted in lukewarm water, gently rub the piece, rinse with clean water, and pat dry immediately. Never use harsh chemicals, abrasive cleaners, or ultrasonic cleaners on plated jewellery.",
+      "You can gently clean your jewelry with a soft, lint-free cloth to restore its shine. For a deeper clean, use mild soap and water. Since our pieces are waterproof, you don't need to worry about water damage during cleaning.",
   },
   {
     id: "storage",
     title: "Storage Tips",
     content:
-      "Store your jewellery in a cool, dry place away from direct sunlight. Keep each piece separately in a soft pouch or lined jewellery box to prevent scratching and tangling. Avoid storing jewellery in humid environments like bathrooms, as moisture can accelerate tarnishing. Consider using anti-tarnish strips in your storage area for added protection.",
+      "Store your jewelry in a cool, dry place when not in use. While our pieces are durable, keeping them in a soft pouch helps prevent scratches from contact with other metal objects.",
   },
   {
-    id: "avoid",
-    title: "Things to Avoid",
+    id: "durability",
+    title: "Built to Last",
     content:
-      "To extend the life of your jewellery, avoid contact with chlorine, saltwater, household cleaning products, and harsh chemicals. Remove jewellery before activities that may cause impact or abrasion. Avoid sleeping in your jewellery, as this can cause wear and damage. Keep away from extreme temperatures and sudden temperature changes.",
+      "Our 18k gold PVD plating is up to 10x thicker than standard gold plating. This advanced process bonds the gold to the stainless steel at a molecular level, creating an incredibly durable finish that stands up to daily life.",
   },
 ];
 
@@ -50,7 +50,7 @@ const CareGuide = () => {
         <title>Jewelry Care Guide | TIORA</title>
         <meta
           name="description"
-          content="Learn how to care for your TIORA jewelry. Tips on cleaning, storage, and maintenance to keep your plated silver and gold pieces looking beautiful."
+          content="Learn how to care for your TIORA jewelry. Waterproof, tarnish-resistant 18k gold-plated stainless steel designed for everyday wear."
         />
         <link rel="canonical" href="https://tiora.in/care-guide" />
       </Helmet>

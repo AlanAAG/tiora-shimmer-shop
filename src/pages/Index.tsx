@@ -15,10 +15,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>TIORA | Sculptural Silver Jewelry for Modern Women</title>
+        <title>TIORA | Premium 18k Gold-Plated & Waterproof Jewelry</title>
         <meta
           name="description"
-          content="Discover TIORA's liquid metal silver jewelry collection. Bold, sculptural designs for confident women who make their own rules. Premium 925 silver, ₹3,000-₹10,000."
+          content="Shop premium demi-fine jewelry for everyday wear. Waterproof, tarnish-resistant, and hypoallergenic 18k gold-plated statement pieces designed for self-expression."
         />
         <link rel="canonical" href="https://tiora.in/" />
       </Helmet>
