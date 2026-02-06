@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import careGuideHero from "@/assets/care-guide-hero.jpg";
+import { Helmet } from "react-helmet-async";
 
 const careGuideItems = [
   {
@@ -45,6 +46,14 @@ const careGuideItems = [
 const CareGuide = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Jewelry Care Guide | TIORA</title>
+        <meta
+          name="description"
+          content="Learn how to care for your TIORA jewelry. Tips on cleaning, storage, and maintenance to keep your plated silver and gold pieces looking beautiful."
+        />
+        <link rel="canonical" href="https://tiora.in/care-guide" />
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

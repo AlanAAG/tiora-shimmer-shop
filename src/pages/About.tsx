@@ -6,6 +6,7 @@ import aboutPlaceholder1 from "@/assets/about-placeholder-1.png";
 import aboutPlaceholder2 from "@/assets/about-placeholder-2.png";
 import aboutPlaceholder3 from "@/assets/about-placeholder-3.png";
 import aboutPlaceholder4 from "@/assets/about-placeholder-4.png";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   const coreBeliefs = [
@@ -46,6 +47,14 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>About TIORA | Our Story & Vision</title>
+        <meta
+          name="description"
+          content="Learn about TIORA's mission to create sculptural jewelry for the bold and authentic. Celebrating confidence and empowerment through timeless design."
+        />
+        <link rel="canonical" href="https://tiora.in/about" />
+      </Helmet>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>
