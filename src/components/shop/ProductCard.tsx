@@ -38,7 +38,7 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
         >
           <img
             src={isHovered ? hoverImage : product.image}
-            alt={`Waterproof 18k gold-plated ${product.name}`}
+            alt={`Waterproof 18k gold-plated ${product.name} - Tiora`}
             className="w-full h-full object-cover transition-all duration-500"
           />
           

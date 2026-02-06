@@ -47,10 +47,10 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
   
   const baseNavLinks = [
     { name: "Shop All", href: "/shop", collection: null },
-    { name: "Best Sellers", href: "/shop?collection=best-sellers", collection: "best-sellers" },
-    { name: "Rings", href: "/shop?collection=rings", collection: "rings" },
-    { name: "Earrings", href: "/shop?collection=earrings", collection: "earrings" },
-    { name: "Bracelets", href: "/shop?collection=bracelets", collection: "bracelets" },
+    { name: "Best Sellers", href: "/shop/best-sellers", collection: "best-sellers" },
+    { name: "Rings", href: "/shop/rings", collection: "rings" },
+    { name: "Earrings", href: "/shop/earrings", collection: "earrings" },
+    { name: "Bracelets", href: "/shop/bracelets", collection: "bracelets" },
   ];
   
   // Build dynamic nav links for desktop

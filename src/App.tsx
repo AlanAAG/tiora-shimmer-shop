@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCartSync } from "@/hooks/useCartSync";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -31,12 +31,13 @@ function AppContent() {
   return (
     <>
       <Helmet>
-        <link rel="canonical" href={`https://tiora.in${location.pathname}`} />
+        <link rel="canonical" href={`https://tiora.co${location.pathname}`} />
       </Helmet>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/shop/:collection" element={<Shop />} />
         <Route path="/product/:slug" element={<ProductPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/reviews" element={<Reviews />} />
@@ -47,8 +48,8 @@ function AppContent() {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/bracelets" element={<Shop />} />
-        <Route path="/necklaces" element={<Shop />} />
+        <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
+        <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
         {/* Auth routes */}
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />

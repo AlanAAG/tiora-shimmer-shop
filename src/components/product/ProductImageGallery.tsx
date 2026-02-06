@@ -53,7 +53,7 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
                   )}
                   <img
                     src={image}
-                    alt={`${product.name} - View ${index + 1}`}
+                    alt={`Waterproof 18k gold-plated ${product.name} - Tiora - View ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -84,7 +84,7 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
                   )}
                   <img
                     src={image}
-                    alt={`${product.name} - View ${index + 1}`}
+                    alt={`Waterproof 18k gold-plated ${product.name} - Tiora - View ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -125,7 +125,7 @@ export const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
             >
               <img
                 src={image}
-                alt={`${product.name} thumbnail ${index + 1}`}
+                alt={`Waterproof 18k gold-plated ${product.name} - Tiora - Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
               />
             </button>

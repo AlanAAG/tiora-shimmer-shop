@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
-const BASE_URL = 'https://tiora.in';
+const BASE_URL = 'https://tiora.co';
 const OUTPUT_FILE = resolve(process.cwd(), 'public/sitemap.xml');
 
 // Shopify Constants
@@ -21,8 +21,11 @@ const staticRoutes = [
   '/terms',
   '/refund',
   '/contact',
-  '/bracelets',
-  '/necklaces'
+  '/shop/best-sellers',
+  '/shop/rings',
+  '/shop/earrings',
+  '/shop/bracelets',
+  '/shop/necklaces'
 ];
 
 async function fetchProductHandles() {

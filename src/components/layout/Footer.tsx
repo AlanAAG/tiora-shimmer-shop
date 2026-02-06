@@ -4,6 +4,7 @@ import { ChevronDown, Instagram, Package, RotateCcw, ShieldCheck } from "lucide-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import tioraLogo from "@/assets/tiora-logo.png";
+import { Helmet } from "react-helmet-async";
 
 const trustBadges = [
   {
@@ -25,10 +26,10 @@ const trustBadges = [
 
 const shopLinks = [
   { name: "All Items", to: "/shop" },
-  { name: "Best Sellers", to: "/shop?collection=best-sellers" },
-  { name: "Rings", to: "/shop?collection=rings" },
-  { name: "Earrings", to: "/shop?collection=earrings" },
-  { name: "Bracelets", to: "/shop?collection=bracelets" },
+  { name: "Best Sellers", to: "/shop/best-sellers" },
+  { name: "Rings", to: "/shop/rings" },
+  { name: "Earrings", to: "/shop/earrings" },
+  { name: "Bracelets", to: "/shop/bracelets" },
 ];
 
 const brandLinks = [
@@ -53,6 +54,27 @@ const Footer = () => {
 
   return (
     <footer className="text-primary-foreground">
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "JewelryStore",
+            "name": "TIORA",
+            "image": "https://tiora.co/og-image.jpg",
+            "@id": "https://tiora.co",
+            "url": "https://tiora.co",
+            "telephone": "+91 0000000000",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Phase II, Udyog Vihar, Sector 20",
+              "addressLocality": "Gurugram",
+              "addressRegion": "Haryana",
+              "postalCode": "122016",
+              "addressCountry": "IN"
+            }
+          })}
+        </script>
+      </Helmet>
       {/* Main Footer - Green Background */}
       <div className="bg-primary py-10">
         <div className="container mx-auto px-6">
@@ -112,6 +134,14 @@ const Footer = () => {
                 <div className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded text-sm font-bold w-fit">
                   <div className="flex text-yellow-500 text-xs">★★★★★</div>
                   <span>4.9/5 on Google</span>
+                </div>
+
+                {/* Address */}
+                <div className="text-xs text-primary-foreground/80 mt-2 space-y-1">
+                  <p className="font-semibold">TIORA</p>
+                  <p>Phase II, Udyog Vihar, Sector 20</p>
+                  <p>Gurugram, Gurgaon, Haryana 122016</p>
+                  <p>Phone: +91 000 000 0000</p>
                 </div>
               </div>
             </div>
@@ -186,6 +216,14 @@ const Footer = () => {
                 <div className="inline-flex items-center gap-2 bg-white text-black px-3 py-1.5 rounded text-xs font-bold w-fit">
                   <div className="flex text-yellow-500 text-[10px]">★★★★★</div>
                   <span>4.9/5 on Google</span>
+                </div>
+
+                {/* Address */}
+                <div className="text-xs text-primary-foreground/80 mt-4 space-y-1">
+                  <p className="font-semibold">TIORA</p>
+                  <p>Phase II, Udyog Vihar, Sector 20</p>
+                  <p>Gurugram, Gurgaon, Haryana 122016</p>
+                  <p>Phone: +91 000 000 0000</p>
                 </div>
               </div>
             </div>

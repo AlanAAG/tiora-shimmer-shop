@@ -1,212 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tiora.in/</loc>
+    <loc>https://tiora.co/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://tiora.in/shop</loc>
+    <loc>https://tiora.co/shop</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/about</loc>
+    <loc>https://tiora.co/about</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/reviews</loc>
+    <loc>https://tiora.co/reviews</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/faq</loc>
+    <loc>https://tiora.co/faq</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/care-guide</loc>
+    <loc>https://tiora.co/care-guide</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/privacy</loc>
+    <loc>https://tiora.co/privacy</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/terms</loc>
+    <loc>https://tiora.co/terms</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/refund</loc>
+    <loc>https://tiora.co/refund</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/contact</loc>
+    <loc>https://tiora.co/contact</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/bracelets</loc>
+    <loc>https://tiora.co/shop/best-sellers</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/necklaces</loc>
+    <loc>https://tiora.co/shop/rings</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/molten-core-cuff</loc>
+    <loc>https://tiora.co/shop/earrings</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-flow-cuff</loc>
+    <loc>https://tiora.co/shop/bracelets</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/serpente-loop-bracelet</loc>
+    <loc>https://tiora.co/shop/necklaces</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/solis-wrap-bracelet</loc>
+    <loc>https://tiora.co/product/molten-core-cuff</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/noire-crest-cuff</loc>
+    <loc>https://tiora.co/product/aurea-flow-cuff</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/atlas-band-cuff</loc>
+    <loc>https://tiora.co/product/serpente-loop-bracelet</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/noire-crest-bracelet</loc>
+    <loc>https://tiora.co/product/solis-wrap-bracelet</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/terra-hammered-cuff</loc>
+    <loc>https://tiora.co/product/noire-crest-cuff</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/atlas-crest-ring</loc>
+    <loc>https://tiora.co/product/atlas-band-cuff</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-sculpt-ring</loc>
+    <loc>https://tiora.co/product/noire-crest-bracelet</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/molten-form-ring</loc>
+    <loc>https://tiora.co/product/terra-hammered-cuff</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/solis-coil-ring</loc>
+    <loc>https://tiora.co/product/atlas-crest-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/vela-chevron-ring</loc>
+    <loc>https://tiora.co/product/aurea-sculpt-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/helix-duo-ring</loc>
+    <loc>https://tiora.co/product/molten-form-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-sculpt-ring-1</loc>
+    <loc>https://tiora.co/product/solis-coil-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/serpente-loop-ring</loc>
+    <loc>https://tiora.co/product/vela-chevron-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/serpente-open-ring</loc>
+    <loc>https://tiora.co/product/helix-duo-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/linea-wrap-ring</loc>
+    <loc>https://tiora.co/product/aurea-sculpt-ring-1</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/partial-ivory-stripe-ring</loc>
+    <loc>https://tiora.co/product/serpente-loop-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/ivory-stripe-ring</loc>
+    <loc>https://tiora.co/product/serpente-open-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/vela-curve-hoops</loc>
+    <loc>https://tiora.co/product/linea-wrap-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/molten-crest-hoops</loc>
+    <loc>https://tiora.co/product/partial-ivory-stripe-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/ivory-curve-hoops</loc>
+    <loc>https://tiora.co/product/ivory-stripe-ring</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/molten-halo-hoops</loc>
+    <loc>https://tiora.co/product/vela-curve-hoops</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/molten-halo-hoops-silver</loc>
+    <loc>https://tiora.co/product/molten-crest-hoops</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/solis-open-hoops</loc>
+    <loc>https://tiora.co/product/ivory-curve-hoops</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/ivory-pearl-hoops</loc>
+    <loc>https://tiora.co/product/molten-halo-hoops</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-petal-studs</loc>
+    <loc>https://tiora.co/product/molten-halo-hoops-silver</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-petal-studs-1</loc>
+    <loc>https://tiora.co/product/solis-open-hoops</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tiora.in/product/aurea-cascade-drop-earrings</loc>
+    <loc>https://tiora.co/product/ivory-pearl-hoops</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tiora.co/product/aurea-petal-studs</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tiora.co/product/aurea-petal-studs-1</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tiora.co/product/aurea-cascade-drop-earrings</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
