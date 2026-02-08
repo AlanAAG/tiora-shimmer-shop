@@ -83,7 +83,7 @@ const ProductPage = () => {
         "lowPrice": minPrice,
         "highPrice": maxPrice,
         "offerCount": variants.length,
-        "availability": shopifyProduct.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
+        "availability": variants.some(v => v.availableForSale) ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
       }
     };
 
