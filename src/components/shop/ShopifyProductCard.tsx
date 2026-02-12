@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingBag, Loader2 } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuth } from "@/contexts/AuthContext";
+import { addToWishlist, removeFromWishlist, getWishlist } from "@/services/accountService";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface ShopifyProductCardProps {
   product: ShopifyProduct;
@@ -11,7 +14,9 @@ interface ShopifyProductCardProps {
 
 const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isWishlisted, setIsWishlisted] = useState(false);
   const { addItem, isLoading } = useCartStore();
+  const { user } = useAuth();
   
   const { node } = product;
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
@@ -25,6 +30,14 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   
   const primaryImage = node.images.edges[0]?.node.url;
   const hoverImage = node.images.edges[1]?.node.url || primaryImage;
+
+  useEffect(() => {
+    if (user) {
+      getWishlist(user.id).then(items => {
+        setIsWishlisted(items.some(item => item.product_id === node.id));
+      }).catch(() => {});
+    }
+  }, [user, node.id]);
 
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -55,6 +68,28 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
     toast.success("Added to cart", {
       description: node.title,
     });
+  };
+
+  const handleWishlist = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast("Please log in to save items to your wishlist");
+      return;
+    }
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(user.id, node.id);
+        setIsWishlisted(false);
+        toast.success("Removed from wishlist");
+      } else {
+        await addToWishlist(user.id, node.id);
+        setIsWishlisted(true);
+        toast.success("Added to wishlist");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    }
   };
 
   // Determine material from variant selectedOptions, fallback to title
@@ -97,21 +132,16 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
             )}
           </div>
 
-          {/* Add to bag button */}
+          {/* Wishlist heart button */}
           <button
-            onClick={handleAddToBag}
-            disabled={isLoading}
-            className="absolute bottom-3 right-3 w-10 h-10 bg-background border border-border rounded-xl flex items-center justify-center hover:bg-foreground hover:text-background transition-all opacity-0 group-hover:opacity-100 disabled:opacity-50"
+            onClick={handleWishlist}
+            className="absolute bottom-3 right-3 w-8 h-8 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all"
           >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <ShoppingBag className="w-4 h-4" />
-            )}
+            <Heart className={`w-4 h-4 ${isWishlisted ? "fill-red-500 text-red-500" : "text-foreground"}`} />
           </button>
         </div>
 
-        {/* Simplified product info - no description */}
+        {/* Product info */}
         <div className="space-y-1">
           <h3 className="font-display text-sm text-foreground line-clamp-1">
             {node.title}
@@ -141,6 +171,18 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
           </div>
         </div>
       </Link>
+
+      {/* ADD+ button below card */}
+      <Button
+        variant="outline"
+        size="sm"
+        className="w-full text-xs h-8 rounded-xl mt-2"
+        onClick={handleAddToBag}
+        disabled={isLoading}
+      >
+        {isLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
+        ADD+
+      </Button>
     </div>
   );
 };
