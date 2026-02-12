@@ -96,7 +96,7 @@ export const RecommendedCarousel = ({ products }: RecommendedCarouselProps) => {
                   </div>
 
                   <Button variant="outline" size="sm" className="w-full text-xs h-8 rounded-xl">
-                    ADD+
+                    Add to Cart
                   </Button>
                 </Link>
               </CarouselItem>

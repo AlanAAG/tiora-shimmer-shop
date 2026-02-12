@@ -121,7 +121,7 @@ const FeaturedProducts = () => {
                 size="sm"
                 className="w-full text-xs h-8 rounded-xl mt-2"
               >
-                ADD+
+                Add to Cart
               </Button>
             </div>
           ))}
