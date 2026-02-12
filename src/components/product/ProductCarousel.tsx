@@ -72,7 +72,7 @@ export const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
                   </div>
                   
                   <Button variant="outline" size="sm" className="w-full text-xs h-8">
-                    ADD+
+                    Add to Cart
                   </Button>
                 </Link>
               </CarouselItem>

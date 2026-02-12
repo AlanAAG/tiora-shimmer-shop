@@ -135,7 +135,7 @@ const ProductCard = ({ product, collectionBadge }: ProductCardProps) => {
         className="w-full text-xs h-8 rounded-xl mt-2"
         onClick={handleAddToBag}
       >
-        ADD+
+        Add to Cart
       </Button>
     </div>
   );
