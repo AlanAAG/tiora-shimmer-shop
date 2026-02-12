@@ -1,13 +1,51 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product, formatPrice } from "@/data/products";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+import { useAuth } from "@/contexts/AuthContext";
+import { addToWishlist, removeFromWishlist, getWishlist } from "@/services/accountService";
+import { toast } from "sonner";
 
 interface RecommendedCarouselProps {
   products: Product[];
 }
 
 export const RecommendedCarousel = ({ products }: RecommendedCarouselProps) => {
+  const { user } = useAuth();
+  const [wishlistedIds, setWishlistedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (user) {
+      getWishlist(user.id).then(items => {
+        setWishlistedIds(new Set(items.map(item => item.product_id)));
+      }).catch(() => {});
+    }
+  }, [user]);
+
+  const handleWishlist = async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast("Please log in to save items to your wishlist");
+      return;
+    }
+    try {
+      if (wishlistedIds.has(productId)) {
+        await removeFromWishlist(user.id, productId);
+        setWishlistedIds(prev => { const next = new Set(prev); next.delete(productId); return next; });
+        toast.success("Removed from wishlist");
+      } else {
+        await addToWishlist(user.id, productId);
+        setWishlistedIds(prev => new Set(prev).add(productId));
+        toast.success("Added to wishlist");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
+
   if (!products.length) return null;
 
   return (
@@ -35,6 +73,14 @@ export const RecommendedCarousel = ({ products }: RecommendedCarouselProps) => {
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+
+                    {/* Wishlist heart button */}
+                    <button
+                      onClick={(e) => handleWishlist(e, String(product.id))}
+                      className="absolute bottom-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all"
+                    >
+                      <Heart className={`w-4 h-4 ${wishlistedIds.has(String(product.id)) ? "fill-red-500 text-red-500" : "text-foreground"}`} />
+                    </button>
                   </div>
 
                   {/* Material Options */}
