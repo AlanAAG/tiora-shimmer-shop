@@ -11,10 +11,10 @@ const Hero = () => {
 
       {/* Bottom Content */}
       <div className="relative pb-10 md:pb-16 px-6 animate-fade-up">
-        <h1 className="font-display md:text-4xl lg:text-5xl text-primary-foreground leading-[1.1] mb-2 text-5xl font-extrabold">TIORA | Premium Waterproof 18k Gold-Plated Jewelry</h1>
+        
         <p className="font-body text-base text-primary-foreground/90 mb-5 md:text-xl">
-          Confidence Looks Good On You
-        </p>
+
+      </p>
         <Button variant="hero" size="xl" className="bg-primary-foreground text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg" asChild>
           <Link to="/shop">SHOP NOW</Link>
         </Button>
