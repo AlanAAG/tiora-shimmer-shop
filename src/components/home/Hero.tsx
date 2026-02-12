@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import heroDesktop from "@/assets/hero-desktop.png";
-import heroMobile from "@/assets/hero-mobile.png";
+import heroDesktop from "@/assets/hero-desktop-v2.png";
+import heroMobile from "@/assets/hero-mobile-v2.png";
 
 const Hero = () => {
   return (
-    <section className="relative w-full md:aspect-[2/1] lg:aspect-[7/3] overflow-hidden mt-4">
+    <section className="relative w-full overflow-hidden mt-4">
       {/* Background Image */}
-      <div className="relative w-full md:absolute md:inset-0">
+      <div className="relative w-full">
         <picture>
           <source media="(min-width: 768px)" srcSet={heroDesktop} />
           <img
             src={heroMobile}
             alt="Waterproof 18k gold-plated jewelry collection featuring sculptural designs"
-            className="w-full h-auto md:h-full md:object-cover"
+            className="w-full h-auto"
           />
         </picture>
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/20 to-transparent" />
