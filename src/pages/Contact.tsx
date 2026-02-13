@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -208,6 +208,23 @@ const Contact = () => {
                       className="font-body text-muted-foreground hover:text-[#25D366] transition-colors"
                     >
                       +91 8800823166
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-full bg-[#E1306C]/10 flex items-center justify-center flex-shrink-0">
+                    <Instagram className="w-5 h-5 text-[#E1306C]" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg text-foreground mb-1">Instagram</h3>
+                    <a 
+                      href="https://www.instagram.com/tiora.official/" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-muted-foreground hover:text-[#E1306C] transition-colors"
+                    >
+                      @tiora.co
                     </a>
                   </div>
                 </div>
