@@ -7,7 +7,6 @@ import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { PairsWithSection } from "./PairsWithSection";
-import { supabase } from "@/lib/supabase";
 
 interface ShopifyProductInfoProps {
   product: ShopifyProduct['node'];
@@ -18,7 +17,6 @@ export const ShopifyProductInfo = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [openCollapsibles, setOpenCollapsibles] = useState<Record<string, boolean>>({});
-  const [isBuyingNow, setIsBuyingNow] = useState(false);
   const {
     addItem,
     isLoading
@@ -72,39 +70,19 @@ export const ShopifyProductInfo = ({
     });
   };
 
-  const handleBuyNow = async () => {
+  const handleBuyNow = () => {
     if (!selectedVariant) {
       toast.error("Please select a variant");
       return;
     }
-    setIsBuyingNow(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('create-payment-link', {
-        body: {
-          productId: selectedVariant.id,
-          amount: price,
-          productName: product.title
-        }
-      });
 
-      if (error) {
-        console.error('Edge Function Error:', error);
-        throw error;
-      }
+    // Extract numeric ID from GID if present
+    const variantId = selectedVariant.id.split('/').pop();
 
-      if (data?.short_url) {
-        window.location.href = data.short_url;
-      } else {
-        throw new Error('No payment link returned');
-      }
-
-    } catch (err) {
-      console.error('Buy Now Error:', err);
-      toast.error("Failed to initiate payment. Please try again.");
-    } finally {
-      setIsBuyingNow(false);
-    }
+    // Redirect to Shopify checkout
+    window.location.href = `https://tiora.co/cart/${variantId}:1`;
   };
+
   return <div className="lg:sticky lg:top-24 space-y-6">
       {/* Title & Favorite */}
       <div className="flex items-start justify-between gap-4">
@@ -146,8 +124,8 @@ export const ShopifyProductInfo = ({
       </Button>
 
       {/* Buy Now Button */}
-      <Button size="lg" variant="outline" className="w-full text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300" onClick={handleBuyNow} disabled={isBuyingNow || !selectedVariant?.availableForSale}>
-        {isBuyingNow ? <Loader2 className="w-4 h-4 animate-spin" /> : <span className="flex items-center gap-2">BUY NOW <ExternalLink className="w-4 h-4" /></span>}
+      <Button size="lg" variant="outline" className="w-full text-base border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300" onClick={handleBuyNow} disabled={!selectedVariant?.availableForSale}>
+        <span className="flex items-center gap-2">BUY NOW <ExternalLink className="w-4 h-4" /></span>
       </Button>
 
       {/* Collapsible Info */}
