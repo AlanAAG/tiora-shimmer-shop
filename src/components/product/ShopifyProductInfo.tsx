@@ -3,10 +3,11 @@ import { Heart, RotateCcw, Truck, Plus, Minus, Loader2, Info, ExternalLink } fro
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { ShopifyProduct, storefrontApiRequest, CART_CREATE_MUTATION, formatCheckoutUrl } from "@/lib/shopify";
+import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { PairsWithSection } from "./PairsWithSection";
+import { supabase } from "@/lib/supabase";
 
 interface ShopifyProductInfoProps {
   product: ShopifyProduct['node'];
@@ -78,17 +79,28 @@ export const ShopifyProductInfo = ({
     }
     setIsBuyingNow(true);
     try {
-      const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
-        input: { lines: [{ quantity: 1, merchandiseId: selectedVariant.id }] },
+      const { data, error } = await supabase.functions.invoke('create-payment-link', {
+        body: {
+          productId: selectedVariant.id,
+          amount: price,
+          productName: product.title
+        }
       });
-      const cart = data?.data?.cartCreate?.cart;
-      if (cart?.checkoutUrl) {
-        window.open(formatCheckoutUrl(cart.checkoutUrl), '_blank');
-      } else {
-        toast.error("Failed to create checkout");
+
+      if (error) {
+        console.error('Edge Function Error:', error);
+        throw error;
       }
-    } catch {
-      toast.error("Something went wrong");
+
+      if (data?.short_url) {
+        window.location.href = data.short_url;
+      } else {
+        throw new Error('No payment link returned');
+      }
+
+    } catch (err) {
+      console.error('Buy Now Error:', err);
+      toast.error("Failed to initiate payment. Please try again.");
     } finally {
       setIsBuyingNow(false);
     }
