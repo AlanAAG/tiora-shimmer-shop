@@ -14,7 +14,6 @@ import { ProductReviews } from "@/components/product/ProductReviews";
 import { ShopifyProductReviews } from "@/components/product/ShopifyProductReviews";
 import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/products";
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
-import { ShopifyProductInfo } from "@/components/product/ShopifyProductInfo";
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -120,7 +119,7 @@ const ProductPage = () => {
               <ShopifyImageGallery product={shopifyProduct} />
             </div>
             <div className="md:col-span-5">
-              <ShopifyProductInfo product={shopifyProduct} />
+              <ProductInfo product={shopifyProduct} />
             </div>
           </div>
         </section>
