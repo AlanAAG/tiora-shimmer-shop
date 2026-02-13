@@ -7,47 +7,47 @@ import tioraLogo from "@/assets/tiora-logo.png";
 import { Helmet } from "react-helmet-async";
 
 const trustBadges = [
-  {
-    icon: Package,
-    title: "Free Shipping",
-    description: "On orders ₹8,000+",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Quality Assured",
-    description: "Certified materials",
-  },
-  {
-    icon: RotateCcw,
-    title: "Easy Returns",
-    description: "7-day returns",
-  },
-];
+{
+  icon: Package,
+  title: "Free Shipping",
+  description: "On orders ₹8,000+"
+},
+{
+  icon: ShieldCheck,
+  title: "Quality Assured",
+  description: "Certified materials"
+},
+{
+  icon: RotateCcw,
+  title: "Easy Returns",
+  description: "7-day returns"
+}];
+
 
 const shopLinks = [
-  { name: "All Items", to: "/shop" },
-  { name: "Best Sellers", to: "/shop/best-sellers" },
-  { name: "Rings", to: "/shop/rings" },
-  { name: "Earrings", to: "/shop/earrings" },
-  { name: "Bracelets", to: "/shop/bracelets" },
-];
+{ name: "All Items", to: "/shop" },
+{ name: "Best Sellers", to: "/shop/best-sellers" },
+{ name: "Rings", to: "/shop/rings" },
+{ name: "Earrings", to: "/shop/earrings" },
+{ name: "Bracelets", to: "/shop/bracelets" }];
+
 
 const brandLinks = [
-  { name: "About Tiora", to: "/about" },
-  { name: "Reviews", to: "/reviews" },
-];
+{ name: "About Tiora", to: "/about" },
+{ name: "Reviews", to: "/reviews" }];
+
 
 const helpLinks = [
-  { name: "FAQ", to: "/faq" },
-  { name: "Return & Refund", to: "/refund" },
-  { name: "Jewelry Care", to: "/care-guide" },
-  { name: "Contact", to: "/contact" },
-];
+{ name: "FAQ", to: "/faq" },
+{ name: "Return & Refund", to: "/refund" },
+{ name: "Jewelry Care", to: "/care-guide" },
+{ name: "Contact", to: "/contact" }];
+
 
 const legalLinks = [
-  { name: "Terms of Service", to: "/terms" },
-  { name: "Privacy Policy", to: "/privacy" },
-];
+{ name: "Terms of Service", to: "/terms" },
+{ name: "Privacy Policy", to: "/privacy" }];
+
 
 const Footer = () => {
   const [phone, setPhone] = useState("");
@@ -86,8 +86,8 @@ const Footer = () => {
         <div className="container mx-auto px-6">
           {/* Trust Badges - Inside green section */}
           <div className="grid grid-cols-3 gap-6 mb-10 pb-8 border-b border-primary-foreground/20">
-            {trustBadges.map((badge, index) => (
-              <div key={index} className="text-center">
+            {trustBadges.map((badge, index) =>
+            <div key={index} className="text-center">
                 <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center">
                   <badge.icon className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" strokeWidth={1.5} />
                 </div>
@@ -96,7 +96,7 @@ const Footer = () => {
                 </div>
                 <p className="font-body text-xs md:text-sm text-primary-foreground/70">{badge.description}</p>
               </div>
-            ))}
+            )}
           </div>
 
           {/* Mobile Layout */}
@@ -113,8 +113,8 @@ const Footer = () => {
                   placeholder="Enter Phone Number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="bg-primary-foreground text-foreground border-none h-12 rounded-full"
-                />
+                  className="bg-primary-foreground text-foreground border-none h-12 rounded-full" />
+
                 <Button className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest rounded-full text-xs">
                   Sign Up
                 </Button>
@@ -130,8 +130,8 @@ const Footer = () => {
                     href="https://www.instagram.com/tiora.official/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                  >
+                    className="w-10 h-10 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
+
                     <Instagram className="w-5 h-5" />
                   </a>
                 </div>
@@ -154,32 +154,32 @@ const Footer = () => {
 
             {/* Collapsible Links - Mobile Only */}
             {[
-              { title: "Shop", links: shopLinks },
-              { title: "Brand", links: brandLinks },
-              { title: "Help", links: helpLinks },
-              { title: "Legal", links: legalLinks },
-            ].map((section) => (
-              <div key={section.title} className="border-b border-primary-foreground/20 py-4">
+            { title: "Shop", links: shopLinks },
+            { title: "Brand", links: brandLinks },
+            { title: "Help", links: helpLinks },
+            { title: "Legal", links: legalLinks }].
+            map((section) =>
+            <div key={section.title} className="border-b border-primary-foreground/20 py-4">
                 <details className="group">
                   <summary className="flex justify-between items-center cursor-pointer list-none">
                     <span className="font-body text-sm font-semibold tracking-wider uppercase">{section.title}</span>
                     <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" />
                   </summary>
                   <ul className="mt-4 space-y-3 text-center">
-                    {section.links.map((link) => (
-                      <li key={link.name}>
+                    {section.links.map((link) =>
+                  <li key={link.name}>
                         <Link
-                          to={link.to}
-                          className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline"
-                        >
+                      to={link.to}
+                      className="text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+
                           {link.name}
                         </Link>
                       </li>
-                    ))}
+                  )}
                   </ul>
                 </details>
               </div>
-            ))}
+            )}
           </div>
 
           {/* Desktop Layout */}
@@ -188,8 +188,8 @@ const Footer = () => {
             <div className="col-span-2">
               {/* Join Tiora Circle */}
               <div className="font-display text-2xl italic mb-2">Join the Tiora Circle</div>
-              <p className="font-body text-xs text-primary-foreground/80 mb-4 max-w-xs">
-                Unlock 15% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
+              <p className="font-body text-xs text-primary-foreground/80 mb-4 max-w-xs">Unlock 10% Off When You Join the Tiora Inner Circle—Where Style Meets Community.
+
               </p>
               <div className="flex flex-col gap-2 max-w-xs mb-6">
                 <Input
@@ -197,8 +197,8 @@ const Footer = () => {
                   placeholder="Enter Phone Number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="bg-primary-foreground text-foreground border-none h-10 rounded-full text-sm"
-                />
+                  className="bg-primary-foreground text-foreground border-none h-10 rounded-full text-sm" />
+
                 <Button className="w-full h-10 bg-foreground text-background hover:bg-foreground/90 font-body uppercase tracking-widest rounded-full text-xs">
                   Sign Up
                 </Button>
@@ -212,8 +212,8 @@ const Footer = () => {
                     href="https://www.instagram.com/tiora.official/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors"
-                  >
+                    className="w-8 h-8 rounded-full bg-primary-foreground text-primary flex items-center justify-center hover:bg-primary-foreground/80 transition-colors">
+
                     <Instagram className="w-4 h-4" />
                   </a>
                 </div>
@@ -238,64 +238,64 @@ const Footer = () => {
             <div>
               <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Shop</div>
               <ul className="space-y-1.5">
-                {shopLinks.map((link) => (
-                  <li key={link.name}>
+                {shopLinks.map((link) =>
+                <li key={link.name}>
                     <Link
-                      to={link.to}
-                      className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline"
-                    >
+                    to={link.to}
+                    className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+
                       {link.name}
                     </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
 
             <div>
               <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Brand</div>
               <ul className="space-y-1.5">
-                {brandLinks.map((link) => (
-                  <li key={link.name}>
+                {brandLinks.map((link) =>
+                <li key={link.name}>
                     <Link
-                      to={link.to}
-                      className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline"
-                    >
+                    to={link.to}
+                    className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+
                       {link.name}
                     </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
 
             <div>
               <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Help</div>
               <ul className="space-y-1.5">
-                {helpLinks.map((link) => (
-                  <li key={link.name}>
+                {helpLinks.map((link) =>
+                <li key={link.name}>
                     <Link
-                      to={link.to}
-                      className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline"
-                    >
+                    to={link.to}
+                    className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+
                       {link.name}
                     </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
 
             <div>
               <div className="font-body text-xs font-semibold tracking-wider uppercase mb-3">Legal</div>
               <ul className="space-y-1.5">
-                {legalLinks.map((link) => (
-                  <li key={link.name}>
+                {legalLinks.map((link) =>
+                <li key={link.name}>
                     <Link
-                      to={link.to}
-                      className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline"
-                    >
+                    to={link.to}
+                    className="text-xs text-primary-foreground/80 hover:text-primary-foreground transition-colors underline">
+
                       {link.name}
                     </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>
@@ -324,8 +324,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
+
 };
 
 export default Footer;
