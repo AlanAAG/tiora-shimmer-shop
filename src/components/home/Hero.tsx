@@ -19,11 +19,11 @@ const Hero = () => {
       </div>
 
       {/* Bottom Content */}
-      <div className="absolute bottom-0 left-0 right-0 md:left-auto md:right-0 md:w-1/3 z-10 pb-10 md:pb-16 px-6 animate-fade-up flex flex-col items-center">
+      <div className="absolute bottom-0 left-0 right-0 md:left-auto md:right-0 md:w-[62%] z-10 pb-10 md:pb-16 px-6 animate-fade-up flex flex-col items-center">
         <Button
           variant="hero"
           size="xl"
-          className="bg-primary-foreground text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
+          className="bg-primary-foreground text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-xl"
           asChild
         >
           <Link to="/shop">SHOP NOW</Link>
