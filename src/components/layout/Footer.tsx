@@ -229,7 +229,7 @@ const Footer = () => {
                   <p className="font-semibold">TIORA</p>
                   <p>Phase II, Udyog Vihar, Sector 20</p>
                   <p>Gurugram, Gurgaon, Haryana 122016</p>
-                  <p>Phone: +91 000 000 0000</p>
+                  <p>Phone: +91 88008 23166</p>
                 </div>
               </div>
             </div>
