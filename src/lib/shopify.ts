@@ -364,3 +364,19 @@ export async function fetchProductByHandle(handle: string): Promise<ShopifyProdu
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
   return data?.data?.productByHandle || null;
 }
+
+// Create a new cart
+export async function createCart(variantId: string, quantity: number) {
+  const response = await storefrontApiRequest(CART_CREATE_MUTATION, {
+    input: {
+      lines: [
+        {
+          merchandiseId: variantId,
+          quantity: quantity
+        }
+      ]
+    }
+  });
+
+  return response?.data?.cartCreate;
+}
