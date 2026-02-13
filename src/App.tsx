@@ -20,6 +20,7 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/AuthPage";
+import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import AccountPage from "./pages/AccountPage";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ function AppContent() {
         {/* Auth routes */}
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
+        <Route path="/update-password" element={<UpdatePasswordPage />} />
         {/* Account routes */}
         <Route path="/account" element={<AccountPage />} />
         <Route path="*" element={<NotFound />} />

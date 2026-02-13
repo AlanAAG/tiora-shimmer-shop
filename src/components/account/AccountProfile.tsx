@@ -79,12 +79,15 @@ export const AccountProfile = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone_display">Phone Number</Label>
+              <Label htmlFor="email">
+                Email
+              </Label>
               <Input
-                id="phone_display"
-                value={user?.phone || profile?.phone_number || ""}
+                id="email"
+                value={user?.email || user?.user_metadata?.email || ""}
                 disabled
                 className="h-12 bg-muted"
+                placeholder="Your email address"
               />
               <p className="text-xs text-muted-foreground">
                 Primary account identifier
@@ -92,19 +95,19 @@ export const AccountProfile = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">
-                Email
-                {!user?.email && !user?.user_metadata?.email && (
-                  <span className="text-xs text-primary ml-2">Add for digital receipts</span>
-                )}
-              </Label>
+              <Label htmlFor="phone_number">Phone Number</Label>
               <Input
-                id="email"
-                value={user?.email || user?.user_metadata?.email || ""}
-                disabled
-                className="h-12 bg-muted"
-                placeholder="Add email for order updates"
+                id="phone_number"
+                value={formData.phone_number}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, phone_number: e.target.value }))
+                }
+                className="h-12"
+                placeholder="Enter your phone number"
               />
+              <p className="text-xs text-muted-foreground">
+                Used for shipping updates
+              </p>
             </div>
 
             <div className="space-y-2">

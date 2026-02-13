@@ -7,10 +7,10 @@ interface AuthContextType {
   session: Session | null;
   profile: UserProfile | null;
   loading: boolean;
-  signUp: (phone: string, password: string, fullName: string, email?: string) => Promise<{ error: Error | null }>;
-  signIn: (phone: string, password: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string, phone?: string) => Promise<{ error: Error | null }>;
+  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  resetPassword: (phone: string) => Promise<{ error: Error | null }>;
+  resetPassword: (email: string) => Promise<{ error: Error | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
 }
@@ -148,18 +148,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUp = async (phone: string, password: string, fullName: string, email?: string) => {
-    // Format phone with +91 prefix if not already present
-    const formattedPhone = phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '')}`;
+  const signUp = async (email: string, password: string, fullName: string, phone?: string) => {
+    // Format phone with +91 prefix if not already present, but only if phone is provided
+    let formattedPhone = null;
+    if (phone) {
+      formattedPhone = phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '')}`;
+    }
     
     const { error } = await supabase.auth.signUp({
-      phone: formattedPhone,
+      email,
       password,
       options: {
         data: {
           full_name: fullName,
           phone: formattedPhone,
-          email: email || null
+          // email is automatically handled by Auth
         }
       }
     });
@@ -167,12 +170,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error: error as Error | null };
   };
 
-  const signIn = async (phone: string, password: string) => {
-    // Format phone with +91 prefix if not already present
-    const formattedPhone = phone.startsWith('+91') ? phone : `+91${phone.replace(/\D/g, '')}`;
-    
+  const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
-      phone: formattedPhone,
+      email,
       password
     });
     
@@ -186,12 +186,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setProfile(null);
   };
 
-  const resetPassword = async (phone: string) => {
-    // For phone-based auth, password reset would typically use SMS
-    // Since OTP is disabled, we'll return an error guiding users to contact support
-    return { 
-      error: new Error('Please contact support to reset your password.') 
-    };
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
+
+    return { error: error as Error | null };
   };
 
   const updatePassword = async (newPassword: string) => {
