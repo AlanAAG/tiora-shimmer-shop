@@ -19,7 +19,7 @@ const Hero = () => {
       </div>
 
       {/* Bottom Content */}
-      <div className="absolute bottom-0 left-0 right-0 md:left-auto md:right-0 md:w-[62%] z-10 pb-10 md:pb-16 animate-fade-up flex-col md:items-center flex items-end justify-end px-[90px]">
+      <div className="absolute bottom-0 left-0 right-0 md:left-auto md:right-0 md:w-[45%] z-10 pb-10 md:pb-16 animate-fade-up flex-col md:items-center flex items-end justify-end px-[90px]">
         <Button
           variant="hero"
           className="bg-primary-foreground text-primary hover:bg-primary hover:text-primary-foreground transition-colors rounded-xl md:h-20 md:px-16 md:text-2xl"
