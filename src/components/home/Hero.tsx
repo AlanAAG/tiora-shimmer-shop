@@ -16,11 +16,10 @@ const Hero = () => {
             className="w-full h-auto"
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/20 to-transparent" />
       </div>
 
       {/* Bottom Content */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 pb-10 md:pb-16 px-6 animate-fade-up flex flex-col items-center">
+      <div className="absolute bottom-0 left-0 right-0 md:left-auto md:right-0 md:w-1/3 z-10 pb-10 md:pb-16 px-6 animate-fade-up flex flex-col items-end md:items-center">
         <Button
           variant="hero"
           size="xl"
