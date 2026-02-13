@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { ShopifyProduct, storefrontApiRequest, CART_CREATE_MUTATION, formatCheckoutUrl } from "@/lib/shopify";
+import { ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { PairsWithSection } from "./PairsWithSection";
@@ -149,22 +149,15 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
 
     try {
         // Direct Checkout Creation via API as requested
-        const response = await storefrontApiRequest(CART_CREATE_MUTATION, {
-            input: {
-                lines: [{
-                    merchandiseId: selectedVariant.id,
-                    quantity: 1
-                }]
-            }
-        });
+        const cartCreate = await createCart(selectedVariant.id, 1);
 
-        if (response?.data?.cartCreate?.userErrors?.length > 0) {
-            console.error(response.data.cartCreate.userErrors);
+        if (cartCreate?.userErrors?.length > 0) {
+            console.error(cartCreate.userErrors);
             toast.error("Failed to initiate checkout");
             return;
         }
 
-        const checkoutUrl = response?.data?.cartCreate?.cart?.checkoutUrl;
+        const checkoutUrl = cartCreate?.cart?.checkoutUrl;
         if (checkoutUrl) {
             window.location.href = formatCheckoutUrl(checkoutUrl);
         } else {
