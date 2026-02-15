@@ -110,28 +110,40 @@ const Shop = () => {
            description.includes(catSingular);
   };
 
-  // Sort products helper
+  // Check if a product is out of stock
+  const isOutOfStock = (product: ShopifyProduct): boolean => {
+    return product.node.variants.edges.every(v => !v.node.availableForSale);
+  };
+
+  // Sort products helper - always pushes out-of-stock to bottom
   const sortProducts = (products: ShopifyProduct[]): ShopifyProduct[] => {
     const sorted = [...products];
     
     switch (sortOption) {
       case "price-low":
-        return sorted.sort((a, b) => 
+        sorted.sort((a, b) => 
           parseFloat(a.node.priceRange.minVariantPrice.amount) - 
           parseFloat(b.node.priceRange.minVariantPrice.amount)
         );
+        break;
       case "price-high":
-        return sorted.sort((a, b) => 
+        sorted.sort((a, b) => 
           parseFloat(b.node.priceRange.minVariantPrice.amount) - 
           parseFloat(a.node.priceRange.minVariantPrice.amount)
         );
+        break;
       case "newest":
-        // Shopify products are typically returned newest first, so reverse for oldest first, keep as is for newest
-        return sorted;
       case "featured":
       default:
-        return sorted;
+        break;
     }
+
+    // Always push out-of-stock products to the bottom
+    return sorted.sort((a, b) => {
+      const aOut = isOutOfStock(a) ? 1 : 0;
+      const bOut = isOutOfStock(b) ? 1 : 0;
+      return aOut - bOut;
+    });
   };
 
   // Apply category filter and sorting to Shopify products

@@ -102,6 +102,9 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   const isSilver = materialValue.includes("silver") || titleLower.includes("silver");
   const primaryMaterial = isSilver ? "silver" : "gold";
 
+  // Check if all variants are out of stock
+  const isOutOfStock = node.variants.edges.every(v => !v.node.availableForSale);
+
   return (
     <div className="group">
       <Link to={`/product/${node.handle}`}>
@@ -115,7 +118,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
             <img
               src={isHovered ? hoverImage : primaryImage}
               alt={node.title}
-              className="w-full h-full object-cover transition-all duration-500"
+              className={`w-full h-full object-cover transition-all duration-500 ${isOutOfStock ? 'opacity-60 grayscale-[30%]' : ''}`}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -173,16 +176,27 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
       </Link>
 
       {/* ADD+ button below card */}
-      <Button
-        variant="outline"
-        size="sm"
-        className="w-full text-xs h-8 rounded-xl mt-2"
-        onClick={handleAddToBag}
-        disabled={isLoading}
-      >
-        {isLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
-        Add to Cart
-      </Button>
+      {isOutOfStock ? (
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full text-xs h-8 rounded-xl mt-2 opacity-50 cursor-not-allowed border-muted-foreground/30 text-muted-foreground"
+          disabled
+        >
+          Out of Stock
+        </Button>
+      ) : (
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full text-xs h-8 rounded-xl mt-2"
+          onClick={handleAddToBag}
+          disabled={isLoading}
+        >
+          {isLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
+          Add to Cart
+        </Button>
+      )}
     </div>
   );
 };
