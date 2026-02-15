@@ -1,3 +1,10 @@
+import reviewVideo4 from "@/assets/review-video-4.mp4";
+import reviewVideo5 from "@/assets/review-video-5.mp4";
+import reviewVideo6 from "@/assets/review-video-6.mp4";
+import reviewVideo7 from "@/assets/review-video-7.mp4";
+import reviewVideo8 from "@/assets/review-video-8.mp4";
+import reviewVideo9 from "@/assets/review-video-9.mp4";
+
 export interface CustomerReview {
   id: number;
   title: string;
@@ -1210,11 +1217,14 @@ export const customerReviews: CustomerReview[] = [
   }
 ];
 
+
+
+
 export const videoReviews: VideoReview[] = [
   {
     id: 1001,
     title: "In love with this sparkle!",
-    videoUrl: "https://videos.pexels.com/video-files/5359703/5359703-uhd_2160_3840_30fps.mp4",
+    videoUrl: reviewVideo4,
     author: "Aisha K.",
     rating: 5,
     verified: true,
@@ -1224,7 +1234,7 @@ export const videoReviews: VideoReview[] = [
   {
     id: 1002,
     title: "Perfect fit & finish",
-    videoUrl: "https://videos.pexels.com/video-files/5359695/5359695-uhd_2160_3840_30fps.mp4",
+    videoUrl: reviewVideo5,
     author: "Rohan M.",
     rating: 5,
     verified: true,
@@ -1234,7 +1244,7 @@ export const videoReviews: VideoReview[] = [
   {
     id: 1003,
     title: "Everyday luxury",
-    videoUrl: "https://videos.pexels.com/video-files/5359692/5359692-uhd_2160_3840_30fps.mp4",
+    videoUrl: reviewVideo6,
     author: "Sonia P.",
     rating: 5,
     verified: true,
@@ -1244,7 +1254,7 @@ export const videoReviews: VideoReview[] = [
   {
     id: 1004,
     title: "Amazing quality",
-    videoUrl: "https://videos.pexels.com/video-files/5359685/5359685-uhd_2160_3840_30fps.mp4",
+    videoUrl: reviewVideo7,
     author: "Neha S.",
     rating: 4,
     verified: true,
@@ -1254,12 +1264,22 @@ export const videoReviews: VideoReview[] = [
   {
     id: 1005,
     title: "Looks so real",
-    videoUrl: "https://videos.pexels.com/video-files/5359689/5359689-uhd_2160_3840_30fps.mp4",
+    videoUrl: reviewVideo8,
     author: "Priya D.",
     rating: 5,
     verified: true,
     category: "bracelets",
     productType: "Charm Bracelet"
+  },
+  {
+    id: 1006,
+    title: "Obsessed with this piece!",
+    videoUrl: reviewVideo9,
+    author: "Kavya R.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Statement Ring"
   },
 ];
 
