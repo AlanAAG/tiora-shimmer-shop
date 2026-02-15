@@ -1,13 +1,14 @@
 import { useState, useMemo } from "react";
-import { Star, CheckCircle, Filter, ChevronDown } from "lucide-react";
+import { Star, CheckCircle, Filter, ChevronDown, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
-import { customerReviews, shuffleReviews, getAverageRating, getTotalReviewCount } from "@/data/reviews";
+import { customerReviews, videoReviews, shuffleReviews, getAverageRating, getTotalReviewCount, VideoReview, CustomerReview } from "@/data/reviews";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Helmet } from "react-helmet-async";
 
@@ -25,6 +26,7 @@ const Reviews = () => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("all");
   const [filterOpen, setFilterOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<VideoReview | null>(null);
   
   const averageRating = getAverageRating();
   const totalReviews = getTotalReviewCount();
@@ -52,10 +54,32 @@ const Reviews = () => {
 
   // Shuffle and filter reviews, assign products
   const displayedReviews = useMemo(() => {
-    const shuffled = shuffleReviews(customerReviews);
-    const filtered = activeFilter === "all" 
-      ? shuffled 
-      : shuffled.filter(review => review.category === activeFilter);
+    const shuffledCustomers = shuffleReviews(customerReviews);
+    const shuffledVideos = shuffleReviews(videoReviews);
+
+    const filteredCustomers = activeFilter === "all"
+      ? shuffledCustomers
+      : shuffledCustomers.filter(review => review.category === activeFilter);
+
+    const filteredVideos = activeFilter === "all"
+      ? shuffledVideos
+      : shuffledVideos.filter(review => review.category === activeFilter);
+
+    // Interleave: 1:1 ratio
+    const combined = [];
+    let cIdx = 0;
+    let vIdx = 0;
+
+    while (cIdx < filteredCustomers.length || vIdx < filteredVideos.length) {
+      if (cIdx < filteredCustomers.length) {
+        combined.push(filteredCustomers[cIdx]);
+        cIdx++;
+      }
+      if (vIdx < filteredVideos.length) {
+        combined.push(filteredVideos[vIdx]);
+        vIdx++;
+      }
+    }
 
     // Track index per category to cycle through products
     const categoryIndices: Record<string, number> = {
@@ -64,7 +88,7 @@ const Reviews = () => {
       rings: 0,
     };
 
-    return filtered.map(review => {
+    return combined.map(review => {
       const categoryProducts = productsByCategory[review.category] || [];
       const idx = categoryIndices[review.category];
       const product = categoryProducts[idx % categoryProducts.length];
@@ -110,6 +134,10 @@ const Reviews = () => {
         </div>
       );
     });
+  };
+
+  const isVideoReview = (review: any): review is VideoReview => {
+    return 'videoUrl' in review;
   };
 
   return (
@@ -195,7 +223,10 @@ const Reviews = () => {
       <section className="py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(showAll ? displayedReviews : displayedReviews.slice(0, INITIAL_REVIEWS_COUNT)).map((review, index) => (
+            {(showAll ? displayedReviews : displayedReviews.slice(0, INITIAL_REVIEWS_COUNT)).map((review, index) => {
+              const isVideo = isVideoReview(review);
+
+              return (
               <motion.div
                 key={review.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -203,32 +234,54 @@ const Reviews = () => {
                 transition={{ duration: 0.4, delay: index * 0.02 }}
                 className="bg-card border border-border p-6 hover:shadow-lg transition-shadow"
               >
-                {/* Product Image - Clickable */}
-                <Link 
-                  to={review.product ? `/product/${review.product.handle}` : "/shop"}
-                  className="block mb-4 group"
-                >
-                  <div className="aspect-square bg-muted rounded-sm overflow-hidden">
-                    {review.product ? (
-                      <img 
-                        src={review.product.imageUrl} 
-                        alt={review.product.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                {/* Media Area - Video or Image */}
+                {isVideo ? (
+                  <div
+                    onClick={() => setSelectedVideo(review)}
+                    className="block mb-4 group cursor-pointer relative"
+                  >
+                    <div className="aspect-square bg-muted rounded-sm overflow-hidden relative">
+                      <video
+                        src={review.videoUrl}
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                        preload="metadata"
                       />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                        <div className="text-center p-4">
-                          <div className="w-12 h-12 mx-auto mb-2 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
-                            <span className="text-lg">📷</span>
-                          </div>
-                          <p className="font-body text-xs tracking-wide capitalize">
-                            {review.category}
-                          </p>
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                           <Play className="w-5 h-5 text-primary fill-primary ml-1" />
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
-                </Link>
+                ) : (
+                  <Link
+                    to={review.product ? `/product/${review.product.handle}` : "/shop"}
+                    className="block mb-4 group"
+                  >
+                    <div className="aspect-square bg-muted rounded-sm overflow-hidden">
+                      {review.product ? (
+                        <img
+                          src={review.product.imageUrl}
+                          alt={review.product.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                          <div className="text-center p-4">
+                            <div className="w-12 h-12 mx-auto mb-2 border-2 border-dashed border-muted-foreground/30 rounded-lg flex items-center justify-center">
+                              <span className="text-lg">📷</span>
+                            </div>
+                            <p className="font-body text-xs tracking-wide capitalize">
+                              {review.category}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                )}
 
                 {/* Product Name */}
                 <Link 
@@ -261,9 +314,11 @@ const Reviews = () => {
                 </h3>
 
                 {/* Content */}
-                <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4">
-                  "{review.content}"
-                </p>
+                {review.content && (
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4">
+                    "{review.content}"
+                  </p>
+                )}
 
                 {/* Author & Verified */}
                 <div className="flex items-center justify-between">
@@ -285,7 +340,7 @@ const Reviews = () => {
                   )}
                 </div>
               </motion.div>
-            ))}
+            )})}
           </div>
           
           {/* Read More Button */}
@@ -325,6 +380,31 @@ const Reviews = () => {
       </section>
 
       <Footer />
+
+      {/* Video Modal */}
+      <Dialog open={!!selectedVideo} onOpenChange={(open) => !open && setSelectedVideo(null)}>
+        <DialogContent className="max-w-4xl p-0 overflow-hidden bg-black border-none sm:rounded-lg">
+           {/* Accessible Title and Description for Screen Readers */}
+           <DialogTitle className="sr-only">
+             Video Review by {selectedVideo?.author}
+           </DialogTitle>
+           <DialogDescription className="sr-only">
+             {selectedVideo?.title}
+           </DialogDescription>
+
+          {selectedVideo && (
+            <div className="relative aspect-video w-full h-full bg-black flex items-center justify-center">
+              <video
+                src={selectedVideo.videoUrl}
+                className="w-full h-full"
+                controls
+                autoPlay
+                playsInline
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
