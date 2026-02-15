@@ -11,6 +11,14 @@ export interface CustomerReview {
   productSlug?: string; // To link to actual product
 }
 
+export interface VideoReview extends Omit<CustomerReview, 'content'> {
+  videoUrl: string;
+  thumbnailUrl?: string;
+  content?: string; // Optional for video reviews
+}
+
+export type ReviewItem = CustomerReview | VideoReview;
+
 export const customerReviews: CustomerReview[] = [
   // BRACELETS
   {
@@ -1202,8 +1210,61 @@ export const customerReviews: CustomerReview[] = [
   }
 ];
 
+export const videoReviews: VideoReview[] = [
+  {
+    id: 1001,
+    title: "In love with this sparkle!",
+    videoUrl: "https://videos.pexels.com/video-files/5359703/5359703-uhd_2160_3840_30fps.mp4",
+    author: "Aisha K.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Sparkling Earrings"
+  },
+  {
+    id: 1002,
+    title: "Perfect fit & finish",
+    videoUrl: "https://videos.pexels.com/video-files/5359695/5359695-uhd_2160_3840_30fps.mp4",
+    author: "Rohan M.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Gold Ring"
+  },
+  {
+    id: 1003,
+    title: "Everyday luxury",
+    videoUrl: "https://videos.pexels.com/video-files/5359692/5359692-uhd_2160_3840_30fps.mp4",
+    author: "Sonia P.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Gold Bracelet"
+  },
+  {
+    id: 1004,
+    title: "Amazing quality",
+    videoUrl: "https://videos.pexels.com/video-files/5359685/5359685-uhd_2160_3840_30fps.mp4",
+    author: "Neha S.",
+    rating: 4,
+    verified: true,
+    category: "earrings",
+    productType: "Detailed Earrings"
+  },
+  {
+    id: 1005,
+    title: "Looks so real",
+    videoUrl: "https://videos.pexels.com/video-files/5359689/5359689-uhd_2160_3840_30fps.mp4",
+    author: "Priya D.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Charm Bracelet"
+  },
+];
+
 // Helper function to shuffle reviews
-export const shuffleReviews = (reviews: CustomerReview[]): CustomerReview[] => {
+export const shuffleReviews = <T>(reviews: T[]): T[] => {
   const shuffled = [...reviews];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1218,10 +1279,11 @@ export const getReviewsByCategory = (category: "bracelets" | "earrings" | "rings
 };
 
 // Get total review count
-export const getTotalReviewCount = (): number => customerReviews.length;
+export const getTotalReviewCount = (): number => customerReviews.length + videoReviews.length;
 
 // Get average rating
 export const getAverageRating = (): number => {
-  const total = customerReviews.reduce((sum, review) => sum + review.rating, 0);
-  return Number((total / customerReviews.length).toFixed(1));
+  const totalReviewsList = [...customerReviews, ...videoReviews];
+  const total = totalReviewsList.reduce((sum, review) => sum + review.rating, 0);
+  return Number((total / totalReviewsList.length).toFixed(1));
 };
