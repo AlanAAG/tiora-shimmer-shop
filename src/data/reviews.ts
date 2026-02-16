@@ -15,6 +15,8 @@ import reviewVideo17 from "@/assets/review-video-17.mp4";
 import reviewVideo18 from "@/assets/review-video-18.mp4";
 import reviewVideo19 from "@/assets/review-video-19.mp4";
 import reviewVideo20 from "@/assets/review-video-20.mp4";
+import reviewVideo21 from "@/assets/review-video-21.mp4";
+import reviewVideo22 from "@/assets/review-video-22.mp4";
 
 export interface CustomerReview {
   id: number;
@@ -1401,6 +1403,26 @@ export const videoReviews: VideoReview[] = [
     verified: true,
     category: "bracelets",
     productType: "Bangle Bracelet"
+  },
+  {
+    id: 1018,
+    title: "Stunning craftsmanship",
+    videoUrl: reviewVideo21,
+    author: "Pooja S.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Drop Earrings"
+  },
+  {
+    id: 1019,
+    title: "Best purchase ever!",
+    videoUrl: reviewVideo22,
+    author: "Tanvi M.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Statement Ring"
   },
 ];
 
