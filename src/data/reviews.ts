@@ -7,7 +7,7 @@ import reviewVideo9 from "@/assets/review-video-9.mp4";
 import reviewVideo10 from "@/assets/review-video-10.mp4";
 import reviewVideo11 from "@/assets/review-video-11.mp4";
 import reviewVideo12 from "@/assets/review-video-12.mp4";
-import reviewVideo13 from "@/assets/review-video-13.mp4";
+
 import reviewVideo14 from "@/assets/review-video-14.mp4";
 import reviewVideo15 from "@/assets/review-video-15.mp4";
 import reviewVideo16 from "@/assets/review-video-16.mp4";
@@ -1325,16 +1325,6 @@ export const videoReviews: VideoReview[] = [
     verified: true,
     category: "rings",
     productType: "Elegant Ring"
-  },
-  {
-    id: 1010,
-    title: "My new favourite!",
-    videoUrl: reviewVideo13,
-    author: "Isha G.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Hoop Earrings"
   },
   {
     id: 1011,
