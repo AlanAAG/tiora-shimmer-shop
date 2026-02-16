@@ -11,6 +11,10 @@ import reviewVideo13 from "@/assets/review-video-13.mp4";
 import reviewVideo14 from "@/assets/review-video-14.mp4";
 import reviewVideo15 from "@/assets/review-video-15.mp4";
 import reviewVideo16 from "@/assets/review-video-16.mp4";
+import reviewVideo17 from "@/assets/review-video-17.mp4";
+import reviewVideo18 from "@/assets/review-video-18.mp4";
+import reviewVideo19 from "@/assets/review-video-19.mp4";
+import reviewVideo20 from "@/assets/review-video-20.mp4";
 
 export interface CustomerReview {
   id: number;
@@ -1357,6 +1361,46 @@ export const videoReviews: VideoReview[] = [
     verified: true,
     category: "earrings",
     productType: "Statement Earrings"
+  },
+  {
+    id: 1014,
+    title: "Love the quality!",
+    videoUrl: reviewVideo17,
+    author: "Kavya R.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Charm Bracelet"
+  },
+  {
+    id: 1015,
+    title: "Perfect gift choice",
+    videoUrl: reviewVideo18,
+    author: "Riya D.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Stud Earrings"
+  },
+  {
+    id: 1016,
+    title: "Exceeded expectations!",
+    videoUrl: reviewVideo19,
+    author: "Simran K.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Band Ring"
+  },
+  {
+    id: 1017,
+    title: "Gorgeous everyday piece",
+    videoUrl: reviewVideo20,
+    author: "Neha V.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Bangle Bracelet"
   },
 ];
 
