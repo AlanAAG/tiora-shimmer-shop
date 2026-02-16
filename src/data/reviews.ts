@@ -4,6 +4,13 @@ import reviewVideo6 from "@/assets/review-video-6.mp4";
 import reviewVideo7 from "@/assets/review-video-7.mp4";
 import reviewVideo8 from "@/assets/review-video-8.mp4";
 import reviewVideo9 from "@/assets/review-video-9.mp4";
+import reviewVideo10 from "@/assets/review-video-10.mp4";
+import reviewVideo11 from "@/assets/review-video-11.mp4";
+import reviewVideo12 from "@/assets/review-video-12.mp4";
+import reviewVideo13 from "@/assets/review-video-13.mp4";
+import reviewVideo14 from "@/assets/review-video-14.mp4";
+import reviewVideo15 from "@/assets/review-video-15.mp4";
+import reviewVideo16 from "@/assets/review-video-16.mp4";
 
 export interface CustomerReview {
   id: number;
@@ -1280,6 +1287,76 @@ export const videoReviews: VideoReview[] = [
     verified: true,
     category: "rings",
     productType: "Statement Ring"
+  },
+  {
+    id: 1007,
+    title: "Beautiful craftsmanship!",
+    videoUrl: reviewVideo10,
+    author: "Divya M.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Drop Earrings"
+  },
+  {
+    id: 1008,
+    title: "Worth every penny",
+    videoUrl: reviewVideo11,
+    author: "Ritika S.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Chain Bracelet"
+  },
+  {
+    id: 1009,
+    title: "Stunning piece!",
+    videoUrl: reviewVideo12,
+    author: "Sneha T.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Elegant Ring"
+  },
+  {
+    id: 1010,
+    title: "My new favourite!",
+    videoUrl: reviewVideo13,
+    author: "Isha G.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Hoop Earrings"
+  },
+  {
+    id: 1011,
+    title: "So many compliments",
+    videoUrl: reviewVideo14,
+    author: "Tanvi P.",
+    rating: 5,
+    verified: true,
+    category: "bracelets",
+    productType: "Gold Bracelet"
+  },
+  {
+    id: 1012,
+    title: "Absolutely gorgeous",
+    videoUrl: reviewVideo15,
+    author: "Nisha L.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Stackable Ring"
+  },
+  {
+    id: 1013,
+    title: "Can't stop wearing it!",
+    videoUrl: reviewVideo16,
+    author: "Pooja B.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Statement Earrings"
   },
 ];
 
