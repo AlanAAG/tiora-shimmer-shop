@@ -17,6 +17,8 @@ import reviewVideo19 from "@/assets/review-video-19.mp4";
 import reviewVideo20 from "@/assets/review-video-20.mp4";
 import reviewVideo21 from "@/assets/review-video-21.mp4";
 import reviewVideo22 from "@/assets/review-video-22.mp4";
+import reviewVideo23 from "@/assets/review-video-23.mp4";
+import reviewVideo24 from "@/assets/review-video-24.mp4";
 
 export interface CustomerReview {
   id: number;
@@ -1423,6 +1425,26 @@ export const videoReviews: VideoReview[] = [
     verified: true,
     category: "rings",
     productType: "Statement Ring"
+  },
+  {
+    id: 1020,
+    title: "Absolutely gorgeous!",
+    videoUrl: reviewVideo23,
+    author: "Aisha K.",
+    rating: 5,
+    verified: true,
+    category: "rings",
+    productType: "Chain Necklace"
+  },
+  {
+    id: 1021,
+    title: "Love every detail",
+    videoUrl: reviewVideo24,
+    author: "Megha P.",
+    rating: 5,
+    verified: true,
+    category: "earrings",
+    productType: "Hoop Earrings"
   },
 ];
 
