@@ -4,7 +4,7 @@ export const ProductMarquee = () => {
     "•",
     "18K GOLD PLATED",
     "•",
-    "FREE RETURNS",
+    "FREE SHIPPING ON ALL NATIONAL ORDERS",
     "•",
     "PURE SILVER",
     "•",

@@ -10,7 +10,7 @@ const trustBadges = [
 {
   icon: Package,
   title: "Free Shipping",
-  description: "On orders ₹8,000+"
+  description: "On all national orders"
 },
 {
   icon: ShieldCheck,
