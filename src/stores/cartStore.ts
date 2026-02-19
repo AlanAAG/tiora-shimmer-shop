@@ -26,6 +26,7 @@ interface CartStore {
   items: CartItem[];
   cartId: string | null;
   checkoutUrl: string | null;
+  loadingVariants: Set<string>;
   isLoading: boolean;
   isSyncing: boolean;
   addItem: (item: Omit<CartItem, 'lineId'>) => Promise<void>;
@@ -110,6 +111,7 @@ export const useCartStore = create<CartStore>()(
       items: [],
       cartId: null,
       checkoutUrl: null,
+      loadingVariants: new Set(),
       isLoading: false,
       isSyncing: false,
 
@@ -117,7 +119,7 @@ export const useCartStore = create<CartStore>()(
         const { items, cartId, clearCart } = get();
         const existingItem = items.find(i => i.variantId === item.variantId);
         
-        set({ isLoading: true });
+        set(state => ({ loadingVariants: new Set([...state.loadingVariants, item.variantId]), isLoading: true }));
         try {
           if (!cartId) {
             const result = await createShopifyCart({ ...item, lineId: null });
@@ -153,7 +155,11 @@ export const useCartStore = create<CartStore>()(
         } catch (error) {
           console.error('Failed to add item:', error);
         } finally {
-          set({ isLoading: false });
+          set(state => {
+            const next = new Set(state.loadingVariants);
+            next.delete(item.variantId);
+            return { loadingVariants: next, isLoading: next.size > 0 };
+          });
         }
       },
 
@@ -167,7 +173,7 @@ export const useCartStore = create<CartStore>()(
         const item = items.find(i => i.variantId === variantId);
         if (!item?.lineId || !cartId) return;
 
-        set({ isLoading: true });
+        set(state => ({ loadingVariants: new Set([...state.loadingVariants, variantId]), isLoading: true }));
         try {
           const result = await updateShopifyCartLine(cartId, item.lineId, quantity);
           if (result.success) {
@@ -179,7 +185,11 @@ export const useCartStore = create<CartStore>()(
         } catch (error) {
           console.error('Failed to update quantity:', error);
         } finally {
-          set({ isLoading: false });
+          set(state => {
+            const next = new Set(state.loadingVariants);
+            next.delete(variantId);
+            return { loadingVariants: next, isLoading: next.size > 0 };
+          });
         }
       },
 
@@ -188,7 +198,7 @@ export const useCartStore = create<CartStore>()(
         const item = items.find(i => i.variantId === variantId);
         if (!item?.lineId || !cartId) return;
 
-        set({ isLoading: true });
+        set(state => ({ loadingVariants: new Set([...state.loadingVariants, variantId]), isLoading: true }));
         try {
           const result = await removeLineFromShopifyCart(cartId, item.lineId);
           if (result.success) {
@@ -201,11 +211,15 @@ export const useCartStore = create<CartStore>()(
         } catch (error) {
           console.error('Failed to remove item:', error);
         } finally {
-          set({ isLoading: false });
+          set(state => {
+            const next = new Set(state.loadingVariants);
+            next.delete(variantId);
+            return { loadingVariants: next, isLoading: next.size > 0 };
+          });
         }
       },
 
-      clearCart: () => set({ items: [], cartId: null, checkoutUrl: null }),
+      clearCart: () => set({ items: [], cartId: null, checkoutUrl: null, loadingVariants: new Set() }),
       getCheckoutUrl: () => get().checkoutUrl,
       getTotalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
 

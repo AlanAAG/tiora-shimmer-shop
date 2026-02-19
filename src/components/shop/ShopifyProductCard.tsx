@@ -15,7 +15,7 @@ interface ShopifyProductCardProps {
 const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const { addItem, isLoading } = useCartStore();
+  const { addItem, loadingVariants } = useCartStore();
   const { user } = useAuth();
   
   const { node } = product;
@@ -104,6 +104,8 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
 
   // Check if all variants are out of stock
   const isOutOfStock = node.variants.edges.every(v => !v.node.availableForSale);
+  const variantId = node.variants.edges[0]?.node?.id;
+  const isAddingToCart = variantId ? loadingVariants.has(variantId) : false;
 
   return (
     <div className="group">
@@ -191,9 +193,9 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
           size="sm"
           className="w-full text-xs h-8 rounded-xl mt-2"
           onClick={handleAddToBag}
-          disabled={isLoading}
+          disabled={isAddingToCart}
         >
-          {isLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
+          {isAddingToCart ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
           Add to Cart
         </Button>
       )}

@@ -17,7 +17,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const { addItem, isLoading } = useCartStore();
+  const { addItem, loadingVariants } = useCartStore();
   const { user } = useAuth();
 
   const { node } = product;
@@ -97,6 +97,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const titleLower = node.title.toLowerCase();
   const hasSilver = titleLower.includes("silver");
   const primaryMaterial = hasSilver ? "silver" : "gold";
+  const variantId = node.variants.edges[0]?.node?.id;
+  const isAddingToCart = variantId ? loadingVariants.has(variantId) : false;
 
   return (
     <div
@@ -167,9 +169,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         size="sm"
         className="w-full text-xs h-8 rounded-xl mt-2"
         onClick={handleAddToBag}
-        disabled={isLoading}
+        disabled={isAddingToCart}
       >
-        {isLoading ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
+        {isAddingToCart ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
         Add to Cart
       </Button>
     </div>
