@@ -1,7 +1,9 @@
-import productRing from "@/assets/product-ring.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productNecklace from "@/assets/product-necklace.jpg";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const productRing = getMediaUrl("products/product-ring", "image");
+const productEarrings = getMediaUrl("products/product-earrings", "image");
+const productBracelet = getMediaUrl("products/product-bracelet", "image");
+const productNecklace = getMediaUrl("products/product-necklace", "image");
 
 export interface Product {
   id: number;

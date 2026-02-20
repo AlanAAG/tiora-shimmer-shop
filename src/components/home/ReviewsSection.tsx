@@ -3,9 +3,20 @@ import { Star, Play, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Link } from "react-router-dom";
-import reviewVideo1 from "@/assets/review-video-1.mp4";
-import reviewVideo2 from "@/assets/review-video-2.mp4";
-import reviewVideo3 from "@/assets/review-video-3.mp4";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const reviewVideo1 = {
+  src: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "video"),
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "image")
+};
+const reviewVideo2 = {
+  src: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "video"),
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "image")
+};
+const reviewVideo3 = {
+  src: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "video"),
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "image")
+};
 
 const reviews = [
   {
@@ -116,9 +127,11 @@ const VideoCard = ({
         <video
           ref={videoRef}
           src={video.src}
+          poster={video.poster}
           muted
           loop
           playsInline
+          preload="none"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
@@ -191,9 +204,11 @@ const MobileVideoCircle = ({
         <video
           ref={videoRef}
           src={video.src}
+          poster={video.poster}
           muted
           loop
           playsInline
+          preload="none"
           className="w-full h-full object-cover rounded-full"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
@@ -231,9 +246,9 @@ const ReviewsSection = () => {
 
   // Video sources - all three review videos
   const videoSources: VideoData[] = [
-    { src: reviewVideo1 },
-    { src: reviewVideo2 },
-    { src: reviewVideo3 },
+    reviewVideo1,
+    reviewVideo2,
+    reviewVideo3,
   ];
 
   // Map products to review/video cards

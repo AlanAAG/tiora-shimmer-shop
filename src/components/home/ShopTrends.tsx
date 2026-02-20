@@ -1,9 +1,11 @@
-import trendSculptedSilver from "@/assets/trend-sculpted-silver.png";
-import trendMoltenFlow from "@/assets/trend-molten-flow.png";
-import trendGoldenCascade from "@/assets/trend-golden-cascade.png";
-import trendArchitecturalGold from "@/assets/trend-architectural-gold.png";
-import trendHammeredGold from "@/assets/trend-hammered-gold.png";
-import trendSculpturalGold from "@/assets/trend-sculptural-gold.png";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const trendSculptedSilver = getMediaUrl("homepage/trends/home-trends-sculptured-silver.png", "image");
+const trendMoltenFlow = getMediaUrl("homepage/trends/home-trends-molten-flow.png", "image");
+const trendGoldenCascade = getMediaUrl("homepage/trends/home-trends-golden-cascade.png", "image");
+const trendArchitecturalGold = getMediaUrl("homepage/trends/home-trends-architectural-gold.png", "image");
+const trendHammeredGold = getMediaUrl("homepage/trends/home-trends-hammered-gold.png", "image");
+const trendSculpturalGold = getMediaUrl("homepage/trends/home-trends-sculptural-gold.png", "image");
 
 const trends = [
   {
