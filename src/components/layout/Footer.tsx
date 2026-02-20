@@ -153,7 +153,7 @@ const Footer = () => {
 
                 {/* Google Review Badge */}
                 <a
-                  href="https://search.google.com/local/reviews?placeid=ChIJfY8DMqsZDTkRmeqfHD2NiSw"
+                  href="https://g.page/r/CZnqnxw9jYksEAI/review"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded text-sm font-bold w-fit hover:bg-white/90 transition-colors"
@@ -255,7 +255,7 @@ const Footer = () => {
 
                 {/* Google Review Badge */}
                 <a
-                  href="https://search.google.com/local/reviews?placeid=ChIJfY8DMqsZDTkRmeqfHD2NiSw"
+                  href="https://g.page/r/CZnqnxw9jYksEAI/review"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white text-black px-3 py-1.5 rounded text-xs font-bold w-fit hover:bg-white/90 transition-colors"
