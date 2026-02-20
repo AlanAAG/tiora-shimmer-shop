@@ -10,7 +10,7 @@ import {
 import { Helmet } from "react-helmet-async";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const careGuideHero = getMediaUrl("careguide/care-guide-image-1.png", "image");
+const careGuideHero = getMediaUrl("careguide/care-guide-image-1", "image");
 
 const careGuideItems = [
   {
