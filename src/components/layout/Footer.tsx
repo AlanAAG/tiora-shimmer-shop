@@ -48,7 +48,8 @@ const helpLinks = [
 
 const legalLinks = [
 { name: "Terms of Service", to: "/terms" },
-{ name: "Privacy Policy", to: "/privacy" }];
+{ name: "Privacy Policy", to: "/privacy" },
+{ name: "Shipping Policy", to: "/shipping" }];
 
 
 const Footer = () => {
