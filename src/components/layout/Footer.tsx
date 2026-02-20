@@ -152,10 +152,15 @@ const Footer = () => {
                 </div>
 
                 {/* Google Review Badge */}
-                <div className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded text-sm font-bold w-fit">
+                <a
+                  href="https://search.google.com/local/reviews?placeid=ChIJfY8DMqsZDTkRmeqfHD2NiSw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white text-black px-4 py-2 rounded text-sm font-bold w-fit hover:bg-white/90 transition-colors"
+                >
                   <div className="flex text-yellow-500 text-xs">★★★★★</div>
                   <span>4.9/5 on Google</span>
-                </div>
+                </a>
 
                 {/* Address */}
                 <div className="text-xs text-primary-foreground/80 mt-2 space-y-1">
@@ -249,10 +254,15 @@ const Footer = () => {
                 </div>
 
                 {/* Google Review Badge */}
-                <div className="inline-flex items-center gap-2 bg-white text-black px-3 py-1.5 rounded text-xs font-bold w-fit">
+                <a
+                  href="https://search.google.com/local/reviews?placeid=ChIJfY8DMqsZDTkRmeqfHD2NiSw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white text-black px-3 py-1.5 rounded text-xs font-bold w-fit hover:bg-white/90 transition-colors"
+                >
                   <div className="flex text-yellow-500 text-[10px]">★★★★★</div>
                   <span>4.9/5 on Google</span>
-                </div>
+                </a>
 
                 {/* Address */}
                 <div className="text-xs text-primary-foreground/80 mt-4 space-y-1">
