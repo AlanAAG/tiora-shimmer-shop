@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
-import productNecklace from "@/assets/product-necklace.jpg";
-import allItemsImage from "@/assets/collection-all-items-zoomed.png";
-import bestSellersImage from "@/assets/collection-best-sellers-zoomed.png";
-import braceletsImage from "@/assets/collection-bracelets-zoomed.png";
-import earringsImage from "@/assets/collection-earrings-zoomed.png";
-import ringsImage from "@/assets/collection-rings-zoomed.png";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const productNecklace = getMediaUrl("products/product-necklace", "image");
+const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items.png", "image");
+const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers.png", "image");
+const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets.png", "image");
+const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings.png", "image");
+const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings.png", "image");
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },

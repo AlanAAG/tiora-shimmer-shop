@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import heroDesktop from "@/assets/hero-desktop-new.png";
-import heroMobile from "@/assets/hero-mobile-new.png";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const heroDesktop = getMediaUrl("homepage/hero/home-hero-desktop", "image");
+const heroMobile = getMediaUrl("homepage/hero/home-hero-mobile", "image");
 
 const Hero = () => {
   return (

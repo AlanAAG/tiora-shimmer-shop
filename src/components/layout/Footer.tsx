@@ -3,8 +3,10 @@ import { useState } from "react";
 import { ChevronDown, Instagram, Package, RotateCcw, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import tioraLogo from "@/assets/tiora-logo.png";
 import { Helmet } from "react-helmet-async";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const tioraLogo = getMediaUrl("logo/logo-no-bg.png", "image");
 
 const trustBadges = [
 {

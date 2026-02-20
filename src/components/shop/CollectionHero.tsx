@@ -7,7 +7,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import heroImage from "@/assets/hero-image.jpg";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const heroImage = getMediaUrl("collections/collections-hero.png", "image");
 
 interface CollectionHeroProps {
   collectionName: string;

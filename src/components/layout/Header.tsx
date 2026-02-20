@@ -6,7 +6,9 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { SearchDialog } from "@/components/search/SearchDialog";
 import { useAuth } from "@/contexts/AuthContext";
-import tioraLogo from "@/assets/tiora-logo.png";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const tioraLogo = getMediaUrl("logo/logo-no-bg.png", "image");
 
 interface HeaderProps {
   showBanner?: boolean;

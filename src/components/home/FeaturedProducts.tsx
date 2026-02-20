@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { addToWishlist, removeFromWishlist, getWishlist } from "@/services/accountService";
 import { toast } from "sonner";
-import productRing from "@/assets/product-ring.jpg";
-import productEarrings from "@/assets/product-earrings.jpg";
-import productBracelet from "@/assets/product-bracelet.jpg";
-import productNecklace from "@/assets/product-necklace.jpg";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const productRing = getMediaUrl("products/product-ring", "image");
+const productEarrings = getMediaUrl("products/product-earrings", "image");
+const productBracelet = getMediaUrl("products/product-bracelet", "image");
+const productNecklace = getMediaUrl("products/product-necklace", "image");
 
 const products = [
   { id: "1", name: "Wave Sculpt Ring", price: 4500, image: productRing, isNew: true },

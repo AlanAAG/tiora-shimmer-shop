@@ -243,10 +243,11 @@ const Reviews = () => {
                     <div className="aspect-square bg-muted rounded-sm overflow-hidden relative">
                       <video
                         src={review.videoUrl}
+                        poster={review.thumbnailUrl}
                         className="w-full h-full object-cover"
                         muted
                         playsInline
-                        preload="metadata"
+                        preload="none"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                         <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">

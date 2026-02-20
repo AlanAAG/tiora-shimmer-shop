@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
-import tioraLogo from "@/assets/tiora-logo.jpg";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const tioraLogo = getMediaUrl("logo/logo.png", "image");
 
 const BrandStory = () => {
   return (

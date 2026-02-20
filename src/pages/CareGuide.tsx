@@ -7,8 +7,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import careGuideHero from "@/assets/care-guide-hero.jpg";
 import { Helmet } from "react-helmet-async";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const careGuideHero = getMediaUrl("careguide/care-guide-image-1.png", "image");
 
 const careGuideItems = [
   {

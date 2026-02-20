@@ -2,11 +2,13 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { motion } from "framer-motion";
-import aboutPlaceholder1 from "@/assets/about-placeholder-1.png";
-import aboutPlaceholder2 from "@/assets/about-placeholder-2.png";
-import aboutPlaceholder3 from "@/assets/about-placeholder-3.png";
-import aboutPlaceholder4 from "@/assets/about-placeholder-4.png";
 import { Helmet } from "react-helmet-async";
+import { getMediaUrl } from "@/lib/cloudinary";
+
+const aboutPlaceholder1 = getMediaUrl("about/about-image-1.png", "image");
+const aboutPlaceholder2 = getMediaUrl("about/about-image-2.png", "image");
+const aboutPlaceholder3 = getMediaUrl("about/about-image-3.png", "image");
+const aboutPlaceholder4 = getMediaUrl("about/about-image-4.png", "image");
 
 const About = () => {
   const coreBeliefs = [
