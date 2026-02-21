@@ -1,26 +1,26 @@
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const reviewVideo4 = getMediaUrl("homepage/trends/home-trends-4.mp4", "video");
-const reviewVideo5 = getMediaUrl("homepage/trends/home-trends-5.mp4", "video");
-const reviewVideo6 = getMediaUrl("homepage/trends/home-trends-6.mp4", "video");
-const reviewVideo7 = getMediaUrl("homepage/trends/home-trends-7.mp4", "video");
-const reviewVideo8 = getMediaUrl("homepage/trends/home-trends-8.mov", "video");
-const reviewVideo9 = getMediaUrl("homepage/trends/home-trends-9.mp4", "video");
-const reviewVideo10 = getMediaUrl("homepage/trends/home-trends-10.mp4", "video");
-const reviewVideo11 = getMediaUrl("homepage/trends/home-trends-11.mp4", "video");
-const reviewVideo12 = getMediaUrl("homepage/trends/home-trends-12.mov", "video");
+const reviewVideo4 = getMediaUrl("homepage/trends/home-trends-4", "video");
+const reviewVideo5 = getMediaUrl("homepage/trends/home-trends-5", "video");
+const reviewVideo6 = getMediaUrl("homepage/trends/home-trends-6", "video");
+const reviewVideo7 = getMediaUrl("homepage/trends/home-trends-7", "video");
+const reviewVideo8 = getMediaUrl("homepage/trends/home-trends-8", "video");
+const reviewVideo9 = getMediaUrl("homepage/trends/home-trends-9", "video");
+const reviewVideo10 = getMediaUrl("homepage/trends/home-trends-10", "video");
+const reviewVideo11 = getMediaUrl("homepage/trends/home-trends-11", "video");
+const reviewVideo12 = getMediaUrl("homepage/trends/home-trends-12", "video");
 
-const reviewVideo14 = getMediaUrl("homepage/trends/home-trends-14.mp4", "video");
-const reviewVideo15 = getMediaUrl("homepage/trends/home-trends-15.mp4", "video");
-const reviewVideo16 = getMediaUrl("homepage/trends/home-trends-16.mp4", "video");
-const reviewVideo17 = getMediaUrl("homepage/trends/home-trends-17.mp4", "video");
-const reviewVideo18 = getMediaUrl("homepage/trends/home-trends-18.mov", "video");
-const reviewVideo19 = getMediaUrl("homepage/trends/home-trends-19.mp4", "video");
-const reviewVideo20 = getMediaUrl("homepage/trends/home-trends-20.mp4", "video");
-const reviewVideo21 = getMediaUrl("homepage/trends/home-trends-21.mp4", "video");
-const reviewVideo22 = getMediaUrl("homepage/trends/home-trends-22.mp4", "video");
-const reviewVideo23 = getMediaUrl("homepage/trends/home-trends-23.mp4", "video");
-const reviewVideo24 = getMediaUrl("homepage/trends/home-trends-24.mp4", "video");
+const reviewVideo14 = getMediaUrl("homepage/trends/home-trends-14", "video");
+const reviewVideo15 = getMediaUrl("homepage/trends/home-trends-15", "video");
+const reviewVideo16 = getMediaUrl("homepage/trends/home-trends-16", "video");
+const reviewVideo17 = getMediaUrl("homepage/trends/home-trends-17", "video");
+const reviewVideo18 = getMediaUrl("homepage/trends/home-trends-18", "video");
+const reviewVideo19 = getMediaUrl("homepage/trends/home-trends-19", "video");
+const reviewVideo20 = getMediaUrl("homepage/trends/home-trends-20", "video");
+const reviewVideo21 = getMediaUrl("homepage/trends/home-trends-21", "video");
+const reviewVideo22 = getMediaUrl("homepage/trends/home-trends-22", "video");
+const reviewVideo23 = getMediaUrl("homepage/trends/home-trends-23", "video");
+const reviewVideo24 = getMediaUrl("homepage/trends/home-trends-24", "video");
 
 export interface CustomerReview {
   id: number;
@@ -1242,7 +1242,7 @@ export const videoReviews: VideoReview[] = [
     id: 1001,
     title: "In love with this sparkle!",
     videoUrl: reviewVideo4,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-4.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-4", "image"),
     author: "Aisha K.",
     rating: 5,
     verified: true,
@@ -1253,7 +1253,7 @@ export const videoReviews: VideoReview[] = [
     id: 1002,
     title: "Perfect fit & finish",
     videoUrl: reviewVideo5,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-5.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-5", "image"),
     author: "Rohan M.",
     rating: 5,
     verified: true,
@@ -1264,7 +1264,7 @@ export const videoReviews: VideoReview[] = [
     id: 1003,
     title: "Everyday luxury",
     videoUrl: reviewVideo6,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-6.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-6", "image"),
     author: "Sonia P.",
     rating: 5,
     verified: true,
@@ -1275,7 +1275,7 @@ export const videoReviews: VideoReview[] = [
     id: 1004,
     title: "Amazing quality",
     videoUrl: reviewVideo7,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-7.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-7", "image"),
     author: "Neha S.",
     rating: 4,
     verified: true,
@@ -1286,7 +1286,7 @@ export const videoReviews: VideoReview[] = [
     id: 1005,
     title: "Looks so real",
     videoUrl: reviewVideo8,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-8.mov", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-8", "image"),
     author: "Priya D.",
     rating: 5,
     verified: true,
@@ -1297,7 +1297,7 @@ export const videoReviews: VideoReview[] = [
     id: 1006,
     title: "Obsessed with this piece!",
     videoUrl: reviewVideo9,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-9.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-9", "image"),
     author: "Kavya R.",
     rating: 5,
     verified: true,
@@ -1308,7 +1308,7 @@ export const videoReviews: VideoReview[] = [
     id: 1007,
     title: "Beautiful craftsmanship!",
     videoUrl: reviewVideo10,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-10.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-10", "image"),
     author: "Divya M.",
     rating: 5,
     verified: true,
@@ -1319,7 +1319,7 @@ export const videoReviews: VideoReview[] = [
     id: 1008,
     title: "Worth every penny",
     videoUrl: reviewVideo11,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-11.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-11", "image"),
     author: "Ritika S.",
     rating: 5,
     verified: true,
@@ -1330,7 +1330,7 @@ export const videoReviews: VideoReview[] = [
     id: 1009,
     title: "Stunning piece!",
     videoUrl: reviewVideo12,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-12.mov", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-12", "image"),
     author: "Sneha T.",
     rating: 5,
     verified: true,
@@ -1341,7 +1341,7 @@ export const videoReviews: VideoReview[] = [
     id: 1011,
     title: "So many compliments",
     videoUrl: reviewVideo14,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-14.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-14", "image"),
     author: "Tanvi P.",
     rating: 5,
     verified: true,
@@ -1352,7 +1352,7 @@ export const videoReviews: VideoReview[] = [
     id: 1012,
     title: "Absolutely gorgeous",
     videoUrl: reviewVideo15,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-15.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-15", "image"),
     author: "Nisha L.",
     rating: 5,
     verified: true,
@@ -1363,7 +1363,7 @@ export const videoReviews: VideoReview[] = [
     id: 1013,
     title: "Can't stop wearing it!",
     videoUrl: reviewVideo16,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-16.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-16", "image"),
     author: "Pooja B.",
     rating: 5,
     verified: true,
@@ -1374,7 +1374,7 @@ export const videoReviews: VideoReview[] = [
     id: 1014,
     title: "Love the quality!",
     videoUrl: reviewVideo17,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-17.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-17", "image"),
     author: "Kavya R.",
     rating: 5,
     verified: true,
@@ -1385,7 +1385,7 @@ export const videoReviews: VideoReview[] = [
     id: 1015,
     title: "Perfect gift choice",
     videoUrl: reviewVideo18,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-18.mov", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-18", "image"),
     author: "Riya D.",
     rating: 5,
     verified: true,
@@ -1396,7 +1396,7 @@ export const videoReviews: VideoReview[] = [
     id: 1016,
     title: "Exceeded expectations!",
     videoUrl: reviewVideo19,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-19.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-19", "image"),
     author: "Simran K.",
     rating: 5,
     verified: true,
@@ -1407,7 +1407,7 @@ export const videoReviews: VideoReview[] = [
     id: 1017,
     title: "Gorgeous everyday piece",
     videoUrl: reviewVideo20,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-20.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-20", "image"),
     author: "Neha V.",
     rating: 5,
     verified: true,
@@ -1418,7 +1418,7 @@ export const videoReviews: VideoReview[] = [
     id: 1018,
     title: "Stunning craftsmanship",
     videoUrl: reviewVideo21,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-21.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-21", "image"),
     author: "Pooja S.",
     rating: 5,
     verified: true,
@@ -1429,7 +1429,7 @@ export const videoReviews: VideoReview[] = [
     id: 1019,
     title: "Best purchase ever!",
     videoUrl: reviewVideo22,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-22.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-22", "image"),
     author: "Tanvi M.",
     rating: 5,
     verified: true,
@@ -1440,7 +1440,7 @@ export const videoReviews: VideoReview[] = [
     id: 1020,
     title: "Absolutely gorgeous!",
     videoUrl: reviewVideo23,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-23.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-23", "image"),
     author: "Aisha K.",
     rating: 5,
     verified: true,
@@ -1451,7 +1451,7 @@ export const videoReviews: VideoReview[] = [
     id: 1021,
     title: "Love every detail",
     videoUrl: reviewVideo24,
-    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-24.mp4", "image"),
+    thumbnailUrl: getMediaUrl("homepage/trends/home-trends-24", "image"),
     author: "Megha P.",
     rating: 5,
     verified: true,

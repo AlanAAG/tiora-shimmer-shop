@@ -5,5 +5,9 @@ export const getMediaUrl = (publicId: string, type: 'image' | 'video' = 'image')
     console.warn('VITE_CLOUDINARY_CLOUD_NAME is not set');
     return ''; // Or a default placeholder
   }
-  return `https://res.cloudinary.com/${cloudName}/${type}/upload/f_auto,q_auto/${publicId}`;
+
+  // Strip file extension if present
+  const cleanPublicId = publicId.replace(/\.(png|jpg|jpeg|mp4|mov|webp|svg|gif)$/i, '');
+
+  return `https://res.cloudinary.com/${cloudName}/${type}/upload/f_auto,q_auto/${cleanPublicId}`;
 };
