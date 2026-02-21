@@ -3,11 +3,11 @@ import { Lock } from "lucide-react";
 import { getMediaUrl } from "@/lib/cloudinary";
 
 const productNecklace = getMediaUrl("products/product-necklace", "image");
-const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items.png", "image");
-const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers.png", "image");
-const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets.png", "image");
-const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings.png", "image");
-const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings.png", "image");
+const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items", "image");
+const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers", "image");
+const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets", "image");
+const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings", "image");
+const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings", "image");
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const tioraLogo = getMediaUrl("logo/logo-no-bg.png", "image");
+const tioraLogo = getMediaUrl("logo/logo-no-bg", "image");
 
 const trustBadges = [
 {
@@ -42,6 +42,7 @@ const brandLinks = [
 const helpLinks = [
 { name: "FAQ", to: "/faq" },
 { name: "Return & Refund", to: "/refund" },
+{ name: "Shipping Policy", to: "/shipping" },
 { name: "Jewelry Care", to: "/care-guide" },
 { name: "Contact", to: "/contact" }];
 
@@ -62,7 +63,7 @@ const Footer = () => {
             "@context": "https://schema.org",
             "@type": "JewelryStore",
             "name": "TIORA",
-            "image": "https://tiora.co/og-image.jpg",
+            "image": getMediaUrl("branding/og-image", "image"),
             "@id": "https://tiora.co",
             "url": "https://tiora.co",
             "telephone": "+91 7897777767",
