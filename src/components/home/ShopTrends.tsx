@@ -1,11 +1,12 @@
 import { getMediaUrl } from "@/lib/cloudinary";
+import { toast } from "sonner";
 
-const trendSculptedSilver = getMediaUrl("homepage/trends/home-trends-sculptured-silver", "image");
-const trendMoltenFlow = getMediaUrl("homepage/trends/home-trends-molten-flow", "image");
-const trendGoldenCascade = getMediaUrl("homepage/trends/home-trends-golden-cascade", "image");
-const trendArchitecturalGold = getMediaUrl("homepage/trends/home-trends-architectural-gold", "image");
-const trendHammeredGold = getMediaUrl("homepage/trends/home-trends-hammered-gold", "image");
-const trendSculpturalGold = getMediaUrl("homepage/trends/home-trends-sculptural-gold", "image");
+const trendSculptedSilver = getMediaUrl("homepage/trends/home-trends-sculptured-silver", "image", { width: 600 });
+const trendMoltenFlow = getMediaUrl("homepage/trends/home-trends-molten-flow", "image", { width: 600 });
+const trendGoldenCascade = getMediaUrl("homepage/trends/home-trends-golden-cascade", "image", { width: 600 });
+const trendArchitecturalGold = getMediaUrl("homepage/trends/home-trends-architectural-gold", "image", { width: 600 });
+const trendHammeredGold = getMediaUrl("homepage/trends/home-trends-hammered-gold", "image", { width: 600 });
+const trendSculpturalGold = getMediaUrl("homepage/trends/home-trends-sculptural-gold", "image", { width: 600 });
 
 const trends = [
   {
@@ -56,6 +57,9 @@ const ShopTrends = () => {
   const handleAddLook = (productIds: number[]) => {
     // This will be connected to Shopify cart later
     console.log("Adding products to cart:", productIds);
+    toast("Coming Soon", {
+      description: "This feature will be available shortly.",
+    });
   };
 
   return (

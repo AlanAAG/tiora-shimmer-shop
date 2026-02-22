@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const productNecklace = getMediaUrl("products/product-necklace", "image");
-const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items", "image");
-const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers", "image");
-const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets", "image");
-const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings", "image");
-const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings", "image");
+const productNecklace = getMediaUrl("products/product-necklace", "image", { width: 200, height: 200, crop: "fill" });
+const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items", "image", { width: 200, height: 200, crop: "fill" });
+const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers", "image", { width: 200, height: 200, crop: "fill" });
+const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets", "image", { width: 200, height: 200, crop: "fill" });
+const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings", "image", { width: 200, height: 200, crop: "fill" });
+const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings", "image", { width: 200, height: 200, crop: "fill" });
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },

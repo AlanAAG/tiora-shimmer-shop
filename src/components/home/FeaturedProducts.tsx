@@ -7,10 +7,10 @@ import { addToWishlist, removeFromWishlist, getWishlist } from "@/services/accou
 import { toast } from "sonner";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const productRing = getMediaUrl("products/product-ring", "image");
-const productEarrings = getMediaUrl("products/product-earrings", "image");
-const productBracelet = getMediaUrl("products/product-bracelet", "image");
-const productNecklace = getMediaUrl("products/product-necklace", "image");
+const productRing = getMediaUrl("products/product-ring", "image", { width: 600 });
+const productEarrings = getMediaUrl("products/product-earrings", "image", { width: 600 });
+const productBracelet = getMediaUrl("products/product-bracelet", "image", { width: 600 });
+const productNecklace = getMediaUrl("products/product-necklace", "image", { width: 600 });
 
 const products = [
   { id: "1", name: "Wave Sculpt Ring", price: 4500, image: productRing, isNew: true },

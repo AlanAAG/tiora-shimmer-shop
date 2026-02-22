@@ -7,15 +7,15 @@ import { getMediaUrl } from "@/lib/cloudinary";
 
 const reviewVideo1 = {
   src: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "image")
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "image", { width: 400, height: 400, crop: "fill" })
 };
 const reviewVideo2 = {
   src: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "image")
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "image", { width: 400, height: 400, crop: "fill" })
 };
 const reviewVideo3 = {
   src: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "image")
+  poster: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "image", { width: 400, height: 400, crop: "fill" })
 };
 
 const reviews = [
@@ -88,24 +88,22 @@ const ReviewCard = ({ review, product }: { review: typeof reviews[0]; product?: 
 const VideoCard = ({ 
   video, 
   product, 
-  onClick,
-  sectionRef 
+  onClick
 }: { 
   video?: VideoData;
   product?: ProductData; 
   onClick: () => void;
-  sectionRef: React.RefObject<HTMLElement>;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!video?.src || !sectionRef.current) return;
+    if (!video?.src || !videoRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            videoRef.current?.play();
+            videoRef.current?.play().catch(() => {});
           } else {
             videoRef.current?.pause();
           }
@@ -114,9 +112,9 @@ const VideoCard = ({
       { threshold: 0.5 }
     );
 
-    observer.observe(sectionRef.current);
+    observer.observe(videoRef.current);
     return () => observer.disconnect();
-  }, [video?.src, sectionRef]);
+  }, [video?.src]);
 
   if (video?.src) {
     return (
@@ -165,24 +163,22 @@ const VideoCard = ({
 const MobileVideoCircle = ({ 
   video, 
   product, 
-  onClick,
-  sectionRef 
+  onClick
 }: { 
   video?: VideoData;
   product?: ProductData; 
   onClick: () => void;
-  sectionRef: React.RefObject<HTMLElement>;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (!video?.src || !sectionRef.current) return;
+    if (!video?.src || !videoRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            videoRef.current?.play();
+            videoRef.current?.play().catch(() => {});
           } else {
             videoRef.current?.pause();
           }
@@ -191,9 +187,9 @@ const MobileVideoCircle = ({
       { threshold: 0.5 }
     );
 
-    observer.observe(sectionRef.current);
+    observer.observe(videoRef.current);
     return () => observer.disconnect();
-  }, [video?.src, sectionRef]);
+  }, [video?.src]);
 
   if (video?.src) {
     return (
@@ -241,7 +237,6 @@ const MobileVideoCircle = ({
 
 const ReviewsSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
   const { data: products = [] } = useShopifyCollection("all-items", 6);
 
   // Video sources - all three review videos
@@ -270,7 +265,7 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="py-12 px-4 md:px-8 lg:px-16 bg-background">
+    <section className="py-12 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
         {/* Beige container for tablet/desktop */}
         <div className="md:bg-[hsl(35,30%,95%)] md:rounded-2xl md:p-10">
@@ -291,7 +286,6 @@ const ReviewsSection = () => {
                   video={videoSources[idx]}
                   product={product}
                   onClick={() => handleVideoClick(videoSources[idx]?.src)}
-                  sectionRef={sectionRef}
                 />
               ))}
             </div>
@@ -311,8 +305,7 @@ const ReviewsSection = () => {
             <VideoCard 
               video={videoSources[0]} 
               product={videoProducts[0]} 
-              onClick={() => handleVideoClick(videoSources[0]?.src)} 
-              sectionRef={sectionRef}
+              onClick={() => handleVideoClick(videoSources[0]?.src)}
             />
             <ReviewCard review={reviews[1]} product={reviewProducts[1]} />
             
@@ -320,15 +313,13 @@ const ReviewsSection = () => {
             <VideoCard 
               video={videoSources[1]} 
               product={videoProducts[1]} 
-              onClick={() => handleVideoClick(videoSources[1]?.src)} 
-              sectionRef={sectionRef}
+              onClick={() => handleVideoClick(videoSources[1]?.src)}
             />
             <ReviewCard review={reviews[2]} product={reviewProducts[2]} />
             <VideoCard 
               video={videoSources[2]} 
               product={videoProducts[2]} 
-              onClick={() => handleVideoClick(videoSources[2]?.src)} 
-              sectionRef={sectionRef}
+              onClick={() => handleVideoClick(videoSources[2]?.src)}
             />
           </div>
         </div>

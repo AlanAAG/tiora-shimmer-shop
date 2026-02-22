@@ -25,6 +25,7 @@
 
 /src/assets/tiora-logo.jpg -> logo/logo
 /src/assets/tiora-logo.png -> logo/logo-no-bg
+/src/assets/og-image.png -> branding/og-image
 
 /src/assets/trend-architectural-gold.png -> homepage/trends/home-trends-architectural-gold
 /src/assets/trend-golden-cascade.png -> homepage/trends/home-trends-golden-cascade
@@ -51,4 +52,10 @@
 /src/assets/review-video-16.mp4 -> homepage/trends/home-trends-16
 /src/assets/review-video-17.mp4 -> homepage/trends/home-trends-17
 /src/assets/review-video-18.mp4 -> homepage/trends/home-trends-18
-/src/assets/review-video-19.mp4 -> -> homepage/trends/home-trends-19
+/src/assets/review-video-19.mp4 -> homepage/trends/home-trends-19
+
+## Missing Local Assets (Required in Cloudinary)
+- products/product-ring
+- products/product-earrings
+- products/product-bracelet
+- products/product-necklace

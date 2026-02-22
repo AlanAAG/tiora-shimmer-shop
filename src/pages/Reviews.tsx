@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
-import { customerReviews, videoReviews, shuffleReviews, getAverageRating, getTotalReviewCount, VideoReview, CustomerReview } from "@/data/reviews";
+import { customerReviews, videoReviews, shuffleReviews, getAverageRating, getTotalReviewCount, VideoReview, CustomerReview, ReviewItem } from "@/data/reviews";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -136,7 +136,7 @@ const Reviews = () => {
     });
   };
 
-  const isVideoReview = (review: any): review is VideoReview => {
+  const isVideoReview = (review: ReviewItem): review is VideoReview => {
     return 'videoUrl' in review;
   };
 
