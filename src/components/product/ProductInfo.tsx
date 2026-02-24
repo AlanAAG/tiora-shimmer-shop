@@ -246,37 +246,23 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         )}
       </div>
 
-      {/* Material Selection */}
+      {/* Material Indicator */}
       <div className="space-y-3">
         <p className="font-body text-sm text-foreground">Material</p>
         <div className="flex items-center gap-4">
-          {/* Gold Option */}
-          <button
-            onClick={() => handleMaterialSelect("gold")}
-            className={cn(
-              "flex items-center gap-2 py-2 px-4 border rounded-xl transition-all",
-              !isSilver
-                ? "bg-muted border-foreground"
-                : "border-border hover:border-foreground/50"
+          <div className="flex items-center gap-2 py-2 px-4 border rounded-xl bg-muted border-foreground">
+            {isSilver ? (
+              <>
+                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400" />
+                <span className="font-body text-sm">Silver Plated</span>
+              </>
+            ) : (
+              <>
+                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500" />
+                <span className="font-body text-sm">18k Gold Plated</span>
+              </>
             )}
-          >
-            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500" />
-            <span className="font-body text-sm">18k Gold Plated</span>
-          </button>
-
-          {/* Silver Option */}
-          <button
-            onClick={() => handleMaterialSelect("silver")}
-            className={cn(
-              "flex items-center gap-2 py-2 px-4 border rounded-xl transition-all",
-              isSilver
-                ? "bg-muted border-foreground"
-                : "border-border hover:border-foreground/50"
-            )}
-          >
-            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-gray-300 via-gray-200 to-gray-400" />
-            <span className="font-body text-sm">Silver Plated</span>
-          </button>
+          </div>
         </div>
       </div>
 
