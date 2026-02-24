@@ -75,6 +75,7 @@ export const AccountProfile = () => {
                 }
                 placeholder="Enter your full name"
                 className="h-12"
+                maxLength={100}
               />
             </div>
 
