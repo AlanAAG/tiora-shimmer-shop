@@ -32,7 +32,7 @@
 /src/assets/trend-golden-cascade.png -> home-trends-golden-cascade
 /src/assets/trend-hammered-gold.png -> home-trends-hammered-gold
 /src/assets/trend-molten-flow.png -> home-trends-molten-flow
-/src/assets/trend-sculptured-silver.png -> home-trends-sculptured-silver
+/src/assets/trend-sculpted-silver.png -> home-trends-sculpted-silver
 /src/assets/trend-sculptural-gold.png -> home-trends-sculptural-gold
 
 /src/assets/review-video-1.mp4 -> reviews-review-1
