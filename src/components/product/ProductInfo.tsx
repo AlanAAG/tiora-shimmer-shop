@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Star, ArrowRight, RotateCcw, Truck, Plus, Minus, Loader2, Info, ExternalLink } from "lucide-react";
+import { Heart, Star, ArrowRight, RotateCcw, Truck, Plus, Minus, Loader2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product, Review, formatPrice as formatPriceMock, allProducts } from "@/data/products";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -311,25 +311,6 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
 
       {/* Collapsibles */}
        <div className="border-t border-border pt-4 space-y-0">
-        <Collapsible open={openCollapsibles["description"]} onOpenChange={() => toggleCollapsible("description")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
-             <div className="flex items-center gap-3">
-                <Info className="w-4 h-4" />
-                <span className="font-body text-sm">Product Description</span>
-             </div>
-            {openCollapsibles["description"] ? (
-              <Minus className="w-4 h-4 text-muted-foreground" />
-            ) : (
-              <Plus className="w-4 h-4 text-muted-foreground" />
-            )}
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
-            {isShopify ? shopifyProduct!.description : mockProduct!.description}
-          </CollapsibleContent>
-        </Collapsible>
-
-        <div className="border-t border-border" />
-
         <Collapsible open={openCollapsibles["returns"]} onOpenChange={() => toggleCollapsible("returns")}>
           <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
             <div className="flex items-center gap-3">
