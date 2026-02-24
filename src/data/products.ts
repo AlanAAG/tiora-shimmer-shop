@@ -1,9 +1,9 @@
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const productRing = getMediaUrl("products/product-ring", "image");
-const productEarrings = getMediaUrl("products/product-earrings", "image");
-const productBracelet = getMediaUrl("products/product-bracelet", "image");
-const productNecklace = getMediaUrl("products/product-necklace", "image");
+const productRing = getMediaUrl("product-ring", "image");
+const productEarrings = getMediaUrl("product-earrings", "image");
+const productBracelet = getMediaUrl("product-bracelet", "image");
+const productNecklace = getMediaUrl("product-necklace", "image");
 
 export interface Product {
   id: number;

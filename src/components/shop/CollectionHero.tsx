@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const heroImage = getMediaUrl("collections/collections-hero", "image");
+const heroImage = getMediaUrl("collections-hero", "image");
 
 interface CollectionHeroProps {
   collectionName: string;

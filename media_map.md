@@ -37,3 +37,35 @@
 
 /src/assets/review-video-1.mp4 -> reviews-review-1
 # /src/assets/review-video-2.mp4 -> home-trends-2 (These seemed duplicative and wrong in original, commented out for now)
+
+# Inferred Mappings from Code Usage
+
+/src/assets/product-ring.jpg -> product-ring
+/src/assets/product-earrings.jpg -> product-earrings
+/src/assets/product-bracelet.jpg -> product-bracelet
+/src/assets/product-necklace.jpg -> product-necklace
+
+/src/assets/home-trends-4.mp4 -> home-trends-4
+/src/assets/home-trends-5.mp4 -> home-trends-5
+/src/assets/home-trends-6.mp4 -> home-trends-6
+/src/assets/home-trends-7.mp4 -> home-trends-7
+/src/assets/home-trends-8.mp4 -> home-trends-8
+/src/assets/home-trends-9.mp4 -> home-trends-9
+/src/assets/home-trends-10.mp4 -> home-trends-10
+/src/assets/home-trends-11.mp4 -> home-trends-11
+/src/assets/home-trends-12.mp4 -> home-trends-12
+/src/assets/home-trends-14.mp4 -> home-trends-14
+/src/assets/home-trends-15.mp4 -> home-trends-15
+/src/assets/home-trends-16.mp4 -> home-trends-16
+/src/assets/home-trends-17.mp4 -> home-trends-17
+/src/assets/home-trends-18.mp4 -> home-trends-18
+/src/assets/home-trends-19.mp4 -> home-trends-19
+/src/assets/home-trends-20.mp4 -> home-trends-20
+/src/assets/home-trends-21.mp4 -> home-trends-21
+/src/assets/home-trends-22.mp4 -> home-trends-22
+/src/assets/home-trends-23.mp4 -> home-trends-23
+/src/assets/home-trends-24.mp4 -> home-trends-24
+
+/src/assets/branding-og-image.jpg -> branding-og-image
+/src/assets/branding-favicon.ico -> branding-favicon
+/src/assets/branding-apple-touch-icon.png -> branding-apple-touch-icon
