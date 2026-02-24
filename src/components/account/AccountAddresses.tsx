@@ -8,6 +8,7 @@ import {
   setDefaultAddress,
 } from "@/services/accountService";
 import { Address } from "@/lib/supabase";
+import { addressSchema } from "@/lib/validation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +29,7 @@ export const AccountAddresses = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [saving, setSaving] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     label: "",
     full_address: "",
@@ -82,6 +84,17 @@ export const AccountAddresses = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+
+    const result = addressSchema.safeParse(formData);
+    if (!result.success) {
+      const errors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) errors[err.path[0] as string] = err.message;
+      });
+      setFormErrors(errors);
+      return;
+    }
+    setFormErrors({});
 
     setSaving(true);
     try {
@@ -183,8 +196,10 @@ export const AccountAddresses = () => {
                     setFormData((prev) => ({ ...prev, label: e.target.value }))
                   }
                   placeholder="Home, Office, etc."
+                  maxLength={50}
                   required
                 />
+                {formErrors.label && <p className="text-xs text-destructive">{formErrors.label}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="full_address">Full Address</Label>
@@ -195,8 +210,10 @@ export const AccountAddresses = () => {
                     setFormData((prev) => ({ ...prev, full_address: e.target.value }))
                   }
                   placeholder="Street, Building, Apartment"
+                  maxLength={300}
                   required
                 />
+                {formErrors.full_address && <p className="text-xs text-destructive">{formErrors.full_address}</p>}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -207,8 +224,10 @@ export const AccountAddresses = () => {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, city: e.target.value }))
                     }
+                    maxLength={100}
                     required
                   />
+                  {formErrors.city && <p className="text-xs text-destructive">{formErrors.city}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="state">State</Label>
@@ -218,8 +237,10 @@ export const AccountAddresses = () => {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, state: e.target.value }))
                     }
+                    maxLength={100}
                     required
                   />
+                  {formErrors.state && <p className="text-xs text-destructive">{formErrors.state}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -231,8 +252,10 @@ export const AccountAddresses = () => {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, postal_code: e.target.value }))
                     }
+                    maxLength={6}
                     required
                   />
+                  {formErrors.postal_code && <p className="text-xs text-destructive">{formErrors.postal_code}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="country">Country</Label>
@@ -242,8 +265,10 @@ export const AccountAddresses = () => {
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, country: e.target.value }))
                     }
+                    maxLength={100}
                     required
                   />
+                  {formErrors.country && <p className="text-xs text-destructive">{formErrors.country}</p>}
                 </div>
               </div>
               <div className="flex justify-end gap-3 pt-4">

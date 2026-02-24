@@ -1,4 +1,5 @@
 import { supabase, UserProfile, Address, StylePreferences, Order, OrderItem, WishlistItem } from '@/lib/supabase';
+import { addressSchema, profileSchema, guestOrderSchema } from '@/lib/validation';
 
 // Profile operations
 export const getProfile = async (userId: string): Promise<UserProfile | null> => {
@@ -13,9 +14,10 @@ export const getProfile = async (userId: string): Promise<UserProfile | null> =>
 };
 
 export const updateProfile = async (userId: string, updates: Partial<UserProfile>) => {
+  const validated = profileSchema.parse(updates);
   const { data, error } = await supabase
     .from('user_profiles')
-    .update({ ...updates, updated_at: new Date().toISOString() })
+    .update({ ...validated, updated_at: new Date().toISOString() })
     .eq('user_id', userId)
     .select()
     .single();
@@ -37,9 +39,10 @@ export const getAddresses = async (userId: string): Promise<Address[]> => {
 };
 
 export const createAddress = async (address: Omit<Address, 'id' | 'created_at'>) => {
+  const validated = addressSchema.parse(address);
   const { data, error } = await supabase
     .from('addresses')
-    .insert(address)
+    .insert({ ...validated, user_id: address.user_id, is_default: address.is_default })
     .select()
     .single();
   
@@ -48,9 +51,10 @@ export const createAddress = async (address: Omit<Address, 'id' | 'created_at'>)
 };
 
 export const updateAddress = async (id: string, updates: Partial<Address>) => {
+  const validated = addressSchema.partial().parse(updates);
   const { data, error } = await supabase
     .from('addresses')
-    .update(updates)
+    .update(validated)
     .eq('id', id)
     .select()
     .single();
@@ -190,6 +194,8 @@ export const createGuestOrder = async (
   items: Array<{ product_id: string; quantity: number; price: number }>,
   shopifyCheckoutToken?: string
 ) => {
+  guestOrderSchema.parse({ guestEmail, guestPhone, totalAmount });
+  
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert({
