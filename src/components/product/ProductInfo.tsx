@@ -197,6 +197,11 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         </button>
       </div>
 
+      {/* Description */}
+      <p className="font-body text-sm text-muted-foreground leading-relaxed">
+        {isShopify ? shopifyProduct!.description : mockProduct!.description}
+      </p>
+
       {/* Reviews (Mock Only or If passed) */}
       {!isShopify && (
       <button onClick={scrollToReviews} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
