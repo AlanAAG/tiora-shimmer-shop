@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const productNecklace = getMediaUrl("products/product-necklace", "image");
-const allItemsImage = getMediaUrl("homepage/carrousel/home-carrousel-all-items", "image");
-const bestSellersImage = getMediaUrl("homepage/carrousel/home-carrousel-best-sellers", "image");
-const braceletsImage = getMediaUrl("homepage/carrousel/home-carrousel-bracelets", "image");
-const earringsImage = getMediaUrl("homepage/carrousel/home-carrousel-earrings", "image");
-const ringsImage = getMediaUrl("homepage/carrousel/home-carrousel-rings", "image");
+const productNecklace = getMediaUrl("product-necklace", "image");
+const allItemsImage = getMediaUrl("home-carrousel-all-items", "image");
+const bestSellersImage = getMediaUrl("home-carrousel-best-sellers", "image");
+const braceletsImage = getMediaUrl("home-carrousel-bracelets", "image");
+const earringsImage = getMediaUrl("home-carrousel-earrings", "image");
+const ringsImage = getMediaUrl("home-carrousel-rings", "image");
 
 const collections = [
   { name: "All Items", image: allItemsImage, href: "/shop" },

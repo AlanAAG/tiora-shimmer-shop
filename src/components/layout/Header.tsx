@@ -8,7 +8,7 @@ import { SearchDialog } from "@/components/search/SearchDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const tioraLogo = getMediaUrl("logo/logo-no-bg", "image");
+const tioraLogo = getMediaUrl("logo-no-bg", "image");
 
 interface HeaderProps {
   showBanner?: boolean;

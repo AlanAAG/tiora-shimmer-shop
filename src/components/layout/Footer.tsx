@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const tioraLogo = getMediaUrl("logo/logo-no-bg", "image");
+const tioraLogo = getMediaUrl("logo-no-bg", "image");
 
 const trustBadges = [
 {
@@ -63,7 +63,7 @@ const Footer = () => {
             "@context": "https://schema.org",
             "@type": "JewelryStore",
             "name": "TIORA",
-            "image": getMediaUrl("branding/og-image", "image"),
+            "image": getMediaUrl("branding-og-image", "image"),
             "@id": "https://tiora.co",
             "url": "https://tiora.co",
             "telephone": "+91 7897777767",
