@@ -124,6 +124,12 @@ const ProductPage = () => {
           </div>
         </section>
 
+        {/* Reviews Section */}
+        <ShopifyProductReviews 
+          productTitle={shopifyProduct.title} 
+          productHandle={shopifyProduct.handle} 
+        />
+
         {/* Marquee */}
         <ProductMarquee />
 
@@ -134,12 +140,6 @@ const ProductPage = () => {
         <BestsellersCarousel 
           currentProductHandle={slug}
           title="Recommended Products"
-        />
-
-        {/* Reviews Section */}
-        <ShopifyProductReviews 
-          productTitle={shopifyProduct.title} 
-          productHandle={shopifyProduct.handle} 
         />
 
         <Footer />
