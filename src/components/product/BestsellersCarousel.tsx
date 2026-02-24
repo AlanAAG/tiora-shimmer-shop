@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,56 @@ const getMaterial = (product: ShopifyProduct['node']) => {
   const materialOption = variant?.selectedOptions?.find(opt => opt.name.toLowerCase().includes('material') || opt.name.toLowerCase().includes('jewelry'));
   return materialOption?.value || '';
 };
+const BestsellersCard = ({ node, primaryImage, hoverImage, price, comparePrice, material, isGold }: {
+  node: ShopifyProduct['node'];
+  primaryImage?: string;
+  hoverImage?: string;
+  price: { amount: string; currencyCode: string };
+  comparePrice?: { amount: string; currencyCode: string } | null;
+  material: string;
+  isGold: boolean;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <div className="flex-none w-[45%] md:w-[22%]">
+      <Link to={`/product/${node.handle}`} className="group block">
+        <div
+          className="relative aspect-[3/4] mb-3 overflow-hidden bg-muted rounded-xl border border-accent"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {primaryImage && (
+            <img
+              src={isHovered ? hoverImage : primaryImage}
+              alt={node.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+            />
+          )}
+        </div>
+        <div className="space-y-1">
+          <h3 className="font-display text-sm text-foreground line-clamp-1">{node.title}</h3>
+          <div className="flex items-center gap-2">
+            {comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount) && (
+              <span className="font-body text-xs text-muted-foreground line-through">
+                {formatShopifyPrice(comparePrice.amount, comparePrice.currencyCode)}
+              </span>
+            )}
+            <span className="font-body text-sm font-medium text-foreground">
+              {formatShopifyPrice(price.amount, price.currencyCode)}
+            </span>
+          </div>
+          {material && (
+            <div className="flex items-center gap-2 pt-1">
+              <span className={`w-3 h-3 rounded-full border border-border ${isGold ? "bg-amber-400" : "bg-gray-300"}`} />
+              <span className="font-body text-xs text-muted-foreground">{material}</span>
+            </div>
+          )}
+        </div>
+      </Link>
+    </div>
+  );
+};
+
 export const BestsellersCarousel = ({
   title = "Recommended Products",
   currentProductHandle
@@ -74,39 +124,13 @@ export const BestsellersCarousel = ({
           {/* Duplicate products for seamless infinite scroll */}
           {[...displayProducts, ...displayProducts].map((product, index) => {
           const node = product.node;
-          const image = node.images.edges[0]?.node;
+          const primaryImage = node.images.edges[0]?.node?.url;
+          const hoverImg = node.images.edges[1]?.node?.url || primaryImage;
           const price = node.priceRange.minVariantPrice;
           const comparePrice = node.compareAtPriceRange?.minVariantPrice;
           const material = getMaterial(node);
           const isGold = material.toLowerCase().includes('gold');
-          return <div key={`${node.id}-${index}`} className="flex-none w-[45%] md:w-[22%]">
-                <Link to={`/product/${node.handle}`} className="group block">
-                  <div className="relative aspect-[3/4] mb-3 overflow-hidden bg-muted rounded-xl border border-accent">
-                    {image && <img src={image.url} alt={image.altText || node.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />}
-                  </div>
-                  
-                  <div className="space-y-1">
-                    <h3 className="font-display text-sm text-foreground line-clamp-1">
-                      {node.title}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      {comparePrice && parseFloat(comparePrice.amount) > parseFloat(price.amount) && <span className="font-body text-xs text-muted-foreground line-through">
-                          {formatShopifyPrice(comparePrice.amount, comparePrice.currencyCode)}
-                        </span>}
-                      <span className="font-body text-sm font-medium text-foreground">
-                        {formatShopifyPrice(price.amount, price.currencyCode)}
-                      </span>
-                    </div>
-                    {/* Material indicator */}
-                    {material && <div className="flex items-center gap-2 pt-1">
-                        <span className={`w-3 h-3 rounded-full border border-border ${isGold ? "bg-amber-400" : "bg-gray-300"}`} />
-                        <span className="font-body text-xs text-muted-foreground">
-                          {material}
-                        </span>
-                      </div>}
-                  </div>
-                </Link>
-              </div>;
+          return <BestsellersCard key={`${node.id}-${index}`} node={node} primaryImage={primaryImage} hoverImage={hoverImg} price={price} comparePrice={comparePrice} material={material} isGold={isGold} />;
         })}
         </div>
       </div>
