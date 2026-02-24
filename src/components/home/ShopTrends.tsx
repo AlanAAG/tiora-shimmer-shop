@@ -1,6 +1,6 @@
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const trendSculptedSilver = getMediaUrl("home-trends-sculptured-silver", "image");
+const trendSculptedSilver = getMediaUrl("home-trends-sculpted-silver", "image");
 const trendMoltenFlow = getMediaUrl("home-trends-molten-flow", "image");
 const trendGoldenCascade = getMediaUrl("home-trends-golden-cascade", "image");
 const trendArchitecturalGold = getMediaUrl("home-trends-architectural-gold", "image");
