@@ -3,19 +3,19 @@ import { Star, Play, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Link } from "react-router-dom";
-import { getMediaUrl } from "@/lib/cloudinary";
+import { getMediaUrl, getVideoPoster } from "@/lib/cloudinary";
 
 const reviewVideo1 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-1.mp4", "image")
+  src: getMediaUrl("homepage/reviews/home-reviews-review-1", "video"),
+  poster: getVideoPoster("homepage/reviews/home-reviews-review-1")
 };
 const reviewVideo2 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-2.mp4", "image")
+  src: getMediaUrl("homepage/reviews/home-reviews-review-2", "video"),
+  poster: getVideoPoster("homepage/reviews/home-reviews-review-2")
 };
 const reviewVideo3 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "video"),
-  poster: getMediaUrl("homepage/reviews/home-reviews-review-3.mp4", "image")
+  src: getMediaUrl("homepage/reviews/home-reviews-review-3", "video"),
+  poster: getVideoPoster("homepage/reviews/home-reviews-review-3")
 };
 
 const reviews = [
