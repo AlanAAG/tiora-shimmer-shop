@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { PairsWithSection } from "./PairsWithSection";
+
 
 interface ProductInfoProps {
   product: Product | ShopifyProduct['node'];
@@ -362,52 +362,6 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         </Collapsible>
       </div>
 
-      {/* Pairs With */}
-      {isShopify ? (
-          <PairsWithSection currentProductHandle={shopifyProduct!.handle} />
-      ) : (
-        /* Original mock Pairs With implementation */
-        <div className="border-t border-border pt-6">
-        <h3 className="font-display text-xl text-foreground mb-4">Pairs With</h3>
-        <div className="space-y-3">
-             {allProducts
-            .filter(p => p.category !== mockProduct!.category && p.id !== mockProduct!.id)
-            .slice(0, 2).map((pairProduct) => (
-            <Link
-              key={pairProduct.id}
-              to={`/product/${pairProduct.slug}`}
-              className="flex items-center gap-3 p-3 border border-border hover:border-foreground/50 transition-colors rounded-2xl"
-            >
-              <div className="w-16 h-16 bg-muted overflow-hidden flex-shrink-0 rounded-xl">
-                <img
-                  src={pairProduct.image}
-                  alt={pairProduct.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-display text-sm text-foreground truncate">{pairProduct.name}</h4>
-                <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                  <span className="text-muted-foreground line-through text-[10px]">
-                    {formatPriceMock(pairProduct.comparePrice)}
-                  </span>
-                  <span className="font-body text-xs text-foreground">
-                    {formatPriceMock(pairProduct.price)}
-                  </span>
-                  <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-md">
-                    {Math.round(((pairProduct.comparePrice - pairProduct.price) / pairProduct.comparePrice) * 100)}% OFF
-                  </span>
-                </div>
-              </div>
-              <Button variant="outline" size="sm" className="flex-shrink-0 text-[10px] px-2 h-7">
-                ADD
-              </Button>
-            </Link>
-          ))}
-        </div>
-      </div>
-      )}
-
       {/* Drawer Links */}
       <div className="space-y-3 pt-2">
         <Sheet>
@@ -428,30 +382,6 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
                 <li>Hypoallergenic and nickel-free</li>
                 <li>Handcrafted with care</li>
                 <li>One size fits most</li>
-              </ul>
-            </div>
-          </SheetContent>
-        </Sheet>
-
-        <Sheet>
-          <SheetTrigger asChild>
-            <button className="flex items-center gap-2 text-sm font-body underline hover:text-primary transition-colors">
-              Care & Cleaning
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </SheetTrigger>
-          <SheetContent className="bg-background">
-            <SheetHeader>
-              <SheetTitle className="font-display text-2xl">Care & Cleaning</SheetTitle>
-            </SheetHeader>
-            <div className="mt-6 space-y-4 text-sm text-muted-foreground">
-              <p>To keep your jewelry looking its best:</p>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Store in a cool, dry place</li>
-                <li>Avoid contact with water, perfume, and lotions</li>
-                <li>Clean gently with a soft, dry cloth</li>
-                <li>Remove before swimming or showering</li>
-                <li>Store separately to prevent scratching</li>
               </ul>
             </div>
           </SheetContent>
