@@ -266,6 +266,32 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         </div>
       </div>
 
+      {/* Product Details Link */}
+      <div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="flex items-center gap-2 text-sm font-body underline hover:text-primary transition-colors">
+              Product Details
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </SheetTrigger>
+          <SheetContent className="bg-background">
+            <SheetHeader>
+              <SheetTitle className="font-display text-2xl">Product Details</SheetTitle>
+            </SheetHeader>
+            <div className="mt-6 space-y-4 text-sm text-muted-foreground">
+              <p>{isShopify ? shopifyProduct!.description : mockProduct!.description}</p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>18K gold plated brass or sterling silver</li>
+                <li>Hypoallergenic and nickel-free</li>
+                <li>Handcrafted with care</li>
+                <li>One size fits most</li>
+              </ul>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
       {/* Buttons */}
        <div className="space-y-3 pt-4">
         {/* Add to Bag */}
@@ -334,31 +360,6 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         </Collapsible>
       </div>
 
-      {/* Drawer Links */}
-      <div className="space-y-3 pt-2">
-        <Sheet>
-          <SheetTrigger asChild>
-            <button className="flex items-center gap-2 text-sm font-body underline hover:text-primary transition-colors">
-              Product Details
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </SheetTrigger>
-          <SheetContent className="bg-background">
-            <SheetHeader>
-              <SheetTitle className="font-display text-2xl">Product Details</SheetTitle>
-            </SheetHeader>
-            <div className="mt-6 space-y-4 text-sm text-muted-foreground">
-              <p>{isShopify ? shopifyProduct!.description : mockProduct!.description}</p>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>18K gold plated brass or sterling silver</li>
-                <li>Hypoallergenic and nickel-free</li>
-                <li>Handcrafted with care</li>
-                <li>One size fits most</li>
-              </ul>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
 
     </div>
   );
