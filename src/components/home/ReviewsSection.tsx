@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 import { getMediaUrl, getVideoPoster } from "@/lib/cloudinary";
 
 const reviewVideo1 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-1", "video"),
-  poster: getVideoPoster("homepage/reviews/home-reviews-review-1")
+  src: getMediaUrl("home-reviews-review-1", "video"),
+  poster: getVideoPoster("home-reviews-review-1")
 };
 const reviewVideo2 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-2", "video"),
-  poster: getVideoPoster("homepage/reviews/home-reviews-review-2")
+  src: getMediaUrl("home-reviews-review-2", "video"),
+  poster: getVideoPoster("home-reviews-review-2")
 };
 const reviewVideo3 = {
-  src: getMediaUrl("homepage/reviews/home-reviews-review-3", "video"),
-  poster: getVideoPoster("homepage/reviews/home-reviews-review-3")
+  src: getMediaUrl("home-reviews-review-3", "video"),
+  poster: getVideoPoster("home-reviews-review-3")
 };
 
 const reviews = [

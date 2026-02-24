@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { getMediaUrl } from "@/lib/cloudinary";
 
 // IDs mapped from media_map.md
-const heroDesktop = getMediaUrl("homepage/hero/home-hero-desktop", "image");
-const heroMobile = getMediaUrl("homepage/hero/home-hero-mobile", "image");
+const heroDesktop = getMediaUrl("home-hero-desktop", "image");
+const heroMobile = getMediaUrl("home-hero-mobile", "image");
 
 const Hero = () => {
   return (

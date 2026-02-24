@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { getMediaUrl } from "@/lib/cloudinary";
 
-const aboutPlaceholder1 = getMediaUrl("about/about-image-1", "image");
-const aboutPlaceholder2 = getMediaUrl("about/about-image-2", "image");
-const aboutPlaceholder3 = getMediaUrl("about/about-image-3", "image");
-const aboutPlaceholder4 = getMediaUrl("about/about-image-4", "image");
+const aboutPlaceholder1 = getMediaUrl("about-image-1", "image");
+const aboutPlaceholder2 = getMediaUrl("about-image-2", "image");
+const aboutPlaceholder3 = getMediaUrl("about-image-3", "image");
+const aboutPlaceholder4 = getMediaUrl("about-image-4", "image");
 
 const About = () => {
   const coreBeliefs = [
