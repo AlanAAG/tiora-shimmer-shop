@@ -3,7 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 
 if (import.meta.env.PROD) {
-  (function (c: any, l: any, a: any, r: any, i: any, t: any, y: any) {
+  (function (c: any, l: any, a: any, r: any, i: any, t?: any, y?: any) {
     c[a] =
       c[a] ||
       function () {
