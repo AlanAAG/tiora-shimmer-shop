@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Star, Play, X, CheckCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { Link } from "react-router-dom";
 import { getMediaUrl, getVideoPoster } from "@/lib/cloudinary";
@@ -330,6 +331,14 @@ const ReviewsSection = () => {
               onClick={() => handleVideoClick(videoSources[2]?.src)} 
               sectionRef={sectionRef}
             />
+          </div>
+          {/* View All Button */}
+          <div className="text-center mt-8">
+            <Link to="/reviews">
+              <Button variant="outline" size="lg">
+                View All Reviews
+              </Button>
+            </Link>
           </div>
         </div>
 
