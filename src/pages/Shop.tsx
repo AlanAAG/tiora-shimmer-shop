@@ -146,9 +146,15 @@ const Shop = () => {
     });
   };
 
+  // For specific collections, enforce category matching to ensure only correct product types show
+  const effectiveCategoryFilter: CategoryFilter = 
+    (!showCategoryFilter && ["rings", "earrings", "bracelets", "necklaces"].includes(collection)) 
+      ? collection as CategoryFilter 
+      : categoryFilter;
+
   // Apply category filter and sorting to Shopify products
   const filteredShopifyProducts = sortProducts(
-    shopifyProducts?.filter((product) => matchesCategory(product.node, categoryFilter)) || []
+    shopifyProducts?.filter((product) => matchesCategory(product.node, effectiveCategoryFilter)) || []
   );
 
   // Get badge text for products
