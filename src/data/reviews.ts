@@ -1,27 +1,5 @@
 import { getMediaUrl, getVideoPoster } from "@/lib/cloudinary";
 
-const reviewVideo4 = getMediaUrl("home-trends-4", "video");
-const reviewVideo5 = getMediaUrl("home-trends-5", "video");
-const reviewVideo6 = getMediaUrl("home-trends-6", "video");
-const reviewVideo7 = getMediaUrl("home-trends-7", "video");
-const reviewVideo8 = getMediaUrl("home-trends-8", "video");
-const reviewVideo9 = getMediaUrl("home-trends-9", "video");
-const reviewVideo10 = getMediaUrl("home-trends-10", "video");
-const reviewVideo11 = getMediaUrl("home-trends-11", "video");
-const reviewVideo12 = getMediaUrl("home-trends-12", "video");
-
-const reviewVideo14 = getMediaUrl("home-trends-14", "video");
-const reviewVideo15 = getMediaUrl("home-trends-15", "video");
-const reviewVideo16 = getMediaUrl("home-trends-16", "video");
-const reviewVideo17 = getMediaUrl("home-trends-17", "video");
-const reviewVideo18 = getMediaUrl("home-trends-18", "video");
-const reviewVideo19 = getMediaUrl("home-trends-19", "video");
-const reviewVideo20 = getMediaUrl("home-trends-20", "video");
-const reviewVideo21 = getMediaUrl("home-trends-21", "video");
-const reviewVideo22 = getMediaUrl("home-trends-22", "video");
-const reviewVideo23 = getMediaUrl("home-trends-23", "video");
-const reviewVideo24 = getMediaUrl("home-trends-24", "video");
-
 export interface CustomerReview {
   id: number;
   title: string;
@@ -1235,230 +1213,49 @@ export const customerReviews: CustomerReview[] = [
 ];
 
 
+interface VideoReviewMetadata {
+  title: string;
+  author: string;
+  category: "bracelets" | "earrings" | "rings";
+  productType: string;
+}
 
-
-export const videoReviews: VideoReview[] = [
-  {
-    id: 1001,
-    title: "In love with this sparkle!",
-    videoUrl: reviewVideo4,
-    thumbnailUrl: getVideoPoster("home-trends-4"),
-    author: "Aisha K.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Sparkling Earrings"
-  },
-  {
-    id: 1002,
-    title: "Perfect fit & finish",
-    videoUrl: reviewVideo5,
-    thumbnailUrl: getVideoPoster("home-trends-5"),
-    author: "Rohan M.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Gold Ring"
-  },
-  {
-    id: 1003,
-    title: "Everyday luxury",
-    videoUrl: reviewVideo6,
-    thumbnailUrl: getVideoPoster("home-trends-6"),
-    author: "Sonia P.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Gold Bracelet"
-  },
-  {
-    id: 1004,
-    title: "Amazing quality",
-    videoUrl: reviewVideo7,
-    thumbnailUrl: getVideoPoster("home-trends-7"),
-    author: "Neha S.",
-    rating: 4,
-    verified: true,
-    category: "earrings",
-    productType: "Detailed Earrings"
-  },
-  {
-    id: 1005,
-    title: "Looks so real",
-    videoUrl: reviewVideo8,
-    thumbnailUrl: getVideoPoster("home-trends-8"),
-    author: "Priya D.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Charm Bracelet"
-  },
-  {
-    id: 1006,
-    title: "Obsessed with this piece!",
-    videoUrl: reviewVideo9,
-    thumbnailUrl: getVideoPoster("home-trends-9"),
-    author: "Kavya R.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Statement Ring"
-  },
-  {
-    id: 1007,
-    title: "Beautiful craftsmanship!",
-    videoUrl: reviewVideo10,
-    thumbnailUrl: getVideoPoster("home-trends-10"),
-    author: "Divya M.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Drop Earrings"
-  },
-  {
-    id: 1008,
-    title: "Worth every penny",
-    videoUrl: reviewVideo11,
-    thumbnailUrl: getVideoPoster("home-trends-11"),
-    author: "Ritika S.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Chain Bracelet"
-  },
-  {
-    id: 1009,
-    title: "Stunning piece!",
-    videoUrl: reviewVideo12,
-    thumbnailUrl: getVideoPoster("home-trends-12"),
-    author: "Sneha T.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Elegant Ring"
-  },
-  {
-    id: 1011,
-    title: "So many compliments",
-    videoUrl: reviewVideo14,
-    thumbnailUrl: getVideoPoster("home-trends-14"),
-    author: "Tanvi P.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Gold Bracelet"
-  },
-  {
-    id: 1012,
-    title: "Absolutely gorgeous",
-    videoUrl: reviewVideo15,
-    thumbnailUrl: getVideoPoster("home-trends-15"),
-    author: "Nisha L.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Stackable Ring"
-  },
-  {
-    id: 1013,
-    title: "Can't stop wearing it!",
-    videoUrl: reviewVideo16,
-    thumbnailUrl: getVideoPoster("home-trends-16"),
-    author: "Pooja B.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Statement Earrings"
-  },
-  {
-    id: 1014,
-    title: "Love the quality!",
-    videoUrl: reviewVideo17,
-    thumbnailUrl: getVideoPoster("home-trends-17"),
-    author: "Kavya R.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Charm Bracelet"
-  },
-  {
-    id: 1015,
-    title: "Perfect gift choice",
-    videoUrl: reviewVideo18,
-    thumbnailUrl: getVideoPoster("home-trends-18"),
-    author: "Riya D.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Stud Earrings"
-  },
-  {
-    id: 1016,
-    title: "Exceeded expectations!",
-    videoUrl: reviewVideo19,
-    thumbnailUrl: getVideoPoster("home-trends-19"),
-    author: "Simran K.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Band Ring"
-  },
-  {
-    id: 1017,
-    title: "Gorgeous everyday piece",
-    videoUrl: reviewVideo20,
-    thumbnailUrl: getVideoPoster("home-trends-20"),
-    author: "Neha V.",
-    rating: 5,
-    verified: true,
-    category: "bracelets",
-    productType: "Bangle Bracelet"
-  },
-  {
-    id: 1018,
-    title: "Stunning craftsmanship",
-    videoUrl: reviewVideo21,
-    thumbnailUrl: getVideoPoster("home-trends-21"),
-    author: "Pooja S.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Drop Earrings"
-  },
-  {
-    id: 1019,
-    title: "Best purchase ever!",
-    videoUrl: reviewVideo22,
-    thumbnailUrl: getVideoPoster("home-trends-22"),
-    author: "Tanvi M.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Statement Ring"
-  },
-  {
-    id: 1020,
-    title: "Absolutely gorgeous!",
-    videoUrl: reviewVideo23,
-    thumbnailUrl: getVideoPoster("home-trends-23"),
-    author: "Aisha K.",
-    rating: 5,
-    verified: true,
-    category: "rings",
-    productType: "Chain Necklace"
-  },
-  {
-    id: 1021,
-    title: "Love every detail",
-    videoUrl: reviewVideo24,
-    thumbnailUrl: getVideoPoster("home-trends-24"),
-    author: "Megha P.",
-    rating: 5,
-    verified: true,
-    category: "earrings",
-    productType: "Hoop Earrings"
-  },
+const videoReviewMetadata: VideoReviewMetadata[] = [
+  { title: "In love with this sparkle!", author: "Aisha K.", category: "earrings", productType: "Sparkling Earrings" },
+  { title: "Perfect fit & finish", author: "Rohan M.", category: "rings", productType: "Gold Ring" },
+  { title: "Everyday luxury", author: "Sonia P.", category: "bracelets", productType: "Gold Bracelet" },
+  { title: "Amazing quality", author: "Neha S.", category: "earrings", productType: "Detailed Earrings" },
+  { title: "Looks so real", author: "Priya D.", category: "bracelets", productType: "Charm Bracelet" },
+  { title: "Obsessed with this piece!", author: "Kavya R.", category: "rings", productType: "Statement Ring" },
+  { title: "Beautiful craftsmanship!", author: "Divya M.", category: "earrings", productType: "Drop Earrings" },
+  { title: "Worth every penny", author: "Ritika S.", category: "bracelets", productType: "Chain Bracelet" },
+  { title: "Stunning piece!", author: "Sneha T.", category: "rings", productType: "Elegant Ring" },
+  { title: "So many compliments", author: "Tanvi P.", category: "bracelets", productType: "Gold Bracelet" },
+  { title: "Absolutely gorgeous", author: "Nisha L.", category: "rings", productType: "Stackable Ring" },
+  { title: "Can't stop wearing it!", author: "Pooja B.", category: "earrings", productType: "Statement Earrings" },
+  { title: "Love the quality!", author: "Kavya R.", category: "bracelets", productType: "Charm Bracelet" },
+  { title: "Perfect gift choice", author: "Riya D.", category: "earrings", productType: "Stud Earrings" },
+  { title: "Exceeded expectations!", author: "Simran K.", category: "rings", productType: "Band Ring" },
+  { title: "Gorgeous everyday piece", author: "Neha V.", category: "bracelets", productType: "Bangle Bracelet" },
+  { title: "Stunning craftsmanship", author: "Pooja S.", category: "earrings", productType: "Drop Earrings" },
+  { title: "Best purchase ever!", author: "Tanvi M.", category: "rings", productType: "Statement Ring" },
+  { title: "Absolutely gorgeous!", author: "Aisha K.", category: "rings", productType: "Chain Necklace" }
 ];
+
+export const videoReviews: VideoReview[] = videoReviewMetadata.map((review, index) => {
+  const publicId = `reviews-review-${index + 1}`;
+  return {
+    id: 1000 + index + 1,
+    title: review.title,
+    videoUrl: getMediaUrl(publicId, "video"),
+    thumbnailUrl: getVideoPoster(publicId),
+    author: review.author,
+    rating: 5,
+    verified: true,
+    category: review.category,
+    productType: review.productType
+  };
+});
 
 // Helper function to shuffle reviews
 export const shuffleReviews = <T>(reviews: T[]): T[] => {

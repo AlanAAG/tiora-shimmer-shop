@@ -35,8 +35,26 @@
 /src/assets/trend-sculpted-silver.png -> home-trends-sculpted-silver
 /src/assets/trend-sculptural-gold.png -> home-trends-sculptural-gold
 
-/src/assets/review-video-1.mp4 -> reviews-review-1
-# /src/assets/review-video-2.mp4 -> home-trends-2 (These seemed duplicative and wrong in original, commented out for now)
+# Video Reviews (Flat Public ID Architecture)
+/src/assets/reviews-review-1.mp4 -> reviews-review-1
+/src/assets/reviews-review-2.mp4 -> reviews-review-2
+/src/assets/reviews-review-3.mp4 -> reviews-review-3
+/src/assets/reviews-review-4.mp4 -> reviews-review-4
+/src/assets/reviews-review-5.mp4 -> reviews-review-5
+/src/assets/reviews-review-6.mp4 -> reviews-review-6
+/src/assets/reviews-review-7.mp4 -> reviews-review-7
+/src/assets/reviews-review-8.mp4 -> reviews-review-8
+/src/assets/reviews-review-9.mp4 -> reviews-review-9
+/src/assets/reviews-review-10.mp4 -> reviews-review-10
+/src/assets/reviews-review-11.mp4 -> reviews-review-11
+/src/assets/reviews-review-12.mp4 -> reviews-review-12
+/src/assets/reviews-review-13.mp4 -> reviews-review-13
+/src/assets/reviews-review-14.mp4 -> reviews-review-14
+/src/assets/reviews-review-15.mp4 -> reviews-review-15
+/src/assets/reviews-review-16.mp4 -> reviews-review-16
+/src/assets/reviews-review-17.mp4 -> reviews-review-17
+/src/assets/reviews-review-18.mp4 -> reviews-review-18
+/src/assets/reviews-review-19.mp4 -> reviews-review-19
 
 # Inferred Mappings from Code Usage
 
@@ -44,27 +62,6 @@
 /src/assets/product-earrings.jpg -> product-earrings
 /src/assets/product-bracelet.jpg -> product-bracelet
 /src/assets/product-necklace.jpg -> product-necklace
-
-/src/assets/home-trends-4.mp4 -> home-trends-4
-/src/assets/home-trends-5.mp4 -> home-trends-5
-/src/assets/home-trends-6.mp4 -> home-trends-6
-/src/assets/home-trends-7.mp4 -> home-trends-7
-/src/assets/home-trends-8.mp4 -> home-trends-8
-/src/assets/home-trends-9.mp4 -> home-trends-9
-/src/assets/home-trends-10.mp4 -> home-trends-10
-/src/assets/home-trends-11.mp4 -> home-trends-11
-/src/assets/home-trends-12.mp4 -> home-trends-12
-/src/assets/home-trends-14.mp4 -> home-trends-14
-/src/assets/home-trends-15.mp4 -> home-trends-15
-/src/assets/home-trends-16.mp4 -> home-trends-16
-/src/assets/home-trends-17.mp4 -> home-trends-17
-/src/assets/home-trends-18.mp4 -> home-trends-18
-/src/assets/home-trends-19.mp4 -> home-trends-19
-/src/assets/home-trends-20.mp4 -> home-trends-20
-/src/assets/home-trends-21.mp4 -> home-trends-21
-/src/assets/home-trends-22.mp4 -> home-trends-22
-/src/assets/home-trends-23.mp4 -> home-trends-23
-/src/assets/home-trends-24.mp4 -> home-trends-24
 
 /src/assets/branding-og-image.jpg -> branding-og-image
 /src/assets/branding-favicon.ico -> branding-favicon
