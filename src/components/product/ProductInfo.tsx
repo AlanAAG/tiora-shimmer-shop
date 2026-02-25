@@ -282,10 +282,31 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
             <div className="mt-6 space-y-4 text-sm text-muted-foreground">
               <p>{isShopify ? shopifyProduct!.description : mockProduct!.description}</p>
               <ul className="list-disc pl-5 space-y-2">
-                <li>18K gold plated brass or sterling silver</li>
-                <li>Hypoallergenic and nickel-free</li>
-                <li>Handcrafted with care</li>
-                <li>One size fits most</li>
+                {isSilver ? (
+                  <>
+                    <li>Premium 925 silver-plated finish</li>
+                    <li>Stainless Steel core</li>
+                    <li>Anti-Tarnish protection</li>
+                    {(isShopify ? shopifyProduct!.productType?.toLowerCase().includes("ring") || shopifyProduct!.title.toLowerCase().includes("ring") : mockProduct!.name?.toLowerCase().includes("ring")) && (
+                      <li>Open, adjustable fit</li>
+                    )}
+                    <li>Lightweight and comfortable</li>
+                    <li>Hypoallergenic & skin-safe</li>
+                    <li>Water resistant</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Premium 18k gold-plated plating</li>
+                    <li>Stainless Steel core</li>
+                    <li>Anti-Tarnish protection</li>
+                    {(isShopify ? shopifyProduct!.productType?.toLowerCase().includes("ring") || shopifyProduct!.title.toLowerCase().includes("ring") : mockProduct!.name?.toLowerCase().includes("ring")) && (
+                      <li>Open, adjustable fit</li>
+                    )}
+                    <li>Lightweight and comfortable</li>
+                    <li>Hypoallergenic & skin-safe</li>
+                    <li>Water resistant</li>
+                  </>
+                )}
               </ul>
             </div>
           </SheetContent>
