@@ -19,6 +19,8 @@ import RefundPolicy from "./pages/RefundPolicy";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
+import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import AuthPage from "./pages/AuthPage";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import AccountPage from "./pages/AccountPage";
@@ -49,6 +51,8 @@ function AppContent() {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogArticle />} />
         <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
         <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
         {/* Auth routes */}
