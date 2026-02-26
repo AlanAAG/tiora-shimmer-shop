@@ -36,7 +36,8 @@ const shopLinks = [
 
 const brandLinks = [
 { name: "About Tiora", to: "/about" },
-{ name: "Reviews", to: "/reviews" }];
+{ name: "Reviews", to: "/reviews" },
+{ name: "Journal", to: "/blog" }];
 
 
 const helpLinks = [
