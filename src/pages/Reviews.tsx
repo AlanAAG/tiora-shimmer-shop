@@ -246,11 +246,13 @@ const Reviews = () => {
                         poster={review.thumbnailUrl}
                         className="w-full h-full object-cover"
                         muted
+                        loop
+                        autoPlay
                         playsInline
                         preload="none"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                            <Play className="w-5 h-5 text-primary fill-primary ml-1" />
                         </div>
                       </div>

@@ -131,12 +131,13 @@ const VideoCard = ({
           poster={video.poster}
           muted
           loop
+          autoPlay
           playsInline
           preload="none"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
             <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
           </div>
         </div>
@@ -155,7 +156,7 @@ const VideoCard = ({
         className="w-full h-full object-cover"
       />
       <div className="absolute inset-0 flex items-end justify-end p-4 bg-gradient-to-t from-foreground/20 to-transparent">
-        <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
           <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
         </div>
       </div>
@@ -213,7 +214,7 @@ const MobileVideoCircle = ({
           className="w-full h-full object-cover rounded-full"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
-          <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
             <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
           </div>
         </div>
@@ -232,7 +233,7 @@ const MobileVideoCircle = ({
         className="w-full h-full object-cover rounded-full"
       />
       <div className="absolute inset-0 flex items-center justify-center bg-foreground/10 group-hover:bg-foreground/20 transition-colors rounded-full">
-        <div className="w-12 h-12 rounded-full bg-background/90 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
           <Play className="w-5 h-5 text-foreground ml-0.5 fill-foreground" />
         </div>
       </div>
