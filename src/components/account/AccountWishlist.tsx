@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getWishlist, removeFromWishlist } from "@/services/accountService";
 import { WishlistItem } from "@/lib/supabase";
-import { storefrontApiRequest, ShopifyProduct } from "@/lib/shopify";
+import { storefrontApiRequest, ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
-import { Heart, Trash2, ShoppingCart, Loader2 } from "lucide-react";
+import { Heart, Trash2, ShoppingCart, Loader2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,12 @@ const WISHLIST_PRODUCTS_QUERY = `
         title
         handle
         priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        compareAtPriceRange {
           minVariantPrice {
             amount
             currencyCode
@@ -61,6 +67,12 @@ interface ShopifyNodeProduct {
   title: string;
   handle: string;
   priceRange: {
+    minVariantPrice: {
+      amount: string;
+      currencyCode: string;
+    };
+  };
+  compareAtPriceRange?: {
     minVariantPrice: {
       amount: string;
       currencyCode: string;
@@ -223,6 +235,7 @@ export const AccountWishlist = () => {
           const secondImage = product?.images.edges[1]?.node;
           const hoverImageUrl = secondImage?.url || primaryImage?.url;
           const price = product?.priceRange.minVariantPrice;
+          const compareAtPrice = product?.compareAtPriceRange?.minVariantPrice;
           const firstVariant = product?.variants.edges[0]?.node;
           const isAdding = firstVariant ? loadingVariants.has(firstVariant.id) : false;
 
@@ -235,6 +248,7 @@ export const AccountWishlist = () => {
               hoverImageUrl={hoverImageUrl}
               imageAlt={primaryImage?.altText || product?.title || "Product"}
               price={price}
+              compareAtPrice={compareAtPrice}
               firstVariant={firstVariant}
               isAdding={isAdding}
               onRemove={handleRemove}
@@ -255,6 +269,7 @@ function WishlistCard({
   hoverImageUrl,
   imageAlt,
   price,
+  compareAtPrice,
   firstVariant,
   isAdding,
   onRemove,
@@ -266,12 +281,39 @@ function WishlistCard({
   hoverImageUrl: string | undefined;
   imageAlt: string;
   price: { amount: string; currencyCode: string } | undefined;
+  compareAtPrice: { amount: string; currencyCode: string } | undefined;
   firstVariant: { id: string; availableForSale: boolean } | undefined;
   isAdding: boolean;
   onRemove: (id: string) => void;
   onAddToCart: (id: string) => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isBuyingNow, setIsBuyingNow] = useState(false);
+
+  const hasDiscount = compareAtPrice && price && parseFloat(compareAtPrice.amount) > parseFloat(price.amount);
+  const discountPercent = hasDiscount
+    ? Math.round((1 - parseFloat(price!.amount) / parseFloat(compareAtPrice!.amount)) * 100)
+    : 0;
+
+  const formatPrice = (p: { amount: string }) => `₹${parseFloat(p.amount).toLocaleString()}`;
+
+  const handleBuyNow = async () => {
+    if (!firstVariant?.availableForSale) return;
+    setIsBuyingNow(true);
+    try {
+      const result = await createCart(firstVariant.id, 1);
+      const checkoutUrl = result?.cart?.checkoutUrl;
+      if (checkoutUrl) {
+        window.open(formatCheckoutUrl(checkoutUrl), '_blank');
+      } else {
+        toast.error("Failed to create checkout");
+      }
+    } catch {
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsBuyingNow(false);
+    }
+  };
 
   return (
     <div className="bg-card border border-border rounded-2xl overflow-hidden group">
@@ -286,6 +328,11 @@ function WishlistCard({
           alt={imageAlt}
           className="w-full h-full object-cover transition-all duration-500"
         />
+        {hasDiscount && (
+          <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded-lg font-medium">
+            {discountPercent}% OFF
+          </span>
+        )}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -301,23 +348,46 @@ function WishlistCard({
         <h3 className="font-medium text-sm truncate">
           {product?.title || "Loading..."}
         </h3>
-        <p className="text-primary font-medium mt-1">
-          {price ? `₹${parseFloat(price.amount).toLocaleString()}` : "—"}
-        </p>
+        <div className="flex items-center gap-2 mt-1">
+          {hasDiscount && compareAtPrice && (
+            <span className="text-xs text-muted-foreground line-through">
+              {formatPrice(compareAtPrice)}
+            </span>
+          )}
+          <span className="text-sm font-medium text-foreground">
+            {price ? formatPrice(price) : "—"}
+          </span>
+        </div>
         <Button
           variant="outline"
           size="sm"
-          className="w-full mt-3"
+          className="w-full mt-3 text-xs h-8 rounded-xl"
           onClick={() => onAddToCart(item.product_id)}
           disabled={isAdding || !firstVariant?.availableForSale}
         >
           {isAdding ? (
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
           ) : (
-            <ShoppingCart className="w-4 h-4 mr-2" />
+            <ShoppingCart className="w-3 h-3 mr-1" />
           )}
           {!firstVariant?.availableForSale ? "Sold Out" : "Add to Cart"}
         </Button>
+        {firstVariant?.availableForSale && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full mt-2 text-xs h-8 rounded-xl border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+            onClick={handleBuyNow}
+            disabled={isBuyingNow}
+          >
+            {isBuyingNow ? (
+              <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+            ) : (
+              <ExternalLink className="w-3 h-3 mr-1" />
+            )}
+            Buy Now
+          </Button>
+        )}
       </div>
     </div>
   );
