@@ -336,6 +336,7 @@ export const CART_LINES_REMOVE_MUTATION = `
 export function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
+    url.hostname = 'tiora.co';
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
