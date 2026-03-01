@@ -76,9 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           // Link guest orders to new user
           if (event === 'SIGNED_IN') {
-            const userPhone = session.user.phone || session.user.user_metadata?.phone;
-            const userEmail = session.user.email || session.user.user_metadata?.email;
-            await linkGuestOrders(session.user.id, userPhone, userEmail);
+            await linkGuestOrders(session.user.id);
             await syncLocalStylePreferences(session.user.id);
           }
         }, 0);
@@ -104,23 +102,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => subscription.unsubscribe();
   }, []);
 
-  const linkGuestOrders = async (userId: string, phone?: string, email?: string) => {
+  const linkGuestOrders = async (userId: string) => {
     try {
-      // Link by phone first (primary identifier)
-      if (phone) {
+      // Only link guest orders if the user's email is verified
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (!currentUser?.email_confirmed_at) {
+        console.info('Email not verified, skipping guest order linking');
+        return;
+      }
+
+      const verifiedEmail = currentUser.email;
+      const verifiedPhone = currentUser.phone;
+
+      // Link by verified phone first (primary identifier)
+      if (verifiedPhone) {
         await supabase
           .from('orders')
           .update({ user_id: userId })
-          .eq('guest_phone', phone)
+          .eq('guest_phone', verifiedPhone)
           .is('user_id', null);
       }
       
-      // Also link by email if provided
-      if (email) {
+      // Also link by verified email
+      if (verifiedEmail) {
         await supabase
           .from('orders')
           .update({ user_id: userId })
-          .eq('guest_email', email)
+          .eq('guest_email', verifiedEmail)
           .is('user_id', null);
       }
     } catch (error) {
