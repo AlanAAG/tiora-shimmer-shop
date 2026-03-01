@@ -50,12 +50,13 @@ export const createAddress = async (address: Omit<Address, 'id' | 'created_at'>)
   return data;
 };
 
-export const updateAddress = async (id: string, updates: Partial<Address>) => {
+export const updateAddress = async (userId: string, id: string, updates: Partial<Address>) => {
   const validated = addressSchema.partial().parse(updates);
   const { data, error } = await supabase
     .from('addresses')
     .update(validated)
     .eq('id', id)
+    .eq('user_id', userId)
     .select()
     .single();
   
@@ -63,16 +64,29 @@ export const updateAddress = async (id: string, updates: Partial<Address>) => {
   return data;
 };
 
-export const deleteAddress = async (id: string) => {
+export const deleteAddress = async (userId: string, id: string) => {
   const { error } = await supabase
     .from('addresses')
     .delete()
-    .eq('id', id);
+    .eq('id', id)
+    .eq('user_id', userId);
   
   if (error) throw error;
 };
 
 export const setDefaultAddress = async (userId: string, addressId: string) => {
+  // Verify ownership first
+  const { data: address, error: verifyError } = await supabase
+    .from('addresses')
+    .select('id')
+    .eq('id', addressId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (verifyError || !address) {
+    throw new Error('Address not found or access denied');
+  }
+
   // First unset all defaults
   await supabase
     .from('addresses')
@@ -83,7 +97,8 @@ export const setDefaultAddress = async (userId: string, addressId: string) => {
   const { error } = await supabase
     .from('addresses')
     .update({ is_default: true })
-    .eq('id', addressId);
+    .eq('id', addressId)
+    .eq('user_id', userId);
   
   if (error) throw error;
   
