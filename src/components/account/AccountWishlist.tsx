@@ -22,7 +22,7 @@ const WISHLIST_PRODUCTS_QUERY = `
             currencyCode
           }
         }
-        images(first: 1) {
+        images(first: 2) {
           edges {
             node {
               url
@@ -219,62 +219,106 @@ export const AccountWishlist = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {wishlist.map((item) => {
           const product = products.get(item.product_id);
-          const image = product?.images.edges[0]?.node;
+          const primaryImage = product?.images.edges[0]?.node;
+          const secondImage = product?.images.edges[1]?.node;
+          const hoverImageUrl = secondImage?.url || primaryImage?.url;
           const price = product?.priceRange.minVariantPrice;
           const firstVariant = product?.variants.edges[0]?.node;
           const isAdding = firstVariant ? loadingVariants.has(firstVariant.id) : false;
 
           return (
-            <div
+            <WishlistCard
               key={item.id}
-              className="bg-card border border-border rounded-2xl overflow-hidden group"
-            >
-              <Link
-                to={product?.handle ? `/product/${product.handle}` : "#"}
-                className="block aspect-square bg-muted relative"
-              >
-                <img
-                  src={image?.url || "/placeholder.svg"}
-                  alt={image?.altText || product?.title || "Product"}
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleRemove(item.product_id);
-                  }}
-                  className="absolute top-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </Link>
-              <div className="p-3">
-                <h3 className="font-medium text-sm truncate">
-                  {product?.title || "Loading..."}
-                </h3>
-                <p className="text-primary font-medium mt-1">
-                  {price ? `₹${parseFloat(price.amount).toLocaleString()}` : "—"}
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full mt-3"
-                  onClick={() => handleAddToCart(item.product_id)}
-                  disabled={isAdding || !firstVariant?.availableForSale}
-                >
-                  {isAdding ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                  )}
-                  {!firstVariant?.availableForSale ? "Sold Out" : "Add to Cart"}
-                </Button>
-              </div>
-            </div>
+              item={item}
+              product={product}
+              primaryImageUrl={primaryImage?.url}
+              hoverImageUrl={hoverImageUrl}
+              imageAlt={primaryImage?.altText || product?.title || "Product"}
+              price={price}
+              firstVariant={firstVariant}
+              isAdding={isAdding}
+              onRemove={handleRemove}
+              onAddToCart={handleAddToCart}
+            />
           );
         })}
       </div>
     </div>
   );
 };
+
+// Separate component so each card has its own hover state
+function WishlistCard({
+  item,
+  product,
+  primaryImageUrl,
+  hoverImageUrl,
+  imageAlt,
+  price,
+  firstVariant,
+  isAdding,
+  onRemove,
+  onAddToCart,
+}: {
+  item: WishlistItem;
+  product: ShopifyNodeProduct | undefined;
+  primaryImageUrl: string | undefined;
+  hoverImageUrl: string | undefined;
+  imageAlt: string;
+  price: { amount: string; currencyCode: string } | undefined;
+  firstVariant: { id: string; availableForSale: boolean } | undefined;
+  isAdding: boolean;
+  onRemove: (id: string) => void;
+  onAddToCart: (id: string) => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div className="bg-card border border-border rounded-2xl overflow-hidden group">
+      <Link
+        to={product?.handle ? `/product/${product.handle}` : "#"}
+        className="block aspect-[3/4] bg-muted relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img
+          src={isHovered ? (hoverImageUrl || "/placeholder.svg") : (primaryImageUrl || "/placeholder.svg")}
+          alt={imageAlt}
+          className="w-full h-full object-cover transition-all duration-500"
+        />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onRemove(item.product_id);
+          }}
+          className="absolute top-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </Link>
+      <div className="p-3">
+        <h3 className="font-medium text-sm truncate">
+          {product?.title || "Loading..."}
+        </h3>
+        <p className="text-primary font-medium mt-1">
+          {price ? `₹${parseFloat(price.amount).toLocaleString()}` : "—"}
+        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full mt-3"
+          onClick={() => onAddToCart(item.product_id)}
+          disabled={isAdding || !firstVariant?.availableForSale}
+        >
+          {isAdding ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <ShoppingCart className="w-4 h-4 mr-2" />
+          )}
+          {!firstVariant?.availableForSale ? "Sold Out" : "Add to Cart"}
+        </Button>
+      </div>
+    </div>
+  );
+}
