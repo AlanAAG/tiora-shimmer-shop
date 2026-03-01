@@ -8,6 +8,7 @@ const CartRedirect = () => {
   useEffect(() => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
+      console.log("Redirecting to checkout URL:", checkoutUrl);
       window.location.href = checkoutUrl;
     }
   }, [getCheckoutUrl]);
