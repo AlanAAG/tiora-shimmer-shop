@@ -24,6 +24,7 @@ import BlogArticle from "./pages/BlogArticle";
 import AuthPage from "./pages/AuthPage";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import AccountPage from "./pages/AccountPage";
+import CartRedirect from "./pages/CartRedirect";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ function AppContent() {
         <Route path="/blog/:slug" element={<BlogArticle />} />
         <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
         <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
+        <Route path="/cart" element={<CartRedirect />} />
         {/* Auth routes */}
         <Route path="/login" element={<AuthPage />} />
         <Route path="/signup" element={<AuthPage />} />
