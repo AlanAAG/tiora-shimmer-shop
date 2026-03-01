@@ -2,26 +2,130 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getWishlist, removeFromWishlist } from "@/services/accountService";
 import { WishlistItem } from "@/lib/supabase";
+import { storefrontApiRequest, ShopifyProduct } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
-import { Heart, Trash2, ShoppingCart } from "lucide-react";
-import { allProducts } from "@/data/products";
+import { Heart, Trash2, ShoppingCart, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
+
+const WISHLIST_PRODUCTS_QUERY = `
+  query GetNodes($ids: [ID!]!) {
+    nodes(ids: $ids) {
+      ... on Product {
+        id
+        title
+        handle
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              url
+              altText
+            }
+          }
+        }
+        variants(first: 1) {
+          edges {
+            node {
+              id
+              title
+              price {
+                amount
+                currencyCode
+              }
+              availableForSale
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
+        }
+        options {
+          name
+          values
+        }
+      }
+    }
+  }
+`;
+
+interface ShopifyNodeProduct {
+  id: string;
+  title: string;
+  handle: string;
+  priceRange: {
+    minVariantPrice: {
+      amount: string;
+      currencyCode: string;
+    };
+  };
+  images: {
+    edges: Array<{
+      node: {
+        url: string;
+        altText: string | null;
+      };
+    }>;
+  };
+  variants: {
+    edges: Array<{
+      node: {
+        id: string;
+        title: string;
+        price: { amount: string; currencyCode: string };
+        availableForSale: boolean;
+        selectedOptions: Array<{ name: string; value: string }>;
+      };
+    }>;
+  };
+  options: Array<{ name: string; values: string[] }>;
+}
 
 export const AccountWishlist = () => {
   const { user } = useAuth();
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+  const [products, setProducts] = useState<Map<string, ShopifyNodeProduct>>(new Map());
   const [loading, setLoading] = useState(true);
+  const { addItem, loadingVariants } = useCartStore();
 
   useEffect(() => {
     const fetchWishlist = async () => {
-      if (user) {
-        try {
-          const data = await getWishlist(user.id);
-          setWishlist(data);
-        } catch (error) {
-          console.error("Error fetching wishlist:", error);
-        } finally {
-          setLoading(false);
+      if (!user) return;
+      try {
+        const data = await getWishlist(user.id);
+        setWishlist(data);
+
+        // Fetch Shopify product data for all wishlisted items
+        const shopifyIds = data
+          .map((item) => item.product_id)
+          .filter((id) => id.startsWith("gid://"));
+
+        if (shopifyIds.length > 0) {
+          const result = await storefrontApiRequest(WISHLIST_PRODUCTS_QUERY, {
+            ids: shopifyIds,
+          });
+
+          if (result?.data?.nodes) {
+            const productMap = new Map<string, ShopifyNodeProduct>();
+            result.data.nodes.forEach((node: ShopifyNodeProduct | null) => {
+              if (node?.id) {
+                productMap.set(node.id, node);
+              }
+            });
+            setProducts(productMap);
+          }
         }
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -30,37 +134,48 @@ export const AccountWishlist = () => {
 
   const handleRemove = async (productId: string) => {
     if (!user) return;
-    
     try {
       await removeFromWishlist(user.id, productId);
       setWishlist((prev) => prev.filter((item) => item.product_id !== productId));
+      toast.success("Removed from wishlist");
     } catch (error) {
       console.error("Error removing from wishlist:", error);
+      toast.error("Failed to remove item");
     }
   };
 
-  // TODO: Replace with real Shopify product data
-  const getProductDetails = (productId: string) => {
-    // Try to find in mock products first
-    const product = allProducts.find((p) => String(p.id) === productId || p.slug === productId);
-    if (product) {
-      return {
-        name: product.name,
-        price: product.price,
-        image: product.images?.[0] || "/placeholder.svg",
-      };
+  const handleAddToCart = async (productId: string) => {
+    const product = products.get(productId);
+    if (!product) return;
+
+    const firstVariant = product.variants.edges[0]?.node;
+    if (!firstVariant) {
+      toast.error("This product is unavailable");
+      return;
     }
-    // Fallback for Shopify product IDs
-    return {
-      name: `Product ${productId.slice(0, 8)}`,
-      price: 0,
-      image: "/placeholder.svg",
+    if (!firstVariant.availableForSale) {
+      toast.error("This product is currently sold out");
+      return;
+    }
+
+    // Convert to ShopifyProduct format for cart store
+    const shopifyProduct: ShopifyProduct = {
+      node: {
+        ...product,
+        description: "",
+        tags: [],
+        productType: "",
+      } as ShopifyProduct["node"],
     };
-  };
 
-  // TODO: Integrate with cart store
-  const handleAddToCart = (productId: string) => {
-    console.log("Add to cart:", productId);
+    await addItem({
+      product: shopifyProduct,
+      variantId: firstVariant.id,
+      variantTitle: firstVariant.title,
+      price: firstVariant.price,
+      quantity: 1,
+      selectedOptions: firstVariant.selectedOptions,
+    });
   };
 
   if (loading) {
@@ -103,38 +218,57 @@ export const AccountWishlist = () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {wishlist.map((item) => {
-          const product = getProductDetails(item.product_id);
+          const product = products.get(item.product_id);
+          const image = product?.images.edges[0]?.node;
+          const price = product?.priceRange.minVariantPrice;
+          const firstVariant = product?.variants.edges[0]?.node;
+          const isAdding = firstVariant ? loadingVariants.has(firstVariant.id) : false;
+
           return (
             <div
               key={item.id}
               className="bg-card border border-border rounded-2xl overflow-hidden group"
             >
-              <div className="aspect-square bg-muted relative">
+              <Link
+                to={product?.handle ? `/product/${product.handle}` : "#"}
+                className="block aspect-square bg-muted relative"
+              >
                 <img
-                  src={product.image}
-                  alt={product.name}
+                  src={image?.url || "/placeholder.svg"}
+                  alt={image?.altText || product?.title || "Product"}
                   className="w-full h-full object-cover"
                 />
                 <button
-                  onClick={() => handleRemove(item.product_id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleRemove(item.product_id);
+                  }}
                   className="absolute top-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive hover:text-destructive-foreground"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
-              </div>
+              </Link>
               <div className="p-3">
-                <h3 className="font-medium text-sm truncate">{product.name}</h3>
+                <h3 className="font-medium text-sm truncate">
+                  {product?.title || "Loading..."}
+                </h3>
                 <p className="text-primary font-medium mt-1">
-                  {product.price > 0 ? `₹${product.price.toLocaleString()}` : "Price unavailable"}
+                  {price ? `₹${parseFloat(price.amount).toLocaleString()}` : "—"}
                 </p>
                 <Button
                   variant="outline"
                   size="sm"
                   className="w-full mt-3"
                   onClick={() => handleAddToCart(item.product_id)}
+                  disabled={isAdding || !firstVariant?.availableForSale}
                 >
-                  <ShoppingCart className="w-4 h-4 mr-2" />
-                  Add to Cart
+                  {isAdding ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                  )}
+                  {!firstVariant?.availableForSale ? "Sold Out" : "Add to Cart"}
                 </Button>
               </div>
             </div>
