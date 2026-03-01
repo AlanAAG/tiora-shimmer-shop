@@ -99,7 +99,7 @@ export const AccountAddresses = () => {
     setSaving(true);
     try {
       if (editingAddress) {
-        await updateAddress(editingAddress.id, formData);
+        await updateAddress(user.id, editingAddress.id, formData);
         toast({ title: "Address updated successfully" });
       } else {
         await createAddress({
@@ -128,7 +128,7 @@ export const AccountAddresses = () => {
     if (!confirm("Are you sure you want to delete this address?")) return;
 
     try {
-      await deleteAddress(id);
+      await deleteAddress(user!.id, id);
       setAddresses((prev) => prev.filter((a) => a.id !== id));
       toast({ title: "Address deleted successfully" });
     } catch (error) {
