@@ -1,4 +1,6 @@
+import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 interface FAQItem {
   question: string;
   answer: string;
@@ -6,25 +8,38 @@ interface FAQItem {
 interface ProductFAQProps {
   items: FAQItem[];
 }
-export const ProductFAQ = ({
-  items
-}: ProductFAQProps) => {
-  return <section className="py-16 bg-background pb-[6px]">
+
+const renderBoldText = (text: string) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={i}>{part}</React.Fragment>;
+  });
+};
+
+export const ProductFAQ = ({ items }: ProductFAQProps) => {
+  return (
+    <section className="py-16 bg-background pb-[6px]">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <h2 className="font-display text-2xl md:text-3xl text-foreground text-center mb-10">
           Frequently Asked Questions
         </h2>
 
         <Accordion type="single" collapsible className="w-full">
-          {items.map((item, index) => <AccordionItem key={index} value={`item-${index}`}>
+          {items.map((item, index) => (
+            <AccordionItem key={index} value={`item-${index}`}>
               <AccordionTrigger className="text-left font-body text-base hover:no-underline">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground font-body leading-relaxed">
-                {item.answer}
+                {renderBoldText(item.answer)}
               </AccordionContent>
-            </AccordionItem>)}
+            </AccordionItem>
+          ))}
         </Accordion>
       </div>
-    </section>;
+    </section>
+  );
 };
