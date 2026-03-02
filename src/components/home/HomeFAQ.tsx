@@ -1,32 +1,43 @@
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import React from "react";
+
+const renderBoldText = (text: string) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={i}>{part}</React.Fragment>;
+  });
+};
 
 const faqItems = [
   {
-    question: "What is demi-fine jewellery, exactly?",
+    question: "What is demi-fine jewellery, and how is Tiora different?",
     answer:
-      "Ordinary fashion jewellery fades, breaks, and doesn't last. Solid gold is an investment you keep in a locker.\n\nAt Tiora, we built the middle ground—a new category called Demi-fine. We use thick 18k gold plating over premium stainless steel. This engineering allows us to create jewellery that is on-trend, lasting, and high on quality, so you can wear luxury every day without the heavy price tag.",
+      "Demi-fine is the sweet spot between expensive solid gold and cheap, disposable fashion jewellery. While most artificial jewellery in India uses brass that tarnishes quickly, Tiora uses thick **18k gold plating** over a premium **316L stainless steel** core. This gives you the luxurious look of fine jewellery with the durability to withstand daily wear and Indian humidity, without the massive price tag.",
   },
   {
-    question: "Is buying jewellery online safe?",
+    question: "Is Tiora jewellery anti-tarnish and suitable for Indian weather?",
     answer:
-      "With Tiora, yes. We use encrypted 128-bit payment gateways (the same security used by major banks) to ensure your transaction is private. Plus, we are a transparent, registered Indian business. We list all product specs clearly and back our quality with a warranty. What you see on the screen is exactly what arrives in the box.",
+      "Yes. Because our core metal is **Surgical-Grade Stainless Steel**, it will never rust or corrode. Combined with our thick 18k gold plating, Tiora pieces are highly resistant to **heat, sweat, and humidity**. While all plated jewellery naturally ages, our engineering ensures your pieces hold their rich colour significantly longer than standard fashion jewellery.",
   },
   {
-    question: "How do I know which necklace or ring suits me best?",
+    question: "Are your pieces skin-friendly?",
     answer:
-      "Match your jewellery to your daily agenda. Tiora designs range from subtle to bold:\n\nFor Understated Elegance: If your day involves heavy typing or deep focus, opt for our minimalist designs. Think smooth rings and sleek bracelets that offer polish without snagging on keyboards or cuffs.\n\nFor Commanding Presence: If you are leading a presentation or wearing a blazer, choose our bold statement pieces. These designs are crafted to be attention-grabbing focal points that elevate a simple shirt or suit.\n\nStill Unsure? Start with our Bestsellers. They are curated specifically to be versatile staples for the modern professional.",
-  },
-  {
-    question: "Is gold plated jewellery worth it?",
-    answer:
-      "Absolutely—if the core is right. Cheap plating fails because the metal underneath (brass/copper) corrodes. Tiora jewellery is distinct because the core is Stainless Steel. Even if the plating eventually softens over years of love, you are left with a high-polished, rust-proof silver-tone piece that remains wearable forever. You are investing in longevity.",
+      'Yes, 100%. The "green skin" effect is caused by copper and nickel found in cheap brass jewellery. Tiora pieces are **Hypoallergenic** and **Nickel-Free**. Our stainless steel core is biologically inert, making it completely safe and comfortable for sensitive skin.',
   },
   {
     question: "Can I gift Tiora jewellery?",
     answer:
-      "Yes—and it will make an impression. We don't do 'plastic bags.' Every order arrives in our signature packaging, designed to feel like a high-end personal gift. It is perfect for birthdays, anniversaries, or celebrating a career milestone.",
+      'Yes—and it makes a stunning impression. We don\'t do "plastic bags." Every order arrives in our **signature premium packaging**, designed to feel like a high-end personal gift. It is perfect for birthdays, anniversaries, or celebrating a career milestone.',
+  },
+  {
+    question: "What are your shipping and return policies?",
+    answer:
+      "We deliver **Pan-India**, with express **24-48 hour delivery** available for many NCR pin codes. We back our quality with a **1-Year Warranty**. For returns, we accept unworn, unopened jewellery within our return window (for hygiene reasons, pieces that have been tried on cannot be returned).",
   },
 ];
 
@@ -47,8 +58,8 @@ const HomeFAQ = () => {
                 <AccordionTrigger className="text-left font-body text-base md:text-lg hover:no-underline py-5">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-body leading-relaxed text-sm md:text-base whitespace-pre-line">
-                  {item.answer}
+                <AccordionContent className="text-muted-foreground font-body leading-relaxed text-sm md:text-base">
+                  {renderBoldText(item.answer)}
                 </AccordionContent>
               </AccordionItem>
             ))}
