@@ -3,7 +3,7 @@ import { Heart, Star, ArrowRight, RotateCcw, Truck, Plus, Minus, Loader2, Extern
 import { Button } from "@/components/ui/button";
 import { Product, Review, formatPrice as formatPriceMock, allProducts } from "@/data/products";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
@@ -18,7 +18,7 @@ interface ProductInfoProps {
 
 export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [openCollapsibles, setOpenCollapsibles] = useState<Record<string, boolean>>({});
+  
 
   // Determine if Shopify product
   const isShopify = 'variants' in product;
@@ -30,9 +30,6 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
   // Mock State
   const [selectedMaterial, setSelectedMaterial] = useState<"gold" | "silver">("gold");
 
-  const toggleCollapsible = (key: string) => {
-    setOpenCollapsibles(prev => ({ ...prev, [key]: !prev[key] }));
-  };
 
   // Shopify Data Helpers
   const shopifyProduct = isShopify ? (product as ShopifyProduct['node']) : null;
@@ -342,43 +339,34 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
         </Button>
       </div>
 
-      {/* Collapsibles */}
-       <div className="border-t border-border pt-4 space-y-0">
-        <Collapsible open={openCollapsibles["returns"]} onOpenChange={() => toggleCollapsible("returns")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
-            <div className="flex items-center gap-3">
-              <RotateCcw className="w-4 h-4" />
-              <span className="font-body text-sm">Easy Returns</span>
-            </div>
-            {openCollapsibles["returns"] ? (
-              <Minus className="w-4 h-4 text-muted-foreground" />
-            ) : (
-              <Plus className="w-4 h-4 text-muted-foreground" />
-            )}
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
-            We offer free returns within 14 days of delivery. Items must be unworn and in their original packaging.
-          </CollapsibleContent>
-        </Collapsible>
+      {/* Returns & Shipping Highlights */}
+      <div className="border-t border-border pt-5 space-y-3">
+        <div className="flex items-start gap-3 bg-secondary/50 rounded-xl p-4">
+          <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <RotateCcw className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <span className="font-body text-sm font-semibold text-foreground">7-Day Easy Returns</span>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Hassle-free returns within 7 days of delivery.{" "}
+              <Link to="/refund" className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors">
+                Learn more
+              </Link>
+            </p>
+          </div>
+        </div>
 
-        <div className="border-t border-border" />
-
-        <Collapsible open={openCollapsibles["shipping"]} onOpenChange={() => toggleCollapsible("shipping")}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-4 text-left">
-            <div className="flex items-center gap-3">
-              <Truck className="w-4 h-4" />
-              <span className="font-body text-sm">Free Shipping</span>
-            </div>
-            {openCollapsibles["shipping"] ? (
-              <Minus className="w-4 h-4 text-muted-foreground" />
-            ) : (
-              <Plus className="w-4 h-4 text-muted-foreground" />
-            )}
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pb-4 text-sm text-muted-foreground leading-relaxed">
-            Enjoy free standard shipping on all orders. Express shipping available for an additional fee.
-          </CollapsibleContent>
-        </Collapsible>
+        <div className="flex items-start gap-3 bg-secondary/50 rounded-xl p-4">
+          <div className="flex-shrink-0 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <Truck className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <span className="font-body text-sm font-semibold text-foreground">Free Shipping — Pan India</span>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Complimentary shipping on every order, anywhere in India.
+            </p>
+          </div>
+        </div>
       </div>
 
 
