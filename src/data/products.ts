@@ -424,24 +424,24 @@ export const sampleReviews: Review[] = [
 
 export const faqItems = [
   {
-    question: "What materials are used?",
-    answer: "We engineer our jewellery for durability and style. The core is solid 316L Stainless Steel—the same grade used in luxury watches—which provides weight and strength. It is then finished with a layer of 18k Gold or Sterling Silver plating to give you the luxurious look of fine jewellery without the fragile nature of soft metals.",
+    question: "What exactly is this piece made of?",
+    answer: "This piece features a solid **316L Stainless Steel** core, finished with a thick, durable layer of **18k Gold plating** (approx. 2.5 microns). This makes it **rust-proof** and highly resistant to tarnishing.",
   },
   {
-    question: "Are your pieces skin-friendly?",
-    answer: "Yes, 100%. The \"green ring\" on skin is caused by chemical reactions with copper or nickel found in brass jewellery. Tiora pieces use a Surgical-Grade Stainless Steel core which is biologically inert and Nickel-Free. It will never rust, oxidize, or leave a green mark on your skin, even in the Indian heat.",
+    question: "Does it look like real gold?",
+    answer: 'Absolutely. We specifically use **18k Gold** for our plating because it provides a warm, rich tone (unlike the harsh, fake "yellow" look of 24k plating). It matches perfectly with your existing solid gold fine jewellery.',
   },
   {
-    question: "How long does the gold plating last?",
-    answer: "With mindful care, the shine can last for years. Because we plate over Steel (a hard, durable metal) rather than soft brass, the finish is robust. However, since this is traditional plating, it deserves care. To keep the finish distinct, we recommend keeping it away from heavy sweat, water, and perfumes.",
+    question: "Can I wear this in the shower or at the gym?",
+    answer: "This piece is **water-resistant** and **sweat-resistant**. It easily handles washing your hands or a humid commute. However, to keep the 18k gold plating looking mirror-perfect for years, we highly recommend removing it before daily showers, chlorinated pools, or heavy gym sessions.",
   },
   {
-    question: "How do I care for my jewellery?",
-    answer: "Treat it like a tailored blazer—durable, but better kept dry. Last On, First Off: Wear your jewellery after applying perfume and lotion. Keep it Dry: Remove before showering or swimming to protect the plating. Wipe it Down: Use a soft cloth after wearing to remove body oils.",
+    question: "Will this feel heavy or uncomfortable for all-day wear?",
+    answer: "No. This piece was engineered for the modern professional. It is balanced to provide a **bold, statement look** without dragging on your earlobes or feeling bulky, so you can comfortably wear it from your morning commute to a dinner out.",
   },
   {
     question: "How long does shipping take?",
-    answer: "We ship across all of India. Order Processing: 1–3 business days. Estimated Delivery: 3–7 business days. Note: While we aim for speed, delays caused by courier partners or external factors are not Tiora's liability. If your shipment arrives damaged, complaints must be reported within 24 hours of delivery with photo proof so we can assist you immediately.",
+    answer: "We process orders within **24 hours**. Deliveries typically take **3–7 business days** across India, with prioritized **24–48 hour shipping** for Delhi/NCR.",
   },
 ];
 
