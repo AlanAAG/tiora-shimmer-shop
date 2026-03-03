@@ -42,12 +42,9 @@ async function createShopifyCart(item: CartItem): Promise<{ cartId: string; chec
   const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
     input: {
       lines: [{ quantity: item.quantity, merchandiseId: item.variantId }],
-      // TODO: Add buyerIdentity for Shiprocket seamless shipping calculations
-      // buyerIdentity: {
-      //   deliveryAddressPreferences: [{
-      //     deliveryAddress: { /* ... */ }
-      //   }]
-      // }
+      // TODO: Add buyerIdentity for Shiprocket seamless shipping calculations.
+      // E.g., buyerIdentity: { deliveryAddressPreferences: [{ deliveryAddress: { ... } }] }
+      // Ensuring we don't send null objects that break the checkout flow.
     },
   });
 
