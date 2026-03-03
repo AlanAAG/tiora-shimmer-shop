@@ -336,8 +336,8 @@ export const CART_LINES_REMOVE_MUTATION = `
 export function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    // Return the checkoutUrl provided by the Shopify API directly without modification
-    // This ensures the user is sent to the authenticated Shopify domain that Razorpay recognizes.
+    // Always force the Shopify permanent domain so Razorpay works correctly
+    url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
