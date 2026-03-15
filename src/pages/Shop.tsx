@@ -146,15 +146,35 @@ const Shop = () => {
     });
   };
 
-  // For specific category collections (rings, earrings, bracelets, necklaces),
-  // trust the Shopify collection — don't apply additional client-side category filtering.
-  // Only apply category filtering for "all" and "best-sellers" which mix product types.
+  // For specific category collections, trust the Shopify collection but exclude obvious mismatches
   const isSpecificCategoryCollection = ["rings", "earrings", "bracelets", "necklaces"].includes(collection);
 
-  // Apply category filter and sorting to Shopify products
+  const categoryKeywords: Record<string, string[]> = {
+    rings: ["ring"],
+    earrings: ["earring", "hoops", "hoop", "studs", "stud", "drop"],
+    bracelets: ["bracelet", "cuff", "bangle"],
+    necklaces: ["necklace", "pendant", "chain"],
+  };
+
+  const excludeMismatch = (product: ShopifyProduct): boolean => {
+    if (!isSpecificCategoryCollection) return true;
+    const title = product.node.title.toLowerCase();
+    const otherCategories = Object.entries(categoryKeywords).filter(([cat]) => cat !== collection);
+    for (const [, keywords] of otherCategories) {
+      if (keywords.some(kw => title.includes(kw))) {
+        const currentKeywords = categoryKeywords[collection] || [];
+        if (!currentKeywords.some(kw => title.includes(kw))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  // Apply filtering and sorting to Shopify products
   const filteredShopifyProducts = sortProducts(
     isSpecificCategoryCollection
-      ? (shopifyProducts || [])
+      ? (shopifyProducts || []).filter(excludeMismatch)
       : (shopifyProducts?.filter((product) => matchesCategory(product.node, categoryFilter)) || [])
   );
 
