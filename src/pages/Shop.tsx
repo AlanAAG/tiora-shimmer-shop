@@ -146,15 +146,16 @@ const Shop = () => {
     });
   };
 
-  // For specific collections, enforce category matching to ensure only correct product types show
-  const effectiveCategoryFilter: CategoryFilter = 
-    (!showCategoryFilter && ["rings", "earrings", "bracelets", "necklaces"].includes(collection)) 
-      ? collection as CategoryFilter 
-      : categoryFilter;
+  // For specific category collections (rings, earrings, bracelets, necklaces),
+  // trust the Shopify collection — don't apply additional client-side category filtering.
+  // Only apply category filtering for "all" and "best-sellers" which mix product types.
+  const isSpecificCategoryCollection = ["rings", "earrings", "bracelets", "necklaces"].includes(collection);
 
   // Apply category filter and sorting to Shopify products
   const filteredShopifyProducts = sortProducts(
-    shopifyProducts?.filter((product) => matchesCategory(product.node, effectiveCategoryFilter)) || []
+    isSpecificCategoryCollection
+      ? (shopifyProducts || [])
+      : (shopifyProducts?.filter((product) => matchesCategory(product.node, categoryFilter)) || [])
   );
 
   // Get badge text for products
