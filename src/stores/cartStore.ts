@@ -225,7 +225,10 @@ export const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [], cartId: null, checkoutUrl: null, loadingVariants: new Set() }),
-      getCheckoutUrl: () => get().checkoutUrl,
+      getCheckoutUrl: () => {
+        const checkoutUrl = get().checkoutUrl;
+        return checkoutUrl ? formatCheckoutUrl(checkoutUrl) : null;
+      },
       getTotalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
 
       syncCart: async () => {
