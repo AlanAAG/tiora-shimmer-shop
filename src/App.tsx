@@ -59,6 +59,8 @@ function AppContent() {
         <Route path="/signup" element={<ShopifyRedirect path="/account/register" />} />
         <Route path="/account" element={<ShopifyRedirect path="/account" />} />
         <Route path="/update-password" element={<ShopifyRedirect path="/account/login" />} />
+        {/* Catch-all for Shopify order/account paths from confirmation emails */}
+        <Route path="/94442127661/*" element={<ShopifyCatchAllRedirect />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
