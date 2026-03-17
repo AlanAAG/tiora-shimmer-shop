@@ -21,7 +21,7 @@ import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import CartRedirect from "./pages/CartRedirect";
-import { ShopifyRedirect } from "./components/ShopifyRedirect";
+import { ShopifyRedirect, ShopifyCatchAllRedirect } from "./components/ShopifyRedirect";
 
 const queryClient = new QueryClient();
 
