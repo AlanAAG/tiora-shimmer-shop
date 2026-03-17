@@ -62,6 +62,7 @@ function AppContent() {
         {/* Catch-all for Shopify auth/order/account paths from confirmation emails */}
         <Route path="/authentication/94442127661/*" element={<ShopifyCatchAllRedirect />} />
         <Route path="/94442127661/*" element={<ShopifyCatchAllRedirect />} />
+        <Route path="/customer_authentication/*" element={<ShopifyCatchAllRedirect />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
