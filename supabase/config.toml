@@ -1,0 +1,2 @@
+[functions.fetch-shopify-orders]
+verify_jwt = false

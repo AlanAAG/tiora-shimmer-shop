@@ -1,54 +1,60 @@
 
 
-# Plan: Connect Shopify Orders to Account Orders Tab
+# Product Card Redesign: Add to Bag Button Below Card + Wishlist Heart Icon
 
-## The Problem
+## Overview
+Move the "Add to Bag" action from a hover overlay inside the product image to a visible button below the product card. Replace it with a heart icon on the lower-right corner of the image for wishlist functionality.
 
-The current AccountOrders component reads from Supabase `orders` table, which is empty. Real orders live in Shopify. The Storefront API (client-side) cannot query order data -- it requires the **Admin API** which needs a secret access token that must stay server-side.
+## Components to Update
 
-## Architecture
+### 1. ShopifyProductCard (`src/components/shop/ShopifyProductCard.tsx`)
+Used on collection/shop pages.
 
-```text
-User's Account Page
-       │
-       ▼
-Supabase Edge Function  ──►  Shopify Admin API
-  (fetch-orders)              (Orders endpoint)
-       │                      - by customer email
-       ▼                      - includes fulfillment
-  Returns order data          & tracking info
-  to frontend
-```
+- **Remove**: The hover-only ShoppingBag button overlay inside the image container
+- **Add**: A Heart icon button (lower-right corner of the image), always visible or shown on hover, which calls `addToWishlist` from `accountService`
+- **Add**: A full-width "ADD+" button below the product info (outside the Link), using the existing `addItem` cart logic
+- The heart should toggle filled/unfilled based on wishlist state (if user is logged in)
 
-## Implementation Steps
+### 2. MostPopular ProductCard (`src/components/home/MostPopular.tsx`)
+Used on the homepage "Most Popular" section. Has the same hover ShoppingBag pattern.
 
-### 1. Store Shopify Admin API token as a secret
-- The Shopify Admin API access token is a private key (different from the public Storefront token already in the code)
-- It will be stored as a Supabase Edge Function secret, never exposed client-side
-- You'll need to get this token from your Shopify Admin > Settings > Apps and sales channels > Develop apps
+- **Remove**: The hover-only ShoppingBag button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info, outside the Link wrapper
 
-### 2. Create Supabase Edge Function `fetch-shopify-orders`
-- Accepts the authenticated user's email (from Supabase JWT, not from the client request body -- prevents spoofing)
-- Calls Shopify Admin REST API: `GET /admin/api/2025-07/orders.json?email={email}&status=any`
-- Returns orders with: order number, line items (product title, image, quantity, price), fulfillment status, tracking number, tracking URL, and order status page URL
-- Includes CORS headers for the frontend
+### 3. ProductCard (`src/components/shop/ProductCard.tsx`)
+Used for local/mock product data on shop pages.
 
-### 3. Update AccountOrders component
-- Replace the current Supabase `getOrders` call with a `supabase.functions.invoke('fetch-shopify-orders')` call
-- Display real Shopify order data: order name (#1001, etc.), line items with product images and titles, fulfillment status, total price
-- Add a "Track Order" button per order that links to Shopify's tracking URL or order status page
-- Show fulfillment status badges (unfulfilled, in transit, delivered)
+- **Remove**: The hover-only ShoppingBag button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info
 
-### 4. Update types
-- Add a `ShopifyOrder` interface with fields for line items, fulfillments (with tracking), financial status, and the order status URL
+### 4. FeaturedProducts (`src/components/home/FeaturedProducts.tsx`)
+Homepage featured section with "Quick Add" hover button.
 
-## Key Details
+- **Remove**: The hover-only "Quick Add" button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info
 
-- **Tracking link**: Each Shopify fulfillment contains `tracking_number`, `tracking_url`, and `tracking_company`. The order also has an `order_status_url` which is the Shopify-hosted tracking page customers can visit.
-- **Security**: The edge function validates the user's JWT and extracts their email server-side. No email is passed from the client.
-- **No database sync needed**: Orders are fetched directly from Shopify on demand, keeping data always current.
+### 5. RecommendedCarousel (`src/components/product/RecommendedCarousel.tsx`)
+Already has an "ADD+" button below -- just needs the heart icon added to the image.
 
-## What You'll Need to Provide
+- **Add**: Heart icon button on lower-right corner of image
 
-Before implementation, I'll need you to add your **Shopify Admin API access token** as a secret. I'll walk you through getting it from your Shopify admin panel.
+## Wishlist Integration
+- Use existing `addToWishlist` / `removeFromWishlist` from `src/services/accountService.ts`
+- Use `useAuth` to check if user is logged in
+- If not logged in, tapping heart shows a toast prompting login
+- Heart icon: outlined by default, filled red when item is in wishlist
+
+## Visual Design
+- **Heart button**: Small circular button (w-8 h-8), semi-transparent background, positioned `absolute bottom-3 right-3` inside the image container. Always visible (not hover-only).
+- **ADD+ button**: Full-width `Button` with `variant="outline"`, placed below the material indicator, outside the `<Link>` wrapper to prevent navigation on click.
+
+## Technical Details
+- Import `Heart` from `lucide-react`
+- Import `useAuth` from `@/contexts/AuthContext`
+- Import `addToWishlist`, `removeFromWishlist`, `getWishlist` from `@/services/accountService`
+- Each card component will need a small wishlist state check (could be a shared hook later, but for now inline per component to keep changes minimal)
+- The "ADD+" button uses `e.preventDefault()` / `e.stopPropagation()` to avoid navigation since it sits outside the Link
 
