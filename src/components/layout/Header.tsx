@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { WishlistDrawer } from "@/components/cart/WishlistDrawer";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { SearchDialog } from "@/components/search/SearchDialog";
 import { getMediaUrl } from "@/lib/cloudinary";
