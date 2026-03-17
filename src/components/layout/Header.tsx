@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { SearchDialog } from "@/components/search/SearchDialog";
-import { useAuth } from "@/contexts/AuthContext";
 import { getMediaUrl } from "@/lib/cloudinary";
 
 const tioraLogo = getMediaUrl("logo-no-bg", "image");
+
+const SHOPIFY_ACCOUNT_URL = "https://tiora-2025.myshopify.com/account";
 
 interface HeaderProps {
   showBanner?: boolean;
@@ -21,28 +22,8 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
   const scrollVisibility = useScrollHeader();
   const isVisible = disableScrollHide ? true : scrollVisibility;
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user, profile, loading } = useAuth();
   
   const isHomePage = location.pathname === "/";
-  
-  const handleAccountClick = () => {
-    if (user) {
-      navigate("/account");
-    } else {
-      navigate("/login");
-    }
-  };
-  
-  const getUserInitial = () => {
-    if (profile?.full_name) {
-      return profile.full_name.charAt(0).toUpperCase();
-    }
-    if (user?.email) {
-      return user.email.charAt(0).toUpperCase();
-    }
-    return null;
-  };
   
   // Get current collection from URL
   let currentCollection = new URLSearchParams(location.search).get("collection");
@@ -62,32 +43,27 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
     { name: "Bracelets", href: "/shop/bracelets", collection: "bracelets" },
   ];
   
-  // Build dynamic nav links for desktop
   const getDesktopNavLinks = () => {
     if (isHomePage) {
       return baseNavLinks;
     }
     
-    // Filter out current collection if on a collection page
     const filteredLinks = baseNavLinks.filter(link => {
       if (currentCollection && link.collection === currentCollection) {
         return false;
       }
-      // Also filter if on /shop without collection
       if (location.pathname === "/shop" && !currentCollection && link.href === "/shop") {
         return false;
       }
       return true;
     });
     
-    // Add Homepage as the first item
     return [{ name: "Homepage", href: "/", collection: null }, ...filteredLinks];
   };
   
   const desktopNavLinks = getDesktopNavLinks();
 
   const headerTop = showBanner ? "top-10" : "top-0";
-  // When hiding, translate by full header height + banner height if banner is shown
   const hideTransform = showBanner ? "-translate-y-[calc(100%+2.5rem)]" : "-translate-y-full";
 
   return (
@@ -134,20 +110,15 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             <Button variant="ghost" size="icon" className="hidden lg:flex" onClick={() => setIsSearchOpen(true)}>
               <Search className="w-5 h-5" />
             </Button>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={handleAccountClick}
-              className="relative"
+            <a
+              href={SHOPIFY_ACCOUNT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              {user && getUserInitial() ? (
-                <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
-                  {getUserInitial()}
-                </div>
-              ) : (
+              <Button variant="ghost" size="icon">
                 <User className="w-5 h-5" />
-              )}
-            </Button>
+              </Button>
+            </a>
             <CartDrawer />
           </div>
         </div>
@@ -167,6 +138,15 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
                 {link.name}
               </Link>
             ))}
+            <a
+              href={SHOPIFY_ACCOUNT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg font-display text-foreground/80 hover:text-primary transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              My Account
+            </a>
           </nav>
         </div>
       )}

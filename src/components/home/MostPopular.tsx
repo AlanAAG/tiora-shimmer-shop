@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useShopifyCollection } from "@/hooks/useShopifyProducts";
 import { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
-import { useAuth } from "@/contexts/AuthContext";
-import { addToWishlist, removeFromWishlist, getWishlist } from "@/services/accountService";
+import { useLocalWishlist } from "@/hooks/useLocalWishlist";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -16,9 +15,8 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const { addItem, loadingVariants } = useCartStore();
-  const { user } = useAuth();
+  const { isWishlisted, toggle } = useLocalWishlist();
 
   const { node } = product;
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
@@ -33,65 +31,28 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const primaryImage = node.images.edges[0]?.node.url;
   const hoverImage = node.images.edges[1]?.node.url || primaryImage;
 
-  useEffect(() => {
-    if (user) {
-      getWishlist(user.id).then(items => {
-        setIsWishlisted(items.some(item => item.product_id === node.id));
-      }).catch(() => {});
-    }
-  }, [user, node.id]);
-
   const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: currency,
-    }).format(amount);
+    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount);
   };
 
   const handleAddToBag = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     const firstVariant = node.variants.edges[0]?.node;
-    if (!firstVariant) {
-      toast.error("Product unavailable");
-      return;
-    }
-
+    if (!firstVariant) { toast.error("Product unavailable"); return; }
     await addItem({
-      product,
-      variantId: firstVariant.id,
-      variantTitle: firstVariant.title,
-      price: firstVariant.price,
-      quantity: 1,
-      selectedOptions: firstVariant.selectedOptions,
+      product, variantId: firstVariant.id, variantTitle: firstVariant.title,
+      price: firstVariant.price, quantity: 1, selectedOptions: firstVariant.selectedOptions,
     });
-
-    toast.success("Added to cart", {
-      description: node.title,
-    });
+    toast.success("Added to cart", { description: node.title });
   };
 
-  const handleWishlist = async (e: React.MouseEvent) => {
+  const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      toast("Please log in to save items to your wishlist");
-      return;
-    }
-    try {
-      if (isWishlisted) {
-        await removeFromWishlist(user.id, node.id);
-        setIsWishlisted(false);
-        toast.success("Removed from wishlist");
-      } else {
-        await addToWishlist(user.id, node.id);
-        setIsWishlisted(true);
-        toast.success("Added to wishlist");
-      }
-    } catch {
-      toast.error("Something went wrong");
-    }
+    const was = isWishlisted(node.id);
+    toggle(node.id);
+    toast.success(was ? "Removed from wishlist" : "Added to wishlist");
   };
 
   const titleLower = node.title.toLowerCase();
@@ -101,78 +62,40 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const isAddingToCart = variantId ? loadingVariants.has(variantId) : false;
 
   return (
-    <div
-      className="flex-shrink-0"
-      style={{ width: "calc(23vw - 1rem)", maxWidth: "220px", minWidth: "160px" }}
-    >
-      <Link
-        to={`/product/${node.handle}`}
-        className="group block"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Image Container */}
+    <div className="flex-shrink-0" style={{ width: "calc(23vw - 1rem)", maxWidth: "220px", minWidth: "160px" }}>
+      <Link to={`/product/${node.handle}`} className="group block"
+        onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <div className="relative aspect-[3/4] overflow-hidden bg-muted rounded-xl border border-accent">
           {primaryImage ? (
-            <img
-              src={isHovered ? hoverImage : primaryImage}
-              alt={node.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            <img src={isHovered ? hoverImage : primaryImage} alt={node.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">No Image</div>
           )}
-
-          {/* Badges */}
           <div className="absolute top-2 left-2 flex flex-row gap-1.5">
             {hasDiscount && (
-              <span className="bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded-lg font-medium">
-                {discountPercent}% OFF
-              </span>
+              <span className="bg-primary text-primary-foreground text-[10px] tracking-wide uppercase px-2 py-1 rounded-lg font-medium">{discountPercent}% OFF</span>
             )}
           </div>
-
-          {/* Wishlist heart button */}
-          <button
-            onClick={handleWishlist}
-            className="absolute bottom-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all"
-          >
-            <Heart className={`w-4 h-4 ${isWishlisted ? "fill-red-500 text-red-500" : "text-foreground"}`} />
+          <button onClick={handleWishlist}
+            className="absolute bottom-2 right-2 w-8 h-8 bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center justify-center hover:bg-background transition-all">
+            <Heart className={`w-4 h-4 ${isWishlisted(node.id) ? "fill-red-500 text-red-500" : "text-foreground"}`} />
           </button>
         </div>
-
-        {/* Product Info */}
         <div className="pt-2 space-y-1">
           <h3 className="font-display text-sm text-foreground line-clamp-1">{node.title}</h3>
           <div className="flex items-center gap-2">
-            {hasDiscount && comparePrice && (
-              <span className="font-body text-xs text-muted-foreground line-through">{formatPrice(comparePrice)}</span>
-            )}
+            {hasDiscount && comparePrice && <span className="font-body text-xs text-muted-foreground line-through">{formatPrice(comparePrice)}</span>}
             <span className="font-body text-sm font-medium text-foreground">{formatPrice(price)}</span>
           </div>
           <div className="flex items-center gap-2 pt-1">
-            <span
-              className={`w-3 h-3 rounded-full border border-border ${
-                primaryMaterial === "gold" ? "bg-amber-400" : "bg-gray-300"
-              }`}
-            />
-            <span className="font-body text-xs text-muted-foreground">
-              {primaryMaterial === "gold" ? "Gold Plated" : "Silver Plated"}
-            </span>
+            <span className={`w-3 h-3 rounded-full border border-border ${primaryMaterial === "gold" ? "bg-amber-400" : "bg-gray-300"}`} />
+            <span className="font-body text-xs text-muted-foreground">{primaryMaterial === "gold" ? "Gold Plated" : "Silver Plated"}</span>
           </div>
         </div>
       </Link>
-
-      {/* ADD+ button below card */}
-      <Button
-        variant="outline"
-        size="sm"
-        className="w-full text-xs h-8 rounded-xl mt-2"
-        onClick={handleAddToBag}
-        disabled={isAddingToCart}
-      >
-        {isAddingToCart ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}
-        Add to Cart
+      <Button variant="outline" size="sm" className="w-full text-xs h-8 rounded-xl mt-2" onClick={handleAddToBag} disabled={isAddingToCart}>
+        {isAddingToCart ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : null}Add to Cart
       </Button>
     </div>
   );
@@ -195,33 +118,22 @@ const MostPopular = () => {
   return (
     <section className="py-8 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
         <div className="text-center mb-6">
           <h2 className="font-display text-4xl md:text-5xl text-foreground italic mb-3">Most Popular</h2>
           <p className="font-body text-muted-foreground">Elevate your style with our latest designs.</p>
         </div>
-
-        {/* Scrollable Products */}
         <div className="overflow-x-auto scrollbar-hide mb-6">
           <div className="flex gap-3 min-w-max pl-4 md:pl-0" style={{ width: "max-content" }}>
             {isLoading ? (
               Array.from({ length: 6 }).map((_, i) => <ProductSkeleton key={i} />)
             ) : error || !products || products.length === 0 ? (
-              <div className="flex items-center justify-center w-full py-12 text-muted-foreground">
-                No products found
-              </div>
+              <div className="flex items-center justify-center w-full py-12 text-muted-foreground">No products found</div>
             ) : (
               products.map((product) => <ProductCard key={product.node.id} product={product} />)
             )}
           </div>
         </div>
-
-        {/* Shop Collection Button */}
-        <Button
-          variant="outline"
-          className="w-full max-w-xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-2xl mb-8"
-          asChild
-        >
+        <Button variant="outline" className="w-full max-w-xl mx-auto flex uppercase tracking-widest text-xs h-14 rounded-2xl mb-8" asChild>
           <Link to="/shop/best-sellers">View More</Link>
         </Button>
       </div>
