@@ -119,6 +119,7 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
                 <User className="w-5 h-5" />
               </Button>
             </a>
+            <WishlistDrawer />
             <CartDrawer />
           </div>
         </div>
