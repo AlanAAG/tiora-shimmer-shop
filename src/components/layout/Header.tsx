@@ -112,8 +112,7 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             </Button>
             <a
               href={SHOPIFY_ACCOUNT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-label="Open customer account"
             >
               <Button variant="ghost" size="icon">
                 <User className="w-5 h-5" />
@@ -140,8 +139,6 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             ))}
             <a
               href={SHOPIFY_ACCOUNT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-lg font-display text-foreground/80 hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
