@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SHOPIFY_ACCOUNT_BASE = "https://tiora-2025.myshopify.com";
+const SHOPIFY_ACCOUNT_BASE = "https://shopify.com/94442127661";
 
 export const ShopifyRedirect = ({ path }: { path: string }) => {
   useEffect(() => {
