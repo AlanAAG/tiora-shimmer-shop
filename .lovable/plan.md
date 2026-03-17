@@ -1,39 +1,60 @@
 
 
-# Plan: Fix Shopify Customer Account Redirects
+# Product Card Redesign: Add to Bag Button Below Card + Wishlist Heart Icon
 
-## The Problem
+## Overview
+Move the "Add to Bag" action from a hover overlay inside the product image to a visible button below the product card. Replace it with a heart icon on the lower-right corner of the image for wishlist functionality.
 
-Two issues are preventing customer accounts from working:
+## Components to Update
 
-1. **Broken order confirmation email links**: Shopify sends emails with "View Order" links pointing to `tiora.co/94442127661/orders/...`. Your headless site has no route for these paths, so customers see a blank page or 404. These links need to be caught and redirected to `shopify.com/94442127661/orders/...`.
+### 1. ShopifyProductCard (`src/components/shop/ShopifyProductCard.tsx`)
+Used on collection/shop pages.
 
-2. **Permanent domain mismatch**: The codebase hardcodes `tiora-2025.myshopify.com` as the Shopify domain, but the actual store permanent domain is `jtv22j-ew.myshopify.com`. This may affect checkout URLs and other API calls.
+- **Remove**: The hover-only ShoppingBag button overlay inside the image container
+- **Add**: A Heart icon button (lower-right corner of the image), always visible or shown on hover, which calls `addToWishlist` from `accountService`
+- **Add**: A full-width "ADD+" button below the product info (outside the Link), using the existing `addItem` cart logic
+- The heart should toggle filled/unfilled based on wishlist state (if user is logged in)
 
-## Changes
+### 2. MostPopular ProductCard (`src/components/home/MostPopular.tsx`)
+Used on the homepage "Most Popular" section. Has the same hover ShoppingBag pattern.
 
-### 1. Add catch-all route for Shopify order/account paths
+- **Remove**: The hover-only ShoppingBag button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info, outside the Link wrapper
 
-In `App.tsx`, add a new route component that catches any path starting with `/94442127661/` and redirects to `https://shopify.com/94442127661/...` (preserving the full path and query string). This fixes all broken email links — order status, account authentication tokens, etc.
+### 3. ProductCard (`src/components/shop/ProductCard.tsx`)
+Used for local/mock product data on shop pages.
 
-```text
-tiora.co/94442127661/orders/abc123/authenticate?key=xyz
-  → redirects to →
-shopify.com/94442127661/orders/abc123/authenticate?key=xyz
-```
+- **Remove**: The hover-only ShoppingBag button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info
 
-### 2. Fix the Shopify permanent domain
+### 4. FeaturedProducts (`src/components/home/FeaturedProducts.tsx`)
+Homepage featured section with "Quick Add" hover button.
 
-Update `src/lib/shopify.ts` to use the correct permanent domain `jtv22j-ew.myshopify.com` instead of `tiora-2025.myshopify.com`. This ensures checkout URLs and API calls work correctly.
+- **Remove**: The hover-only "Quick Add" button overlay
+- **Add**: Heart icon button on lower-right corner of image
+- **Add**: "ADD+" button below product info
 
-### 3. Update ShopifyRedirect component
+### 5. RecommendedCarousel (`src/components/product/RecommendedCarousel.tsx`)
+Already has an "ADD+" button below -- just needs the heart icon added to the image.
 
-Make the component more generic so it can handle both account redirects and the catch-all order paths — extracting the full path + query string and forwarding to `shopify.com`.
+- **Add**: Heart icon button on lower-right corner of image
 
-## What This Fixes
+## Wishlist Integration
+- Use existing `addToWishlist` / `removeFromWishlist` from `src/services/accountService.ts`
+- Use `useAuth` to check if user is logged in
+- If not logged in, tapping heart shows a toast prompting login
+- Heart icon: outlined by default, filled red when item is in wishlist
 
-- Order confirmation email "View Order" buttons will work (redirected to Shopify)
-- Account icon click will open Shopify's hosted login/account portal
-- `/login`, `/signup`, `/account` routes continue redirecting to Shopify
-- Checkout URLs will use the correct store domain
+## Visual Design
+- **Heart button**: Small circular button (w-8 h-8), semi-transparent background, positioned `absolute bottom-3 right-3` inside the image container. Always visible (not hover-only).
+- **ADD+ button**: Full-width `Button` with `variant="outline"`, placed below the material indicator, outside the `<Link>` wrapper to prevent navigation on click.
+
+## Technical Details
+- Import `Heart` from `lucide-react`
+- Import `useAuth` from `@/contexts/AuthContext`
+- Import `addToWishlist`, `removeFromWishlist`, `getWishlist` from `@/services/accountService`
+- Each card component will need a small wishlist state check (could be a shared hook later, but for now inline per component to keep changes minimal)
+- The "ADD+" button uses `e.preventDefault()` / `e.stopPropagation()` to avoid navigation since it sits outside the Link
 
