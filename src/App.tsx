@@ -54,12 +54,13 @@ function AppContent() {
         <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
         <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
         <Route path="/cart" element={<CartRedirect />} />
-        {/* Auth routes → redirect to Shopify */}
-        <Route path="/login" element={<ShopifyRedirect path="/account/login" />} />
-        <Route path="/signup" element={<ShopifyRedirect path="/account/register" />} />
+        {/* Hosted Shopify customer account routes */}
+        <Route path="/login" element={<ShopifyRedirect path="/authentication/94442127661/login" />} />
+        <Route path="/signup" element={<ShopifyRedirect path="/authentication/94442127661/login" />} />
         <Route path="/account" element={<ShopifyRedirect path="/account" />} />
-        <Route path="/update-password" element={<ShopifyRedirect path="/account/login" />} />
-        {/* Catch-all for Shopify order/account paths from confirmation emails */}
+        <Route path="/update-password" element={<ShopifyRedirect path="/authentication/94442127661/login" />} />
+        {/* Catch-all for Shopify auth/order/account paths from confirmation emails */}
+        <Route path="/authentication/94442127661/*" element={<ShopifyCatchAllRedirect />} />
         <Route path="/94442127661/*" element={<ShopifyCatchAllRedirect />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
