@@ -112,8 +112,7 @@ const Header = ({ showBanner = true, disableScrollHide = false }: HeaderProps) =
             </Button>
             <a
               href={SHOPIFY_ACCOUNT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-label="Open customer account"
             >
               <Button variant="ghost" size="icon">
                 <User className="w-5 h-5" />
