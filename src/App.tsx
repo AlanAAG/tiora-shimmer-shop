@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCartSync } from "@/hooks/useCartSync";
-import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -21,10 +20,8 @@ import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
-import AuthPage from "./pages/AuthPage";
-import UpdatePasswordPage from "./pages/UpdatePasswordPage";
-import AccountPage from "./pages/AccountPage";
 import CartRedirect from "./pages/CartRedirect";
+import { ShopifyRedirect } from "./components/ShopifyRedirect";
 
 const queryClient = new QueryClient();
 
@@ -57,12 +54,11 @@ function AppContent() {
         <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
         <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
         <Route path="/cart" element={<CartRedirect />} />
-        {/* Auth routes */}
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/signup" element={<AuthPage />} />
-        <Route path="/update-password" element={<UpdatePasswordPage />} />
-        {/* Account routes */}
-        <Route path="/account" element={<AccountPage />} />
+        {/* Auth routes → redirect to Shopify */}
+        <Route path="/login" element={<ShopifyRedirect path="/account/login" />} />
+        <Route path="/signup" element={<ShopifyRedirect path="/account/register" />} />
+        <Route path="/account" element={<ShopifyRedirect path="/account" />} />
+        <Route path="/update-password" element={<ShopifyRedirect path="/account/login" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
@@ -76,9 +72,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <AuthProvider>
-            <AppContent />
-          </AuthProvider>
+          <AppContent />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
