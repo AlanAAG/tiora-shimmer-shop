@@ -167,7 +167,8 @@ const EmailPopup = () => {
 
       {/* Full popup */}
       <Dialog open={open} onOpenChange={(v) => !v && handleDismiss()}>
-        <DialogContent className="sm:max-w-md p-0 gap-0 border-border bg-background overflow-hidden rounded-2xl">
+        <DialogContent className="sm:max-w-[750px] p-0 gap-0 border-border bg-background overflow-hidden rounded-2xl">
+          <div className="flex flex-col sm:flex-row">
           <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
           
           <button
