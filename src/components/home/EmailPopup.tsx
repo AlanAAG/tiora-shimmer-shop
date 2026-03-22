@@ -156,6 +156,13 @@ const EmailPopup = () => {
         console.error("Klaviyo API error:", klaviyoResult.value.status, await klaviyoResult.value.text().catch(() => ""));
       }
 
+      // Drop Klaviyo tracking cookie
+      if (typeof window !== 'undefined' && (window as any).klaviyo) {
+        const identifyData: Record<string, string> = { '$email': trimmedEmail };
+        if (cleanedPhone) identifyData['$phone_number'] = cleanedPhone;
+        (window as any).klaviyo.push(['identify', identifyData]);
+      }
+
       setIsSuccess(true);
       localStorage.setItem(POPUP_DISMISSED_KEY, "true");
     } catch {
