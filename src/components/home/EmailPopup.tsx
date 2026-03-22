@@ -5,34 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabase";
-import { storefrontApiRequest } from "@/lib/shopify";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
 const DISCOUNT_CODE = "WELCOME15";
-
-const CUSTOMER_CREATE_MUTATION = `
-  mutation customerCreate($input: CustomerCreateInput!) {
-    customerCreate(input: $input) {
-      customer {
-        id
-        email
-      }
-      customerUserErrors {
-        field
-        message
-        code
-      }
-    }
-  }
-`;
+const KLAVIYO_COMPANY_ID = "Wad9ct";
+const KLAVIYO_LIST_ID = "XvtJPt";
 
 const EmailPopup = () => {
   const [open, setOpen] = useState(false);
   const [showTeaser, setShowTeaser] = useState(false);
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("+91");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -67,10 +52,16 @@ const EmailPopup = () => {
     localStorage.setItem(POPUP_DISMISSED_KEY, "true");
   };
 
+  const getCleanPhone = (): string | null => {
+    const trimmed = phone.trim().replace(/[\s\-()]/g, "");
+    // Treat "+91" alone (or just "+") as blank
+    if (!trimmed || trimmed === "+91" || trimmed === "+") return null;
+    return trimmed;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedEmail = email.trim();
-    const trimmedPhone = phone.trim();
 
     if (!trimmedEmail) {
       toast.error("Please enter your email address.");
@@ -83,47 +74,86 @@ const EmailPopup = () => {
       return;
     }
 
-    let cleanedPhone = "";
-    if (trimmedPhone) {
-      cleanedPhone = trimmedPhone.replace(/[\s\-()]/g, "");
-      if (!/^\+?\d{10,15}$/.test(cleanedPhone)) {
-        toast.error("Please enter a valid WhatsApp number.");
+    const cleanedPhone = getCleanPhone();
+
+    if (cleanedPhone) {
+      // Ensure it starts with +
+      if (!cleanedPhone.startsWith("+")) {
+        toast.error("Phone number must start with a country code (e.g. +91).");
+        return;
+      }
+      // E.164: + followed by 7-15 digits
+      if (!/^\+\d{7,15}$/.test(cleanedPhone)) {
+        toast.error("Please enter a valid phone number in international format (e.g. +919876543210).");
         return;
       }
     }
 
     setIsSubmitting(true);
     try {
-      // Save to Supabase
-      const { error } = await supabase
-        .from("email_subscribers")
-        .insert({
-          email: trimmedEmail,
-          discount_code: DISCOUNT_CODE,
-          source: "popup",
-          ...(cleanedPhone && { phone: cleanedPhone }),
-        });
+      const supabaseInsert = {
+        email: trimmedEmail,
+        discount_code: DISCOUNT_CODE,
+        source: "popup",
+        ...(cleanedPhone && { phone_number: cleanedPhone }),
+      };
 
-      if (error) {
-        if (error.code === "23505") {
-          toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
-        } else {
-          throw error;
-        }
+      const klaviyoProfile: Record<string, string> = { email: trimmedEmail };
+      if (cleanedPhone) {
+        klaviyoProfile.phone_number = cleanedPhone;
       }
 
-      // Sync email to Shopify marketing list
-      try {
-        await storefrontApiRequest(CUSTOMER_CREATE_MUTATION, {
-          input: {
-            email: trimmedEmail,
-            acceptsMarketing: true,
-            ...(cleanedPhone && { phone: cleanedPhone }),
+      const klaviyoBody = {
+        data: {
+          type: "subscription",
+          attributes: {
+            custom_source: "Lovable Discount Pop-up",
+            profile: {
+              data: {
+                type: "profile",
+                attributes: klaviyoProfile,
+              },
+            },
           },
-        });
-      } catch (shopifyErr) {
-        // Don't block the user if Shopify sync fails
-        console.error("Shopify customer sync failed:", shopifyErr);
+          relationships: {
+            list: {
+              data: {
+                type: "list",
+                id: KLAVIYO_LIST_ID,
+              },
+            },
+          },
+        },
+      };
+
+      const results = await Promise.allSettled([
+        // Call 1: Supabase
+        supabase.from("newsletter_leads").insert(supabaseInsert),
+        // Call 2: Klaviyo Client API
+        fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            revision: "2024-02-15",
+          },
+          body: JSON.stringify(klaviyoBody),
+        }),
+      ]);
+
+      const supabaseResult = results[0];
+      const klaviyoResult = results[1];
+
+      // Check for Supabase duplicate
+      if (supabaseResult.status === "fulfilled" && supabaseResult.value.error?.code === "23505") {
+        toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
+      } else if (supabaseResult.status === "rejected" || (supabaseResult.status === "fulfilled" && supabaseResult.value.error)) {
+        console.error("Supabase insert failed:", supabaseResult.status === "rejected" ? supabaseResult.reason : supabaseResult.value.error);
+      }
+
+      if (klaviyoResult.status === "rejected") {
+        console.error("Klaviyo sync failed:", klaviyoResult.reason);
+      } else if (!klaviyoResult.value.ok) {
+        console.error("Klaviyo API error:", klaviyoResult.value.status, await klaviyoResult.value.text().catch(() => ""));
       }
 
       setIsSuccess(true);
