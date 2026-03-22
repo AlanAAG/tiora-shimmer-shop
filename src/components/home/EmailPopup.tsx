@@ -4,15 +4,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabase";
+import { storefrontApiRequest } from "@/lib/shopify";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
 const DISCOUNT_CODE = "WELCOME15";
 
+const CUSTOMER_CREATE_MUTATION = `
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        email
+      }
+      customerUserErrors {
+        field
+        message
+        code
+      }
+    }
+  }
+`;
+
 const EmailPopup = () => {
   const [open, setOpen] = useState(false);
   const [showTeaser, setShowTeaser] = useState(false);
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -30,7 +48,6 @@ const EmailPopup = () => {
 
   const handleDismiss = () => {
     setOpen(false);
-    // Show teaser after dismissing (only if not already subscribed)
     if (!isSuccess) {
       setShowTeaser(true);
     } else {
@@ -51,20 +68,40 @@ const EmailPopup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const trimmed = phone.trim();
-    if (!trimmed) return;
+    const trimmedEmail = email.trim();
+    const trimmedPhone = phone.trim();
 
-    const cleaned = trimmed.replace(/[\s\-()]/g, "");
-    if (!/^\+?\d{10,15}$/.test(cleaned)) {
-      toast.error("Please enter a valid WhatsApp number.");
+    if (!trimmedEmail) {
+      toast.error("Please enter your email address.");
       return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    let cleanedPhone = "";
+    if (trimmedPhone) {
+      cleanedPhone = trimmedPhone.replace(/[\s\-()]/g, "");
+      if (!/^\+?\d{10,15}$/.test(cleanedPhone)) {
+        toast.error("Please enter a valid WhatsApp number.");
+        return;
+      }
     }
 
     setIsSubmitting(true);
     try {
+      // Save to Supabase
       const { error } = await supabase
         .from("email_subscribers")
-        .insert({ email: cleaned, discount_code: DISCOUNT_CODE, source: "whatsapp_popup" });
+        .insert({
+          email: trimmedEmail,
+          discount_code: DISCOUNT_CODE,
+          source: "popup",
+          ...(cleanedPhone && { phone: cleanedPhone }),
+        });
 
       if (error) {
         if (error.code === "23505") {
@@ -72,6 +109,20 @@ const EmailPopup = () => {
         } else {
           throw error;
         }
+      }
+
+      // Sync email to Shopify marketing list
+      try {
+        await storefrontApiRequest(CUSTOMER_CREATE_MUTATION, {
+          input: {
+            email: trimmedEmail,
+            acceptsMarketing: true,
+            ...(cleanedPhone && { phone: cleanedPhone }),
+          },
+        });
+      } catch (shopifyErr) {
+        // Don't block the user if Shopify sync fails
+        console.error("Shopify customer sync failed:", shopifyErr);
       }
 
       setIsSuccess(true);
@@ -137,17 +188,25 @@ const EmailPopup = () => {
                 Unlock 15% Off
               </h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
-                Drop your WhatsApp number and get 15% off your first order. Be the first to know about new collections & exclusive drops.
+                Enter your email and WhatsApp number to get 15% off your first order. Be the first to know about new collections & exclusive drops.
               </p>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
                 <Input
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-12 bg-muted/50 border-border text-center font-body text-sm placeholder:text-muted-foreground/60 rounded-xl"
+                  required
+                  disabled={isSubmitting}
+                />
+                <Input
                   type="tel"
-                  placeholder="Enter your WhatsApp number"
+                  placeholder="WhatsApp number (optional)"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="h-12 bg-muted/50 border-border text-center font-body text-sm placeholder:text-muted-foreground/60 rounded-xl"
-                  required
                   disabled={isSubmitting}
                 />
                 <Button
