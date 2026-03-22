@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
 const DISCOUNT_CODE = "WELCOME15";
 
 const EmailPopup = () => {
   const [open, setOpen] = useState(false);
+  const [showTeaser, setShowTeaser] = useState(false);
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -28,6 +30,22 @@ const EmailPopup = () => {
 
   const handleDismiss = () => {
     setOpen(false);
+    // Show teaser after dismissing (only if not already subscribed)
+    if (!isSuccess) {
+      setShowTeaser(true);
+    } else {
+      localStorage.setItem(POPUP_DISMISSED_KEY, "true");
+    }
+  };
+
+  const handleTeaserClick = () => {
+    setShowTeaser(false);
+    setOpen(true);
+  };
+
+  const handleTeaserClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowTeaser(false);
     localStorage.setItem(POPUP_DISMISSED_KEY, "true");
   };
 
@@ -36,7 +54,6 @@ const EmailPopup = () => {
     const trimmed = phone.trim();
     if (!trimmed) return;
 
-    // Basic phone validation: digits only (with optional +), 10-15 chars
     const cleaned = trimmed.replace(/[\s\-()]/g, "");
     if (!/^\+?\d{10,15}$/.test(cleaned)) {
       toast.error("Please enter a valid WhatsApp number.");
@@ -67,96 +84,127 @@ const EmailPopup = () => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && handleDismiss()}>
-      <DialogContent className="sm:max-w-md p-0 gap-0 border-border bg-background overflow-hidden rounded-2xl">
-        <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
-        
-        <button
-          onClick={handleDismiss}
-          className="absolute right-4 top-4 z-10 rounded-full p-1 text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Close"
-        >
-          <X className="h-4 w-4" />
-        </button>
+    <>
+      {/* Teaser tab */}
+      <AnimatePresence>
+        {showTeaser && !open && (
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            onClick={handleTeaserClick}
+            className="fixed bottom-6 right-6 z-50 cursor-pointer group"
+          >
+            <div className="flex items-center gap-3 bg-primary text-primary-foreground pl-4 pr-3 py-3 rounded-full shadow-lg hover:shadow-xl transition-shadow">
+              <Gift className="w-5 h-5 shrink-0" />
+              <span className="font-body text-sm font-medium whitespace-nowrap">
+                Get 15% Off
+              </span>
+              <button
+                onClick={handleTeaserClose}
+                className="ml-1 rounded-full p-0.5 hover:bg-primary-foreground/20 transition-colors"
+                aria-label="Close teaser"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {!isSuccess ? (
-          <div className="p-8 sm:p-10 text-center">
-            <div className="w-12 h-[2px] bg-primary mx-auto mb-6" />
-            
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
-              Exclusive Offer
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
-              Unlock 15% Off
-            </h2>
-            <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
-              Drop your WhatsApp number and get 15% off your first order. Be the first to know about new collections & exclusive drops.
-            </p>
+      {/* Full popup */}
+      <Dialog open={open} onOpenChange={(v) => !v && handleDismiss()}>
+        <DialogContent className="sm:max-w-md p-0 gap-0 border-border bg-background overflow-hidden rounded-2xl">
+          <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
+          
+          <button
+            onClick={handleDismiss}
+            className="absolute right-4 top-4 z-10 rounded-full p-1 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
-              <Input
-                type="tel"
-                placeholder="Enter your WhatsApp number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="h-12 bg-muted/50 border-border text-center font-body text-sm placeholder:text-muted-foreground/60 rounded-xl"
-                required
-                disabled={isSubmitting}
-              />
+          {!isSuccess ? (
+            <div className="p-8 sm:p-10 text-center">
+              <div className="w-12 h-[2px] bg-primary mx-auto mb-6" />
+              
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
+                Exclusive Offer
+              </p>
+              <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
+                Unlock 15% Off
+              </h2>
+              <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
+                Drop your WhatsApp number and get 15% off your first order. Be the first to know about new collections & exclusive drops.
+              </p>
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
+                <Input
+                  type="tel"
+                  placeholder="Enter your WhatsApp number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="h-12 bg-muted/50 border-border text-center font-body text-sm placeholder:text-muted-foreground/60 rounded-xl"
+                  required
+                  disabled={isSubmitting}
+                />
+                <Button
+                  variant="elegant"
+                  size="lg"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full rounded-xl"
+                >
+                  {isSubmitting ? "Unlocking..." : "Unlock My 15% Off"}
+                </Button>
+              </form>
+
+              <button
+                onClick={handleDismiss}
+                className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+              >
+                No thanks, I'll pay full price
+              </button>
+            </div>
+          ) : (
+            <div className="p-8 sm:p-10 text-center">
+              <div className="w-12 h-[2px] bg-primary mx-auto mb-6" />
+              
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
+                You're In
+              </p>
+              <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
+                Welcome to TIORA
+              </h2>
+              <p className="text-muted-foreground text-sm mb-6">
+                Your exclusive discount code:
+              </p>
+
+              <div className="bg-muted rounded-xl py-4 px-6 mb-6">
+                <p className="font-display text-2xl tracking-[0.2em] text-primary font-semibold">
+                  {DISCOUNT_CODE}
+                </p>
+              </div>
+
+              <p className="text-xs text-muted-foreground mb-6">
+                Use this code at checkout for 15% off your first order.
+              </p>
+
               <Button
                 variant="elegant"
                 size="lg"
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full rounded-xl"
+                onClick={handleDismiss}
+                className="w-full max-w-sm rounded-xl"
               >
-                {isSubmitting ? "Unlocking..." : "Unlock My 15% Off"}
+                Start Shopping
               </Button>
-            </form>
-
-            <button
-              onClick={handleDismiss}
-              className="mt-4 text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-            >
-              No thanks, I'll pay full price
-            </button>
-          </div>
-        ) : (
-          <div className="p-8 sm:p-10 text-center">
-            <div className="w-12 h-[2px] bg-primary mx-auto mb-6" />
-            
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
-              You're In
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
-              Welcome to TIORA
-            </h2>
-            <p className="text-muted-foreground text-sm mb-6">
-              Your exclusive discount code:
-            </p>
-
-            <div className="bg-muted rounded-xl py-4 px-6 mb-6">
-              <p className="font-display text-2xl tracking-[0.2em] text-primary font-semibold">
-                {DISCOUNT_CODE}
-              </p>
             </div>
-
-            <p className="text-xs text-muted-foreground mb-6">
-              Use this code at checkout for 15% off your first order.
-            </p>
-
-            <Button
-              variant="elegant"
-              size="lg"
-              onClick={handleDismiss}
-              className="w-full max-w-sm rounded-xl"
-            >
-              Start Shopping
-            </Button>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
