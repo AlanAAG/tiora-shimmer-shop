@@ -171,6 +171,18 @@ const EmailPopup = () => {
           <div className="flex flex-col sm:flex-row">
           <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
           
+          {/* Left image */}
+          <div className="hidden sm:block sm:w-[280px] shrink-0">
+            <img
+              src={getMediaUrl("email")}
+              alt="TIORA jewelry"
+              className="h-full w-full object-cover"
+            />
+          </div>
+
+          {/* Right content */}
+          <div className="flex-1 relative">
+          
           <button
             onClick={handleDismiss}
             className="absolute right-4 top-4 z-10 rounded-full p-1 text-muted-foreground hover:text-foreground transition-colors"
