@@ -275,6 +275,8 @@ const EmailPopup = () => {
               </Button>
             </div>
           )}
+          </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>
