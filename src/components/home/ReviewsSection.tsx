@@ -35,7 +35,7 @@ const reviews = [
   {
     id: 3,
     name: "Meera",
-    review: "Obsessed! I work in the jewelry industry and I'm very picky about quality. Their silver color is beautiful & bright. Even their packaging is great!",
+    review: "Obsessed! I work in the jewelry industry and I'm very picky about quality. Their golden color is beautiful & bright. Even their packaging is great!",
     verified: true,
   },
 ];
