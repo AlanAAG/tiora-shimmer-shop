@@ -36,6 +36,7 @@ const Index = () => {
         <ReviewsSection />
         <HomeFAQ />
       </main>
+      <EmailPopup />
       <Footer />
     </div>
   );
