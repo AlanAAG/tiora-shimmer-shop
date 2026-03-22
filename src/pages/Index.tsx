@@ -8,6 +8,7 @@ import ShopTrends from "@/components/home/ShopTrends";
 import TrustSection from "@/components/home/TrustSection";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import HomeFAQ from "@/components/home/HomeFAQ";
+import EmailPopup from "@/components/home/EmailPopup";
 import { Helmet } from "react-helmet-async";
 
 
@@ -35,6 +36,7 @@ const Index = () => {
         <ReviewsSection />
         <HomeFAQ />
       </main>
+      <EmailPopup />
       <Footer />
     </div>
   );
