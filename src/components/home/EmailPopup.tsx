@@ -11,7 +11,7 @@ const DISCOUNT_CODE = "WELCOME15";
 
 const EmailPopup = () => {
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -33,13 +33,21 @@ const EmailPopup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    const trimmed = phone.trim();
+    if (!trimmed) return;
+
+    // Basic phone validation: digits only (with optional +), 10-15 chars
+    const cleaned = trimmed.replace(/[\s\-()]/g, "");
+    if (!/^\+?\d{10,15}$/.test(cleaned)) {
+      toast.error("Please enter a valid WhatsApp number.");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       const { error } = await supabase
         .from("email_subscribers")
-        .insert({ email: email.trim().toLowerCase(), discount_code: DISCOUNT_CODE });
+        .insert({ email: cleaned, discount_code: DISCOUNT_CODE, source: "whatsapp_popup" });
 
       if (error) {
         if (error.code === "23505") {
@@ -63,7 +71,6 @@ const EmailPopup = () => {
       <DialogContent className="sm:max-w-md p-0 gap-0 border-border bg-background overflow-hidden rounded-2xl">
         <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
         
-        {/* Close button */}
         <button
           onClick={handleDismiss}
           className="absolute right-4 top-4 z-10 rounded-full p-1 text-muted-foreground hover:text-foreground transition-colors"
@@ -74,7 +81,6 @@ const EmailPopup = () => {
 
         {!isSuccess ? (
           <div className="p-8 sm:p-10 text-center">
-            {/* Decorative accent */}
             <div className="w-12 h-[2px] bg-primary mx-auto mb-6" />
             
             <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
@@ -84,15 +90,15 @@ const EmailPopup = () => {
               Unlock 15% Off
             </h2>
             <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
-              Join the TIORA circle and get 15% off your first order. Be the first to know about new collections & exclusive drops.
+              Drop your WhatsApp number and get 15% off your first order. Be the first to know about new collections & exclusive drops.
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
               <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="tel"
+                placeholder="Enter your WhatsApp number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="h-12 bg-muted/50 border-border text-center font-body text-sm placeholder:text-muted-foreground/60 rounded-xl"
                 required
                 disabled={isSubmitting}
