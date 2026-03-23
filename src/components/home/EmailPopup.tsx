@@ -148,7 +148,7 @@ const EmailPopup = () => {
       const hasRlsInsertError = isRlsInsertError(supabaseResult);
 
       if (isDuplicateLead) {
-        toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
+        toast.info("You're already subscribed! Use code WELCOME10 at checkout.");
       } else if (hasSupabaseError) {
         console.error("Supabase insert failed:", supabaseResult.status === "rejected" ? supabaseResult.reason : supabaseResult.value.error);
         toast.error("We couldn't save your details. Please try again.");
