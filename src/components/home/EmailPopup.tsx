@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { hasBlockingSupabaseError, isDuplicateLeadError, isRlsInsertError } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackLead } from "@/lib/metaPixel";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
 const DISCOUNT_CODE = "WELCOME10";
@@ -175,6 +176,7 @@ const EmailPopup = () => {
       }
 
       setIsSuccess(true);
+      trackLead({ contentName: 'Discount Popup Signup' });
       localStorage.setItem(POPUP_DISMISSED_KEY, "true");
     } catch {
       toast.error("Something went wrong. Please try again.");

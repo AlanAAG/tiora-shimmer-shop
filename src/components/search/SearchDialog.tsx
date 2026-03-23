@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import {
@@ -17,6 +17,7 @@ import {
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyProduct } from "@/lib/shopify";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { trackSearch } from "@/lib/metaPixel";
 
 interface SearchDialogProps {
   open: boolean;
@@ -25,6 +26,7 @@ interface SearchDialogProps {
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [query, setQuery] = useState("");
+  const searchFiredRef = useRef("");
   const navigate = useNavigate();
   const { data: allProducts = [], isLoading } = useShopifyProducts(100);
 
@@ -45,6 +47,17 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         );
       }).slice(0, 8) // Limit to 8 results
     : [];
+
+  // Fire Search event when user types a meaningful query (debounced, fire once per unique query)
+  useEffect(() => {
+    if (query.length < 2) return;
+    if (searchFiredRef.current === query) return;
+    const timer = setTimeout(() => {
+      trackSearch(query);
+      searchFiredRef.current = query;
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [query]);
 
   // Get popular/recent products when no query
   const suggestedProducts = query.length === 0 ? allProducts.slice(0, 5) : [];

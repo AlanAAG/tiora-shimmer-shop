@@ -8,6 +8,7 @@ import { getMediaUrl } from "@/lib/cloudinary";
 import { supabase } from "@/lib/supabase";
 import { hasBlockingSupabaseError, isDuplicateLeadError, isRlsInsertError } from "@/lib/leadCapture";
 import { toast } from "sonner";
+import { trackLead } from "@/lib/metaPixel";
 
 const tioraLogo = getMediaUrl("logo-no-bg", "image");
 
@@ -168,6 +169,7 @@ const FooterNewsletter = () => {
       }
 
       setIsSuccess(true);
+      trackLead({ contentName: 'Footer Newsletter Signup' });
       toast.success("Welcome to the Tiora Circle!");
     } catch {
       toast.error("Something went wrong. Please try again.");
