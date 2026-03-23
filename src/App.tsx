@@ -31,6 +31,10 @@ function AppContent() {
   useCartSync();
   const location = useLocation();
 
+  // Fire Meta Pixel PageView on every SPA route change
+  useEffect(() => {
+    trackPageView();
+  }, [location.pathname]);
   return (
     <>
       <Helmet>
