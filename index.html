@@ -49,6 +49,10 @@
     fbq('init', '963894736171720');
     fbq('track', 'PageView');
   </script>
+  <!-- Ensure our pixel is initialized even if another script (e.g. Klaviyo) loaded fbq first -->
+  <script>
+    if(window.fbq){fbq('init','963894736171720');fbq('track','PageView');}
+  </script>
   <!-- End Meta Pixel Code -->
 </head>
 
