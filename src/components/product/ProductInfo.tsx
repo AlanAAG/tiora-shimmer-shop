@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { trackInitiateCheckout, trackAddToCart, extractShopifyId } from "@/lib/metaPixel";
 
 
 interface ProductInfoProps {
