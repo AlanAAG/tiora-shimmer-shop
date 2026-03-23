@@ -19,6 +19,13 @@ export const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
+      // Fire InitiateCheckout before redirect
+      trackInitiateCheckout({
+        contentIds: items.map(item => extractShopifyId(item.product.node.id)),
+        value: totalPrice,
+        currency: items[0]?.price.currencyCode || 'INR',
+        numItems: totalItems,
+      });
       window.open(checkoutUrl, '_blank');
       setIsOpen(false);
     }

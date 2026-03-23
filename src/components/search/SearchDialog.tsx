@@ -48,6 +48,17 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       }).slice(0, 8) // Limit to 8 results
     : [];
 
+  // Fire Search event when user types a meaningful query (debounced, fire once per unique query)
+  useEffect(() => {
+    if (query.length < 2) return;
+    if (searchFiredRef.current === query) return;
+    const timer = setTimeout(() => {
+      trackSearch(query);
+      searchFiredRef.current = query;
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [query]);
+
   // Get popular/recent products when no query
   const suggestedProducts = query.length === 0 ? allProducts.slice(0, 5) : [];
 
