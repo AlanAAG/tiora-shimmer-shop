@@ -310,7 +310,7 @@ const EmailPopup = () => {
               </div>
 
               <p className="text-xs text-muted-foreground mb-6">
-                Use this code at checkout for 15% off your first order.
+                Use this code at checkout for 10% off your first order.
               </p>
 
               <Button
