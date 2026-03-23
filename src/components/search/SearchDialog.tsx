@@ -26,6 +26,7 @@ interface SearchDialogProps {
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [query, setQuery] = useState("");
+  const searchFiredRef = useRef("");
   const navigate = useNavigate();
   const { data: allProducts = [], isLoading } = useShopifyProducts(100);
 
