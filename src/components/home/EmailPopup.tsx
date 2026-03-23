@@ -246,11 +246,11 @@ const EmailPopup = () => {
               <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
                 Exclusive Offer
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
-                Unlock 15% Off
+               <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
+                Unlock 10% Off
               </h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
-                Enter your email and WhatsApp number to get 15% off your first order. Be the first to know about new collections & exclusive drops.
+                Enter your email and WhatsApp number to get 10% off your first order. Be the first to know about new collections & exclusive drops.
               </p>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
