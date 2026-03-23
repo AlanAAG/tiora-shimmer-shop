@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { 
   ShopifyProduct, 
-  storefrontApiRequest, 
+  storefrontApiRequest,
   CART_QUERY, 
   CART_CREATE_MUTATION, 
   CART_LINES_ADD_MUTATION,

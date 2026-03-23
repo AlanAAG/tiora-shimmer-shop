@@ -17,6 +17,7 @@ import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProduct
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import { trackViewContent, extractShopifyId } from "@/lib/metaPixel";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
