@@ -166,6 +166,12 @@ export const useCartStore = create<CartStore>()(
             if (result.success) {
               const currentItems = get().items;
               set({ items: [...currentItems, { ...item, lineId: result.lineId ?? null }] });
+              trackAddToCart({
+                contentName: item.product.node.title,
+                contentIds: [extractShopifyId(item.product.node.id)],
+                value: parseFloat(item.price.amount) * item.quantity,
+                currency: item.price.currencyCode,
+              });
             } else if (result.cartNotFound) {
               clearCart();
             }
