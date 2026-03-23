@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { ShopifyProduct, createCart, formatCheckoutUrl } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { trackInitiateCheckout, trackAddToCart, extractShopifyId } from "@/lib/metaPixel";
 
 
 interface ProductInfoProps {
@@ -145,6 +146,25 @@ export const ProductInfo = ({ product, reviews = [] }: ProductInfoProps) => {
     }
 
     try {
+        const price = parseFloat(selectedVariant.price.amount);
+        const productId = extractShopifyId(shopifyProduct!.id);
+
+        // Fire AddToCart for this direct-checkout item
+        trackAddToCart({
+          contentName: shopifyProduct!.title,
+          contentIds: [productId],
+          value: price,
+          currency: selectedVariant.price.currencyCode,
+        });
+
+        // Fire InitiateCheckout (Buy Now = single-item direct checkout)
+        trackInitiateCheckout({
+          contentIds: [productId],
+          value: price,
+          currency: selectedVariant.price.currencyCode,
+          numItems: 1,
+        });
+
         // Direct Checkout Creation via API as requested
         const cartCreate = await createCart(selectedVariant.id, 1);
 
