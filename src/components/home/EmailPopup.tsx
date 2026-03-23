@@ -93,7 +93,6 @@ const EmailPopup = () => {
     try {
       const supabaseInsert = {
         email: trimmedEmail,
-        discount_code: DISCOUNT_CODE,
         source: "popup",
         ...(cleanedPhone && { phone_number: cleanedPhone }),
       };
@@ -144,10 +143,18 @@ const EmailPopup = () => {
       const klaviyoResult = results[1];
 
       // Check for Supabase duplicate
-      if (supabaseResult.status === "fulfilled" && supabaseResult.value.error?.code === "23505") {
+      const isDuplicateLead =
+        supabaseResult.status === "fulfilled" && supabaseResult.value.error?.code === "23505";
+      const hasSupabaseError =
+        supabaseResult.status === "rejected" ||
+        (supabaseResult.status === "fulfilled" && !!supabaseResult.value.error && !isDuplicateLead);
+
+      if (isDuplicateLead) {
         toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
-      } else if (supabaseResult.status === "rejected" || (supabaseResult.status === "fulfilled" && supabaseResult.value.error)) {
+      } else if (hasSupabaseError) {
         console.error("Supabase insert failed:", supabaseResult.status === "rejected" ? supabaseResult.reason : supabaseResult.value.error);
+        toast.error("We couldn't save your details. Please try again.");
+        return;
       }
 
       if (klaviyoResult.status === "rejected") {
