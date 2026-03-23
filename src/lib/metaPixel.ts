@@ -3,10 +3,12 @@
  * Pixel ID: 896348986199542 — initialized in index.html.
  *
  * Provides typed helpers for standard e-commerce events:
- * - PageView (fired automatically by base code)
+ * - PageView (fired on every SPA route change + initial load)
  * - ViewContent (product pages)
  * - AddToCart (cart interactions)
  * - InitiateCheckout (checkout redirect)
+ * - Search (product search queries)
+ * - Lead (newsletter / popup signups)
  */
 
 // Extend window with fbq
@@ -77,5 +79,25 @@ export function trackInitiateCheckout(params: {
     value: params.value,
     currency: params.currency,
     num_items: params.numItems,
+  });
+}
+
+/** Fire when user performs a product search */
+export function trackSearch(searchString: string) {
+  fbq('track', 'Search', {
+    search_string: searchString,
+  });
+}
+
+/** Fire when user completes a lead form (newsletter, popup signup) */
+export function trackLead(params?: {
+  contentName?: string;
+  value?: number;
+  currency?: string;
+}) {
+  fbq('track', 'Lead', {
+    content_name: params?.contentName || 'Newsletter Signup',
+    value: params?.value ?? 0,
+    currency: params?.currency || 'INR',
   });
 }
