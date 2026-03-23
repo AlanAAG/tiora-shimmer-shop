@@ -8,6 +8,7 @@ import { getMediaUrl } from "@/lib/cloudinary";
 import { supabase } from "@/lib/supabase";
 import { hasBlockingSupabaseError, isDuplicateLeadError, isRlsInsertError } from "@/lib/leadCapture";
 import { toast } from "sonner";
+import { trackLead } from "@/lib/metaPixel";
 
 const tioraLogo = getMediaUrl("logo-no-bg", "image");
 
