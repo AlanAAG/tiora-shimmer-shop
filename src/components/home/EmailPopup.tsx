@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
-const DISCOUNT_CODE = "WELCOME15";
+const DISCOUNT_CODE = "WELCOME10";
 const KLAVIYO_COMPANY_ID = "Wad9ct";
 const KLAVIYO_LIST_ID = "VstZ54";
 
