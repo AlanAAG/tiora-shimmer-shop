@@ -357,6 +357,7 @@ const ReviewsSection = () => {
                 <video
                   src={selectedVideo}
                   autoPlay
+                  muted
                   loop
                   playsInline
                   controls
