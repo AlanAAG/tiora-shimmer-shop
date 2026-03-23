@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
-const DISCOUNT_CODE = "WELCOME15";
+const DISCOUNT_CODE = "WELCOME10";
 const KLAVIYO_COMPANY_ID = "Wad9ct";
 const KLAVIYO_LIST_ID = "VstZ54";
 
@@ -148,7 +148,7 @@ const EmailPopup = () => {
       const hasRlsInsertError = isRlsInsertError(supabaseResult);
 
       if (isDuplicateLead) {
-        toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
+        toast.info("You're already subscribed! Use code WELCOME10 at checkout.");
       } else if (hasSupabaseError) {
         console.error("Supabase insert failed:", supabaseResult.status === "rejected" ? supabaseResult.reason : supabaseResult.value.error);
         toast.error("We couldn't save your details. Please try again.");
@@ -199,7 +199,7 @@ const EmailPopup = () => {
             <div className="flex items-center gap-3 bg-primary text-primary-foreground pl-4 pr-3 py-3 rounded-full shadow-lg hover:shadow-xl transition-shadow">
               <Gift className="w-5 h-5 shrink-0" />
               <span className="font-body text-sm font-medium whitespace-nowrap">
-                Get 15% Off
+                Get 10% Off
               </span>
               <button
                 onClick={handleTeaserClose}
@@ -217,7 +217,7 @@ const EmailPopup = () => {
       <Dialog open={open} onOpenChange={(v) => !v && handleDismiss()}>
         <DialogContent className="sm:max-w-[750px] p-0 gap-0 border-none bg-background overflow-hidden rounded-2xl [&>button:last-child]:hidden">
           <div className="flex flex-col sm:flex-row">
-          <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
+          <DialogTitle className="sr-only">Unlock 10% Off</DialogTitle>
           
           {/* Image */}
           <div className="h-40 sm:h-auto sm:w-[280px] shrink-0">
@@ -246,11 +246,11 @@ const EmailPopup = () => {
               <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-3">
                 Exclusive Offer
               </p>
-              <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
-                Unlock 15% Off
+               <h2 className="font-display text-3xl sm:text-4xl text-foreground mb-3">
+                Unlock 10% Off
               </h2>
               <p className="text-muted-foreground text-sm mb-8 max-w-xs mx-auto">
-                Enter your email and WhatsApp number to get 15% off your first order. Be the first to know about new collections & exclusive drops.
+                Enter your email and WhatsApp number to get 10% off your first order. Be the first to know about new collections & exclusive drops.
               </p>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-sm mx-auto">
@@ -278,7 +278,7 @@ const EmailPopup = () => {
                   disabled={isSubmitting}
                   className="w-full rounded-xl"
                 >
-                  {isSubmitting ? "Unlocking..." : "Unlock My 15% Off"}
+                  {isSubmitting ? "Unlocking..." : "Unlock My 10% Off"}
                 </Button>
               </form>
 
@@ -310,7 +310,7 @@ const EmailPopup = () => {
               </div>
 
               <p className="text-xs text-muted-foreground mb-6">
-                Use this code at checkout for 15% off your first order.
+                Use this code at checkout for 10% off your first order.
               </p>
 
               <Button
