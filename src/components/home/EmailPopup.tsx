@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabase";
+import { hasBlockingSupabaseError, isDuplicateLeadError, isRlsInsertError } from "@/lib/leadCapture";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -142,11 +143,9 @@ const EmailPopup = () => {
       const klaviyoResult = results[1];
 
       // Check for Supabase duplicate
-      const isDuplicateLead =
-        supabaseResult.status === "fulfilled" && supabaseResult.value.error?.code === "23505";
-      const hasSupabaseError =
-        supabaseResult.status === "rejected" ||
-        (supabaseResult.status === "fulfilled" && !!supabaseResult.value.error && !isDuplicateLead);
+      const isDuplicateLead = isDuplicateLeadError(supabaseResult);
+      const hasSupabaseError = hasBlockingSupabaseError(supabaseResult);
+      const hasRlsInsertError = isRlsInsertError(supabaseResult);
 
       if (isDuplicateLead) {
         toast.info("You're already subscribed! Use code WELCOME15 at checkout.");
@@ -154,12 +153,18 @@ const EmailPopup = () => {
         console.error("Supabase insert failed:", supabaseResult.status === "rejected" ? supabaseResult.reason : supabaseResult.value.error);
         toast.error("We couldn't save your details. Please try again.");
         return;
+      } else if (hasRlsInsertError) {
+        console.warn("Supabase newsletter_leads insert blocked by RLS; continuing because Klaviyo subscription succeeded.");
       }
 
       if (klaviyoResult.status === "rejected") {
         console.error("Klaviyo sync failed:", klaviyoResult.reason);
+        toast.error("We couldn't subscribe you right now. Please try again.");
+        return;
       } else if (!klaviyoResult.value.ok) {
         console.error("Klaviyo API error:", klaviyoResult.value.status, await klaviyoResult.value.text().catch(() => ""));
+        toast.error("We couldn't subscribe you right now. Please try again.");
+        return;
       }
 
       // Drop Klaviyo tracking cookie

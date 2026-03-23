@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabase";
+import { hasBlockingSupabaseError, isDuplicateLeadError, isRlsInsertError } from "@/lib/leadCapture";
 import { toast } from "sonner";
 
 const KLAVIYO_COMPANY_ID = "Wad9ct";
@@ -58,17 +59,30 @@ const Newsletter = () => {
       ]);
 
       const sbResult = results[0];
-      if (sbResult.status === "fulfilled" && sbResult.value.error?.code === "23505") {
+      const isDuplicateLead = isDuplicateLeadError(sbResult);
+      const hasSupabaseError = hasBlockingSupabaseError(sbResult);
+      const hasRlsInsertError = isRlsInsertError(sbResult);
+
+      if (isDuplicateLead) {
         toast.info("You're already subscribed!");
-      } else if (sbResult.status === "fulfilled" && sbResult.value.error) {
-        console.error("Supabase error:", sbResult.value.error);
+      } else if (hasSupabaseError) {
+        console.error(
+          "Supabase error:",
+          sbResult.status === "rejected" ? sbResult.reason : sbResult.value.error,
+        );
         toast.error("Something went wrong. Please try again.");
-      } else {
-        toast.success("You're subscribed! Welcome to the TIORA Circle.");
+      } else if (hasRlsInsertError) {
+        console.warn("Supabase newsletter_leads insert blocked by RLS; continuing because Klaviyo subscription succeeded.");
       }
 
       if (results[1].status === "rejected") {
         console.error("Klaviyo sync failed:", (results[1] as PromiseRejectedResult).reason);
+        toast.error("We couldn't subscribe you right now. Please try again.");
+      } else if (!results[1].value.ok) {
+        console.error("Klaviyo API error:", results[1].value.status, await results[1].value.text().catch(() => ""));
+        toast.error("We couldn't subscribe you right now. Please try again.");
+      } else if (!isDuplicateLead && !hasSupabaseError) {
+        toast.success("You're subscribed! Welcome to the TIORA Circle.");
       }
 
       setPhone("");
