@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const POPUP_DISMISSED_KEY = "tiora_email_popup_dismissed";
 const DISCOUNT_CODE = "WELCOME15";
 const KLAVIYO_COMPANY_ID = "Wad9ct";
-const KLAVIYO_LIST_ID = "XvtJPt";
+const KLAVIYO_LIST_ID = "RzNi2M";
 
 const EmailPopup = () => {
   const [open, setOpen] = useState(false);
