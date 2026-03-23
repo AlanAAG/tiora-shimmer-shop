@@ -135,6 +135,12 @@ export const useCartStore = create<CartStore>()(
                 checkoutUrl: result.checkoutUrl,
                 items: [{ ...item, lineId: result.lineId }]
               });
+              trackAddToCart({
+                contentName: item.product.node.title,
+                contentIds: [extractShopifyId(item.product.node.id)],
+                value: parseFloat(item.price.amount) * item.quantity,
+                currency: item.price.currencyCode,
+              });
             }
           } else if (existingItem) {
             const newQuantity = existingItem.quantity + item.quantity;
