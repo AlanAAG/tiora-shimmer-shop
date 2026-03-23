@@ -400,8 +400,9 @@ const Reviews = () => {
               <video
                 src={selectedVideo.videoUrl}
                 className="w-full h-full"
-                controls
                 autoPlay
+                muted
+                loop
                 playsInline
               />
             </div>

@@ -360,7 +360,6 @@ const ReviewsSection = () => {
                   muted
                   loop
                   playsInline
-                  controls
                   className="w-full h-full object-cover"
                 />
               )}
