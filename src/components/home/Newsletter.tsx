@@ -66,12 +66,13 @@ const Newsletter = () => {
       if (isDuplicateLead) {
         toast.info("You're already subscribed!");
       } else if (hasSupabaseError) {
-        console.error("Supabase error:", sbResult.value.error);
+        console.error(
+          "Supabase error:",
+          sbResult.status === "rejected" ? sbResult.reason : sbResult.value.error,
+        );
         toast.error("Something went wrong. Please try again.");
       } else if (hasRlsInsertError) {
         console.warn("Supabase newsletter_leads insert blocked by RLS; continuing because Klaviyo subscription succeeded.");
-      } else {
-        toast.success("You're subscribed! Welcome to the TIORA Circle.");
       }
 
       if (results[1].status === "rejected") {
