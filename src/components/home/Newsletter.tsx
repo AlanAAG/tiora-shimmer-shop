@@ -101,8 +101,8 @@ const Newsletter = () => {
               className="flex-1 h-12 bg-background border-border focus:border-primary"
               required
             />
-            <Button variant="elegant" size="lg" type="submit">
-              Subscribe
+            <Button variant="elegant" size="lg" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Subscribing..." : "Subscribe"}
             </Button>
           </form>
           <p className="text-xs text-muted-foreground mt-4">
