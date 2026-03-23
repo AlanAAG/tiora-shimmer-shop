@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { useCartSync } from "@/hooks/useCartSync";
+import { trackPageView } from "@/lib/metaPixel";
 import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -29,6 +31,10 @@ function AppContent() {
   useCartSync();
   const location = useLocation();
 
+  // Fire Meta Pixel PageView on every SPA route change
+  useEffect(() => {
+    trackPageView();
+  }, [location.pathname]);
   return (
     <>
       <Helmet>

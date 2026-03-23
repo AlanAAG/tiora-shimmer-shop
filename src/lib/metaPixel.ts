@@ -1,6 +1,6 @@
 /**
  * Meta Pixel (Facebook Pixel) tracking utilities.
- * Pixel ID: 963894736171720 — initialized in index.html.
+ * Pixel ID: 896348986199542 — initialized in index.html.
  *
  * Provides typed helpers for standard e-commerce events:
  * - PageView (fired automatically by base code)
@@ -20,6 +20,11 @@ function fbq(...args: unknown[]) {
   if (typeof window !== 'undefined' && window.fbq) {
     window.fbq(...args);
   }
+}
+
+/** Fire PageView on SPA route changes (initial PageView is in index.html) */
+export function trackPageView() {
+  fbq('track', 'PageView');
 }
 
 /** Extract numeric Shopify product ID from GID for Meta matching */
