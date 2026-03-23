@@ -1,15 +1,82 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
+
+const KLAVIYO_COMPANY_ID = "Wad9ct";
+const KLAVIYO_LIST_ID = "XvtJPt";
 
 const Newsletter = () => {
   const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter signup
-    console.log("Newsletter signup:", phone);
-    setPhone("");
+    const trimmed = phone.trim().replace(/[\s\-()]/g, "");
+
+    if (!trimmed || trimmed === "+91" || trimmed === "+") {
+      toast.error("Please enter your phone number.");
+      return;
+    }
+    if (!trimmed.startsWith("+")) {
+      toast.error("Phone number must start with a country code (e.g. +91).");
+      return;
+    }
+    if (!/^\+\d{7,15}$/.test(trimmed)) {
+      toast.error("Please enter a valid phone number (e.g. +919876543210).");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const klaviyoBody = {
+        data: {
+          type: "subscription",
+          attributes: {
+            custom_source: "Lovable Footer Newsletter",
+            profile: {
+              data: { type: "profile", attributes: { phone_number: trimmed } },
+            },
+          },
+          relationships: {
+            list: { data: { type: "list", id: KLAVIYO_LIST_ID } },
+          },
+        },
+      };
+
+      const results = await Promise.allSettled([
+        supabase.from("newsletter_leads").insert({
+          phone_number: trimmed,
+          source: "footer",
+        }),
+        fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", revision: "2024-02-15" },
+          body: JSON.stringify(klaviyoBody),
+        }),
+      ]);
+
+      const sbResult = results[0];
+      if (sbResult.status === "fulfilled" && sbResult.value.error?.code === "23505") {
+        toast.info("You're already subscribed!");
+      } else if (sbResult.status === "fulfilled" && sbResult.value.error) {
+        console.error("Supabase error:", sbResult.value.error);
+        toast.error("Something went wrong. Please try again.");
+      } else {
+        toast.success("You're subscribed! Welcome to the TIORA Circle.");
+      }
+
+      if (results[1].status === "rejected") {
+        console.error("Klaviyo sync failed:", (results[1] as PromiseRejectedResult).reason);
+      }
+
+      setPhone("");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
