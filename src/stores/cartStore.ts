@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { 
   ShopifyProduct, 
-  storefrontApiRequest, 
+  storefrontApiRequest,
   CART_QUERY, 
   CART_CREATE_MUTATION, 
   CART_LINES_ADD_MUTATION,
@@ -11,6 +11,7 @@ import {
   formatCheckoutUrl,
   isCartNotFoundError
 } from '@/lib/shopify';
+import { trackAddToCart, extractShopifyId } from '@/lib/metaPixel';
 
 export interface CartItem {
   lineId: string | null;
@@ -134,6 +135,12 @@ export const useCartStore = create<CartStore>()(
                 checkoutUrl: result.checkoutUrl,
                 items: [{ ...item, lineId: result.lineId }]
               });
+              trackAddToCart({
+                contentName: item.product.node.title,
+                contentIds: [extractShopifyId(item.product.node.id)],
+                value: parseFloat(item.price.amount) * item.quantity,
+                currency: item.price.currencyCode,
+              });
             }
           } else if (existingItem) {
             const newQuantity = existingItem.quantity + item.quantity;
@@ -145,6 +152,12 @@ export const useCartStore = create<CartStore>()(
             if (result.success) {
               const currentItems = get().items;
               set({ items: currentItems.map(i => i.variantId === item.variantId ? { ...i, quantity: newQuantity } : i) });
+              trackAddToCart({
+                contentName: item.product.node.title,
+                contentIds: [extractShopifyId(item.product.node.id)],
+                value: parseFloat(item.price.amount) * item.quantity,
+                currency: item.price.currencyCode,
+              });
             } else if (result.cartNotFound) {
               clearCart();
             }
@@ -153,6 +166,12 @@ export const useCartStore = create<CartStore>()(
             if (result.success) {
               const currentItems = get().items;
               set({ items: [...currentItems, { ...item, lineId: result.lineId ?? null }] });
+              trackAddToCart({
+                contentName: item.product.node.title,
+                contentIds: [extractShopifyId(item.product.node.id)],
+                value: parseFloat(item.price.amount) * item.quantity,
+                currency: item.price.currencyCode,
+              });
             } else if (result.cartNotFound) {
               clearCart();
             }

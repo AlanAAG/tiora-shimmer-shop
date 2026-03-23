@@ -17,6 +17,7 @@ import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProduct
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import { trackViewContent, extractShopifyId } from "@/lib/metaPixel";
 
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -31,6 +32,21 @@ const ProductPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  // Fire Meta Pixel ViewContent when Shopify product is loaded
+  useEffect(() => {
+    if (shopifyProduct) {
+      const price = parseFloat(shopifyProduct.priceRange.minVariantPrice.amount);
+      const currency = shopifyProduct.priceRange.minVariantPrice.currencyCode;
+      trackViewContent({
+        contentName: shopifyProduct.title,
+        contentIds: [extractShopifyId(shopifyProduct.id)],
+        contentType: 'product',
+        value: price,
+        currency,
+      });
+    }
+  }, [shopifyProduct]);
 
   if (shopifyLoading) {
     return (
