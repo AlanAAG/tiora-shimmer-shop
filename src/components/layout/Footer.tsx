@@ -169,6 +169,7 @@ const FooterNewsletter = () => {
       }
 
       setIsSuccess(true);
+      trackLead({ contentName: 'Footer Newsletter Signup' });
       toast.success("Welcome to the Tiora Circle!");
     } catch {
       toast.error("Something went wrong. Please try again.");

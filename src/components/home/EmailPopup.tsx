@@ -176,6 +176,7 @@ const EmailPopup = () => {
       }
 
       setIsSuccess(true);
+      trackLead({ contentName: 'Discount Popup Signup' });
       localStorage.setItem(POPUP_DISMISSED_KEY, "true");
     } catch {
       toast.error("Something went wrong. Please try again.");
