@@ -1,6 +1,6 @@
 /**
  * Meta Pixel (Facebook Pixel) tracking utilities.
- * Pixel ID: 963894736171720 — initialized in index.html.
+ * Pixel ID: 896348986199542 — initialized in index.html.
  *
  * Provides typed helpers for standard e-commerce events:
  * - PageView (fired automatically by base code)
