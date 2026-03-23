@@ -278,7 +278,7 @@ const EmailPopup = () => {
                   disabled={isSubmitting}
                   className="w-full rounded-xl"
                 >
-                  {isSubmitting ? "Unlocking..." : "Unlock My 15% Off"}
+                  {isSubmitting ? "Unlocking..." : "Unlock My 10% Off"}
                 </Button>
               </form>
 
