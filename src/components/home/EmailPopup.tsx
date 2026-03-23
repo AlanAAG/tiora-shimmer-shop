@@ -91,11 +91,10 @@ const EmailPopup = () => {
 
     setIsSubmitting(true);
     try {
-      const supabaseInsert = {
+      const supabaseInsert: Record<string, string> = {
         email: trimmedEmail,
-        source: "popup",
-        ...(cleanedPhone && { phone_number: cleanedPhone }),
       };
+      if (cleanedPhone) supabaseInsert.phone_number = cleanedPhone;
 
       const klaviyoProfile: Record<string, string> = { email: trimmedEmail };
       if (cleanedPhone) {
