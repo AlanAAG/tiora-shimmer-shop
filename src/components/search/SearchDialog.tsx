@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import {
@@ -17,6 +17,7 @@ import {
 import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyProduct } from "@/lib/shopify";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { trackSearch } from "@/lib/metaPixel";
 
 interface SearchDialogProps {
   open: boolean;
