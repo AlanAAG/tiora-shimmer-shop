@@ -217,7 +217,7 @@ const EmailPopup = () => {
       <Dialog open={open} onOpenChange={(v) => !v && handleDismiss()}>
         <DialogContent className="sm:max-w-[750px] p-0 gap-0 border-none bg-background overflow-hidden rounded-2xl [&>button:last-child]:hidden">
           <div className="flex flex-col sm:flex-row">
-          <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
+          <DialogTitle className="sr-only">Unlock 10% Off</DialogTitle>
           
           {/* Image */}
           <div className="h-40 sm:h-auto sm:w-[280px] shrink-0">
