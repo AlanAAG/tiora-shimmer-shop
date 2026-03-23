@@ -22,6 +22,11 @@ function fbq(...args: unknown[]) {
   }
 }
 
+/** Fire PageView on SPA route changes (initial PageView is in index.html) */
+export function trackPageView() {
+  fbq('track', 'PageView');
+}
+
 /** Extract numeric Shopify product ID from GID for Meta matching */
 export function extractShopifyId(gid: string): string {
   // gid://shopify/Product/123456 → "123456"
