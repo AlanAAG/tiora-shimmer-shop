@@ -11,6 +11,7 @@ import {
   formatCheckoutUrl,
   isCartNotFoundError
 } from '@/lib/shopify';
+import { trackAddToCart, extractShopifyId } from '@/lib/metaPixel';
 
 export interface CartItem {
   lineId: string | null;

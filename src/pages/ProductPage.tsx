@@ -33,6 +33,21 @@ const ProductPage = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  // Fire Meta Pixel ViewContent when Shopify product is loaded
+  useEffect(() => {
+    if (shopifyProduct) {
+      const price = parseFloat(shopifyProduct.priceRange.minVariantPrice.amount);
+      const currency = shopifyProduct.priceRange.minVariantPrice.currencyCode;
+      trackViewContent({
+        contentName: shopifyProduct.title,
+        contentIds: [extractShopifyId(shopifyProduct.id)],
+        contentType: 'product',
+        value: price,
+        currency,
+      });
+    }
+  }, [shopifyProduct]);
+
   if (shopifyLoading) {
     return (
       <div className="min-h-screen bg-background">
