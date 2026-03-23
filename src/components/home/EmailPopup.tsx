@@ -208,8 +208,8 @@ const EmailPopup = () => {
           <div className="flex flex-col sm:flex-row">
           <DialogTitle className="sr-only">Unlock 15% Off</DialogTitle>
           
-          {/* Left image */}
-          <div className="hidden sm:block sm:w-[280px] shrink-0">
+          {/* Image */}
+          <div className="h-40 sm:h-auto sm:w-[280px] shrink-0">
             <img
               src={getMediaUrl("email")}
               alt="TIORA jewelry"
