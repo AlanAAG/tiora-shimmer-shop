@@ -205,7 +205,7 @@ const Shop = () => {
       <SEO title={`${collectionName} | TIORA Shop`}>
         
         
-        <link rel="canonical" href={`https://tiora.co/shop${collection !== 'all' ? `/${collection}` : ''}`} />
+        <link rel="canonical" href={`https://tiora.co/shop${collection === 'all' ? '' : `/${collection}`}`} />
       </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />

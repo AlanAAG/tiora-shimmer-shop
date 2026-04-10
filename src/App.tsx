@@ -55,8 +55,8 @@ function AppContent() {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/refund" element={<RefundPolicy />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogArticle />} />
+        <Route path="/journal" element={<Blog />} />
+        <Route path="/journal/:slug" element={<BlogArticle />} />
         <Route path="/bracelets" element={<Navigate to="/shop/bracelets" replace />} />
         <Route path="/necklaces" element={<Navigate to="/shop/necklaces" replace />} />
         <Route path="/cart" element={<CartRedirect />} />

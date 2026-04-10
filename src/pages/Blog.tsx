@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
-import { motion } from "framer-motion";
-import { Clock, ArrowRight } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { Badge } from "@/components/ui/badge";
 import { blogPosts, blogCategories, type BlogCategory } from "@/data/blogPosts";
+import { getMediaUrl } from "@/lib/cloudinary";
+import { ArrowRight, Clock, Calendar } from "lucide-react";
 
+// Helper for dynamic colors
 const categoryColors: Record<BlogCategory, string> = {
   "Skin Sensitivity": "bg-rose-50 text-rose-700 border-rose-200",
   "Materials & Quality": "bg-amber-50 text-amber-700 border-amber-200",
@@ -16,175 +17,158 @@ const categoryColors: Record<BlogCategory, string> = {
   "Buying Guides": "bg-sky-50 text-sky-700 border-sky-200",
 };
 
+// Map Categories to nice fallback images since they don't have images hardcoded
+const fallbackImages: Record<BlogCategory, string> = {
+  "Skin Sensitivity": getMediaUrl("home-trends-molten-flow", "image"),
+  "Materials & Quality": getMediaUrl("home-trends-sculptural-gold", "image"),
+  "Everyday Wear": getMediaUrl("home-trends-hammered-gold", "image"),
+  "Buying Guides": getMediaUrl("home-trends-architectural-gold", "image"),
+};
+
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState<BlogCategory | "All">("All");
 
-  const filtered = activeCategory === "All"
+  const filteredPosts = activeCategory === "All"
     ? blogPosts
-    : blogPosts.filter((p) => p.category === activeCategory);
+    : blogPosts.filter((post) => post.category === activeCategory);
 
   return (
-    <>
-      <SEO title="Jewelry Journal — Expert Guides & Insights | TIORA" description="Expert jewelry guides on materials, skin sensitivity, everyday wear, and buying advice. Learn about 18K gold plating, hypoallergenic metals, and how to choose jewelry that lasts." />
-      <DiscountBanner />
+    <div className="min-h-screen bg-background">
+      <SEO 
+        title="Journal | Tiora" 
+        description="Style guides, care instructions, and the world of demi-fine jewellery." 
+      />
+      
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
 
-      <main className="min-h-screen">
-        {/* Hero */}
-        <section className="bg-primary text-primary-foreground py-16 md:py-24">
-          <div className="container mx-auto px-6 text-center max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="font-body text-xs tracking-[0.3em] uppercase mb-4 text-primary-foreground/70"
-            >
-              The Tiora Journal
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="font-display text-4xl md:text-6xl italic mb-4"
-            >
-              Jewelry Knowledge,{" "}
-              <span className="not-italic">Simplified</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="font-body text-sm md:text-base text-primary-foreground/80 max-w-lg mx-auto"
-            >
-              Expert guides on materials, skin safety, everyday wear, and
-              choosing jewelry that truly lasts.
-            </motion.p>
-          </div>
+      <main className="pt-24 pb-20 px-4 md:px-8 lg:px-16 mx-auto max-w-7xl">
+        {/* Header Section */}
+        <section className="text-center py-12 md:py-20">
+          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-4">
+            The Journal
+          </h1>
+          <p className="font-body text-muted-foreground text-lg max-w-xl mx-auto">
+            Style guides, care instructions, and the world of demi-fine jewellery.
+          </p>
         </section>
 
         {/* Filters */}
-        <section className="border-b border-border sticky top-0 bg-background/95 backdrop-blur-sm z-30">
-          <div className="container mx-auto px-6 py-4 flex gap-2 overflow-x-auto scrollbar-hide">
+        <section className="flex flex-wrap items-center justify-center gap-3 mb-12">
+          <button
+            onClick={() => setActiveCategory("All")}
+            className={`font-body text-xs tracking-widest uppercase px-5 py-2.5 rounded-full border transition-all ${
+              activeCategory === "All"
+                ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                : "bg-transparent text-muted-foreground border-border hover:border-primary hover:text-foreground"
+            }`}
+          >
+            All Articles
+          </button>
+          {blogCategories.map((cat) => (
             <button
-              onClick={() => setActiveCategory("All")}
-              className={`font-body text-xs tracking-wider uppercase px-4 py-2 rounded-full border whitespace-nowrap transition-colors ${
-                activeCategory === "All"
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`font-body text-xs tracking-widest uppercase px-5 py-2.5 rounded-full border transition-all ${
+                activeCategory === cat
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-transparent text-muted-foreground border-border hover:border-primary hover:text-foreground"
               }`}
             >
-              All Articles
+              {cat}
             </button>
-            {blogCategories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`font-body text-xs tracking-wider uppercase px-4 py-2 rounded-full border whitespace-nowrap transition-colors ${
-                  activeCategory === cat
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          ))}
         </section>
 
-        {/* Articles Grid */}
-        <section className="py-12 md:py-20">
-          <div className="container mx-auto px-6">
-            {/* Featured (first article) */}
-            {activeCategory === "All" && filtered.length > 0 && (
-              <Link
-                to={`/blog/${filtered[0].slug}`}
-                className="block mb-12 group"
-              >
-                <motion.article
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-secondary/40 rounded-lg p-8 md:p-12 hover:bg-secondary/60 transition-colors"
-                >
-                  <div className="max-w-2xl">
-                    <Badge
-                      variant="outline"
-                      className={`mb-4 ${categoryColors[filtered[0].category]}`}
-                    >
-                      {filtered[0].category}
-                    </Badge>
-                    <h2 className="font-display text-2xl md:text-4xl mb-3 group-hover:text-primary transition-colors">
-                      {filtered[0].title}
-                    </h2>
-                    <p className="font-body text-sm text-muted-foreground mb-4 leading-relaxed">
-                      {filtered[0].excerpt}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground font-body">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" />
-                        {filtered[0].readingTime} min read
-                      </span>
-                      <span className="flex items-center gap-1 text-primary group-hover:gap-2 transition-all">
-                        Read article <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
+        {/* Featured Post (First one when filtered) */}
+        {activeCategory === "All" && filteredPosts.length > 0 && (
+          <div className="mb-16">
+            <Link to={`/journal/${filteredPosts[0].slug}`} className="group relative block rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-border bg-card">
+              <div className="grid md:grid-cols-2 lg:grid-cols-5 h-full">
+                <div className="lg:col-span-3 aspect-video md:aspect-auto overflow-hidden bg-muted">
+                  <img 
+                    src={(filteredPosts[0] as any).image || fallbackImages[filteredPosts[0].category]} 
+                    alt={filteredPosts[0].title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                <div className="lg:col-span-2 p-8 md:p-12 flex flex-col justify-center bg-card">
+                  <Badge variant="outline" className={`w-fit mb-4 ${categoryColors[filteredPosts[0].category]}`}>
+                    {filteredPosts[0].category}
+                  </Badge>
+                  <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4 group-hover:text-primary transition-colors">
+                    {filteredPosts[0].title}
+                  </h2>
+                  <p className="font-body text-muted-foreground mb-6 leading-relaxed">
+                    {filteredPosts[0].excerpt}
+                  </p>
+                  
+                  <div className="flex items-center gap-6 mt-auto">
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-body">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {new Date(filteredPosts[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground font-body">
+                      <Clock className="w-3.5 h-3.5" />
+                      {filteredPosts[0].readingTime} min read
+                    </span>
                   </div>
-                </motion.article>
-              </Link>
-            )}
-
-            {/* Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {(activeCategory === "All" ? filtered.slice(1) : filtered).map(
-                (post, i) => (
-                  <motion.div
-                    key={post.slug}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <Link
-                      to={`/blog/${post.slug}`}
-                      className="group block h-full"
-                    >
-                      <article className="h-full border border-border rounded-lg p-6 hover:border-primary/30 hover:shadow-card transition-all flex flex-col">
-                        <Badge
-                          variant="outline"
-                          className={`mb-3 w-fit ${categoryColors[post.category]}`}
-                        >
-                          {post.category}
-                        </Badge>
-                        <h3 className="font-display text-lg md:text-xl mb-2 group-hover:text-primary transition-colors leading-tight">
-                          {post.title}
-                        </h3>
-                        <p className="font-body text-sm text-muted-foreground mb-4 leading-relaxed flex-1">
-                          {post.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-muted-foreground font-body mt-auto pt-4 border-t border-border">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
-                            {post.readingTime} min read
-                          </span>
-                          <span className="flex items-center gap-1 text-primary group-hover:gap-2 transition-all">
-                            Read <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                        </div>
-                      </article>
-                    </Link>
-                  </motion.div>
-                )
-              )}
-            </div>
-
-            {filtered.length === 0 && (
-              <p className="text-center text-muted-foreground font-body py-16">
-                No articles in this category yet.
-              </p>
-            )}
+                </div>
+              </div>
+            </Link>
           </div>
-        </section>
+        )}
+
+        {/* Grid of remaining posts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {(activeCategory === "All" ? filteredPosts.slice(1) : filteredPosts).map((post) => (
+            <Link 
+              key={post.slug} 
+              to={`/journal/${post.slug}`}
+              className="group flex flex-col rounded-2xl overflow-hidden border border-border bg-card hover:shadow-lg transition-all"
+            >
+              <div className="aspect-[4/3] overflow-hidden bg-muted">
+                <img 
+                  src={(post as any).image || fallbackImages[post.category]} 
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <Badge variant="outline" className={`w-fit mb-4 ${categoryColors[post.category]}`}>
+                  {post.category}
+                </Badge>
+                <h3 className="font-display text-xl text-foreground mb-3 group-hover:text-primary transition-colors leading-snug">
+                  {post.title}
+                </h3>
+                <p className="font-body text-sm text-muted-foreground mb-6 leading-relaxed flex-1 line-clamp-3">
+                  {post.excerpt}
+                </p>
+                
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
+                  <span className="text-xs text-muted-foreground font-body">
+                    {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-xs text-primary font-medium group-hover:underline">
+                    Read <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground">No articles found in this category.</p>
+          </div>
+        )}
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

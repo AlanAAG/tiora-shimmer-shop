@@ -1,238 +1,117 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import SEO from "@/components/SEO";
-import { motion } from "framer-motion";
-import { ArrowLeft, Clock } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { Badge } from "@/components/ui/badge";
 import { blogPosts } from "@/data/blogPosts";
+import { getMediaUrl } from "@/lib/cloudinary";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
+
+// Fallbacks for category images
+const fallbackImages: Record<string, string> = {
+  "Skin Sensitivity": getMediaUrl("home-trends-molten-flow", "image"),
+  "Materials & Quality": getMediaUrl("home-trends-sculptural-gold", "image"),
+  "Everyday Wear": getMediaUrl("home-trends-hammered-gold", "image"),
+  "Buying Guides": getMediaUrl("home-trends-architectural-gold", "image"),
+};
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const article = blogPosts.find((p) => p.slug === slug);
 
-  if (!post) return <Navigate to="/blog" replace />;
+  // Graceful 404
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <SEO title="Article Not Found | Tiora" description="We couldn't find the article you were looking for." />
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <DiscountBanner />
+        </div>
+        <Header />
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-32">
+          <h1 className="font-display text-4xl text-foreground mb-4">Article Not Found</h1>
+          <p className="text-muted-foreground mb-8">The journal entry you are looking for does not exist or has been moved.</p>
+          <Link 
+            to="/journal" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to Journal
+          </Link>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
-  // Find related posts in same category (max 3, excluding current)
-  const related = blogPosts
-    .filter((p) => p.category === post.category && p.slug !== post.slug)
-    .slice(0, 3);
-
-  // Convert markdown-like content to safe HTML (basic)
-  const renderContent = (content: string) => {
-    return content
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean)
-      .map((line, i) => {
-        // Internal links
-        const linkRegex = /\[(.+?)\]\((.+?)\)/g;
-        const processLinks = (text: string) => {
-          const parts: (string | JSX.Element)[] = [];
-          let lastIndex = 0;
-          let match;
-          while ((match = linkRegex.exec(text)) !== null) {
-            if (match.index > lastIndex) {
-              parts.push(text.slice(lastIndex, match.index));
-            }
-            parts.push(
-              <Link
-                key={match.index}
-                to={match[2]}
-                className="text-primary underline hover:text-primary/80 transition-colors font-semibold"
-              >
-                {match[1]}
-              </Link>
-            );
-            lastIndex = match.index + match[0].length;
-          }
-          if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-          return parts;
-        };
-
-        // Bold
-        const processBold = (text: string) => {
-          const boldParts = text.split(/\*\*(.+?)\*\*/g);
-          return boldParts.map((part, j) =>
-            j % 2 === 1 ? <strong key={j}>{part}</strong> : part
-          );
-        };
-
-        if (line.startsWith("## ")) {
-          return (
-            <h2 key={i} className="font-display text-2xl md:text-3xl mt-10 mb-4">
-              {line.replace("## ", "")}
-            </h2>
-          );
-        }
-        if (line.startsWith("### ")) {
-          return (
-            <h3 key={i} className="font-display text-xl md:text-2xl mt-6 mb-3">
-              {line.replace("### ", "")}
-            </h3>
-          );
-        }
-        if (line.startsWith("- **")) {
-          const content = line.replace("- ", "");
-          return (
-            <li key={i} className="ml-5 mb-2 font-body text-sm md:text-base text-muted-foreground leading-relaxed list-disc">
-              {processBold(content)}
-            </li>
-          );
-        }
-        if (line.startsWith("- ")) {
-          const content = line.replace("- ", "");
-          return (
-            <li key={i} className="ml-5 mb-2 font-body text-sm md:text-base text-muted-foreground leading-relaxed list-disc">
-              {processLinks(content).length > 1 ? processLinks(content) : processBold(content)}
-            </li>
-          );
-        }
-        if (line.startsWith("- [ ]")) {
-          return (
-            <li key={i} className="ml-5 mb-2 font-body text-sm md:text-base text-muted-foreground leading-relaxed list-none flex items-center gap-2">
-              <span className="w-4 h-4 border border-border rounded inline-block flex-shrink-0" />
-              {line.replace("- [ ] ", "")}
-            </li>
-          );
-        }
-        if (line.startsWith("|")) {
-          // Skip table rows for simplicity—render as plain text
-          return (
-            <p key={i} className="font-body text-xs text-muted-foreground font-mono bg-muted/50 px-3 py-1 rounded">
-              {line}
-            </p>
-          );
-        }
-        if (line.startsWith("1. ") || /^\d+\.\s/.test(line)) {
-          return (
-            <li key={i} className="ml-5 mb-2 font-body text-sm md:text-base text-muted-foreground leading-relaxed list-decimal">
-              {processBold(line.replace(/^\d+\.\s/, ""))}
-            </li>
-          );
-        }
-        // Links in paragraphs
-        if (line.includes("[") && line.includes("](")) {
-          return (
-            <p key={i} className="font-body text-sm md:text-base text-muted-foreground leading-relaxed mb-4">
-              {processLinks(line)}
-            </p>
-          );
-        }
-        return (
-          <p key={i} className="font-body text-sm md:text-base text-muted-foreground leading-relaxed mb-4">
-            {processBold(line)}
-          </p>
-        );
-      });
-  };
+  const featuredImage = (article as any).image || fallbackImages[article.category];
 
   return (
-    <>
-      <SEO title="{post.title} | TIORA Journal" description={post.excerpt}>
-        
-        
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt,
-            datePublished: post.date,
-            publisher: {
-              "@type": "Organization",
-              name: "TIORA",
-              url: "https://tiora.co",
-            },
-          })}
-        </script>
-      </SEO>
-      <DiscountBanner />
+    <div className="min-h-screen bg-background flex flex-col">
+      <SEO 
+        title={`${article.title} | Tiora Journal`} 
+        description={article.excerpt}
+        image={featuredImage}
+      />
+      
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <DiscountBanner />
+      </div>
       <Header />
 
-      <main className="min-h-screen">
-        {/* Back + Meta */}
-        <div className="container mx-auto px-6 pt-8 md:pt-12 max-w-3xl">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 font-body text-xs text-muted-foreground hover:text-foreground transition-colors mb-8"
+      <main className="pt-24 pb-20 px-4 md:px-8 mx-auto max-w-4xl w-full flex-1">
+        
+        {/* Navigation & Metadata Header */}
+        <div className="mb-10">
+          <Link 
+            to="/journal" 
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Journal
           </Link>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <Badge variant="outline" className="mb-4">
-              {post.category}
+          <div className="flex flex-col items-center justify-center text-center">
+            <Badge variant="outline" className="mb-6 uppercase tracking-widest text-xs">
+              {article.category}
             </Badge>
-            <h1 className="font-display text-3xl md:text-5xl mb-4 leading-tight">
-              {post.title}
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
+              {article.title}
             </h1>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground font-body mb-8 pb-8 border-b border-border">
-              <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" />
-                {post.readingTime} min read
+            
+            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground font-body">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
+                {new Date(article.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
               </span>
-              <span>
-                {new Date(post.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4" />
+                {article.readingTime} min read
               </span>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Article Content */}
-        <article className="container mx-auto px-6 max-w-3xl pb-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            {renderContent(post.content)}
-          </motion.div>
+        {/* Featured Image */}
+        <div className="w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden mb-12 shadow-sm border border-border bg-muted">
+          <img 
+            src={featuredImage} 
+            alt={article.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Markdown Content rendered with Tailwind Typography */}
+        <article className="prose prose-stone dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-normal prose-p:font-body prose-p:leading-relaxed prose-a:text-primary prose-img:rounded-xl">
+          <ReactMarkdown>
+            {article.content}
+          </ReactMarkdown>
         </article>
 
-        {/* Related Articles */}
-        {related.length > 0 && (
-          <section className="border-t border-border py-12 md:py-16">
-            <div className="container mx-auto px-6">
-              <h2 className="font-display text-2xl md:text-3xl text-center mb-8">
-                Continue Reading
-              </h2>
-              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {related.map((rp) => (
-                  <Link
-                    key={rp.slug}
-                    to={`/blog/${rp.slug}`}
-                    className="group block"
-                  >
-                    <article className="border border-border rounded-lg p-5 hover:border-primary/30 hover:shadow-card transition-all h-full flex flex-col">
-                      <h3 className="font-display text-lg mb-2 group-hover:text-primary transition-colors leading-tight">
-                        {rp.title}
-                      </h3>
-                      <p className="font-body text-xs text-muted-foreground leading-relaxed flex-1">
-                        {rp.excerpt}
-                      </p>
-                      <div className="flex items-center gap-1 text-xs text-primary font-body mt-3 pt-3 border-t border-border group-hover:gap-2 transition-all">
-                        Read article <ArrowLeft className="w-3 h-3 rotate-180" />
-                      </div>
-                    </article>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
       </main>
-
+      
       <Footer />
-    </>
+    </div>
   );
 };
 
