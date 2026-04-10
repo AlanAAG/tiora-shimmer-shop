@@ -89,7 +89,7 @@ const Blog = () => {
               <div className="grid md:grid-cols-2 lg:grid-cols-5 h-full">
                 <div className="lg:col-span-3 aspect-video md:aspect-auto overflow-hidden bg-muted">
                   <img 
-                    src={(filteredPosts[0] as any).image || fallbackImages[filteredPosts[0].category]} 
+                    src={filteredPosts[0].image || fallbackImages[filteredPosts[0].category]} 
                     alt={filteredPosts[0].title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -131,7 +131,7 @@ const Blog = () => {
             >
               <div className="aspect-[4/3] overflow-hidden bg-muted">
                 <img 
-                  src={(post as any).image || fallbackImages[post.category]} 
+                  src={post.image || fallbackImages[post.category]} 
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />

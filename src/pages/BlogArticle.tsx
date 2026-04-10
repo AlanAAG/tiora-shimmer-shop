@@ -45,7 +45,7 @@ const BlogArticle = () => {
     );
   }
 
-  const featuredImage = (article as any).image || fallbackImages[article.category];
+  const featuredImage = article.image || fallbackImages[article.category];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

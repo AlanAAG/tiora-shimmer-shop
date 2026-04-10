@@ -26,7 +26,7 @@ const staticRoutes = [
   '/shop/earrings',
   '/shop/bracelets',
   '/shop/necklaces',
-  '/blog'
+  '/journal'
 ];
 
 async function fetchProductHandles() {
@@ -80,7 +80,7 @@ function getBlogRoutes() {
     const slugs: string[] = [];
     let match;
     while ((match = slugRegex.exec(content)) !== null) {
-      slugs.push(`/blog/${match[1]}`);
+      slugs.push(`/journal/${match[1]}`);
     }
     return slugs;
   } catch (err) {
