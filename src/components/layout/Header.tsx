@@ -10,7 +10,7 @@ import { getMediaUrl } from "@/lib/cloudinary";
 
 const tioraLogo = getMediaUrl("logo-no-bg", "image");
 
-const SHOPIFY_ACCOUNT_URL = "https://shopify.com/94442127661/account";
+const SHOPIFY_ACCOUNT_URL = "https://jtv22j-ew.myshopify.com/account";
 
 interface HeaderProps {
   showBanner?: boolean;
