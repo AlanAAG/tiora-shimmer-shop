@@ -2,7 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { getMediaUrl } from "@/lib/cloudinary";
 
 const aboutPlaceholder1 = getMediaUrl("about-image-1", "image");
@@ -49,14 +49,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>About TIORA | Our Story & Vision</title>
-        <meta
-          name="description"
-          content="Learn about TIORA's mission to create sculptural jewelry for the bold and authentic. Celebrating confidence and empowerment through timeless design."
-        />
+      <SEO title="About TIORA | Our Story & Vision" description="Learn about TIORA's mission to create sculptural jewelry for the bold and authentic. Celebrating confidence and empowerment through timeless design.">
+        
+        
         <link rel="canonical" href="https://tiora.co/about" />
-      </Helmet>
+      </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

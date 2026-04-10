@@ -1,5 +1,5 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -130,9 +130,9 @@ const BlogArticle = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{post.title} | TIORA Journal</title>
-        <meta name="description" content={post.excerpt} />
+      <SEO title="{post.title} | TIORA Journal" description={post.excerpt}>
+        
+        
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -147,7 +147,7 @@ const BlogArticle = () => {
             },
           })}
         </script>
-      </Helmet>
+      </SEO>
       <DiscountBanner />
       <Header />
 

@@ -1,19 +1,16 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Privacy Policy | TIORA</title>
-        <meta
-          name="description"
-          content="TIORA's Privacy Policy. Learn how we collect, use, and protect your information. Your privacy is important to us."
-        />
+      <SEO title="Privacy Policy | TIORA" description="TIORA's Privacy Policy. Learn how we collect, use, and protect your information. Your privacy is important to us.">
+        
+        
         <link rel="canonical" href="https://tiora.co/privacy" />
-      </Helmet>
+      </SEO>
       <Header showBanner={false} />
       
       {/* Hero Section */}

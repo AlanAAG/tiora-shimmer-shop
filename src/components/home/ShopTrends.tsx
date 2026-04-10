@@ -1,103 +1,65 @@
-import { getMediaUrl } from "@/lib/cloudinary";
+import { getMediaUrl, getVideoPoster } from "@/lib/cloudinary";
+import { Play } from "lucide-react";
 
-const trendSculptedSilver = getMediaUrl("home-trends-sculpted-silver", "image");
-const trendMoltenFlow = getMediaUrl("home-trends-molten-flow", "image");
-const trendGoldenCascade = getMediaUrl("home-trends-golden-cascade", "image");
-const trendArchitecturalGold = getMediaUrl("home-trends-architectural-gold", "image");
-const trendHammeredGold = getMediaUrl("home-trends-hammered-gold", "image");
-const trendSculpturalGold = getMediaUrl("home-trends-sculptural-gold", "image");
-
-const trends = [
-  {
-    id: 1,
-    title: "Sculpted Silver",
-    description: "Cool tones for effortless polish.",
-    image: trendSculptedSilver,
-    productIds: [1, 2],
-  },
-  {
-    id: 2,
-    title: "Molten Flow",
-    description: "Soft curves that catch every light.",
-    image: trendMoltenFlow,
-    productIds: [3, 4],
-  },
-  {
-    id: 3,
-    title: "Golden Cascade",
-    description: "Artful design for a striking finish.",
-    image: trendGoldenCascade,
-    productIds: [1, 3],
-  },
-  {
-    id: 4,
-    title: "Architectural Gold",
-    description: "Clean pieces for a sharp look.",
-    image: trendArchitecturalGold,
-    productIds: [2, 4],
-  },
-  {
-    id: 5,
-    title: "Hammered Gold",
-    description: "A rich finish for immediate impact.",
-    image: trendHammeredGold,
-    productIds: [1, 2, 3],
-  },
-  {
-    id: 6,
-    title: "Sculptural Gold",
-    description: "Fine details for a sophisticated edge.",
-    image: trendSculpturalGold,
-    productIds: [1, 4],
-  },
+const reels = [
+  { id: 1, publicId: "reel_1" },
+  { id: 2, publicId: "reel_2" },
+  { id: 3, publicId: "reel_3" },
+  { id: 4, publicId: "reel_4" },
+  { id: 5, publicId: "reel_5" },
+  { id: 6, publicId: "reel_6" },
 ];
 
 const ShopTrends = () => {
-  const handleAddLook = (productIds: number[]) => {
-    // This will be connected to Shopify cart later
-    console.log("Adding products to cart:", productIds);
-  };
-
   return (
     <section className="pt-0 pb-12 px-4 md:px-8 lg:px-16 bg-background">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-10">
           <h2 className="font-display text-4xl md:text-5xl text-foreground mb-3">
-            Shop Trends
+            Real Life, Real Compliments
           </h2>
-          <p className="font-body text-muted-foreground max-w-md mx-auto">
-            Find this season's must-have styles to elevate any look.
+          <p className="font-body text-muted-foreground max-w-md mx-auto leading-relaxed">
+            See how our pieces handle the real world. Waterproof, tarnish-resistant, and built for daily wear.
           </p>
         </div>
 
-        {/* 2x3 Grid - Fixed height rows for alignment */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-          {trends.map((trend) => (
-            <button
-              key={trend.id}
-              onClick={() => handleAddLook(trend.productIds)}
-              className="group text-left flex flex-col"
-            >
-              {/* Image - Fixed aspect ratio for alignment */}
-              <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-2 w-full">
-                <img
-                  src={trend.image}
-                  alt={trend.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-300" />
-              </div>
+        {/* 6-Column Grid for Reels */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+          {reels.map((reel) => {
+            const videoUrl = getMediaUrl(reel.publicId, "video");
+            const posterUrl = getVideoPoster(reel.publicId);
 
-              {/* Info */}
-              <h3 className="font-display text-lg md:text-xl text-foreground group-hover:text-primary transition-colors">
-                {trend.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                {trend.description}
-              </p>
-            </button>
-          ))}
+            return (
+              <a
+                key={reel.id}
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block aspect-[9/16] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-muted"
+              >
+                {/* HTML5 Video specifically structured for mobile inline autoplay without lag */}
+                <video
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster={posterUrl}
+                >
+                  <source src={videoUrl} type="video/mp4" />
+                </video>
+
+                {/* Dark gradient overlay on hover to mimic social UX */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Social indicator (Play icon) */}
+                <div className="absolute top-3 right-3 text-white drop-shadow-md z-10 transition-opacity duration-300">
+                  <Play className="w-5 h-5 fill-white stroke-[1.5px]" />
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 
 const BASE_URL = 'https://tiora.co';
@@ -25,7 +25,8 @@ const staticRoutes = [
   '/shop/rings',
   '/shop/earrings',
   '/shop/bracelets',
-  '/shop/necklaces'
+  '/shop/necklaces',
+  '/blog'
 ];
 
 async function fetchProductHandles() {
@@ -71,14 +72,35 @@ async function fetchProductHandles() {
   }
 }
 
+function getBlogRoutes() {
+  try {
+    const blogPostsPath = resolve(process.cwd(), 'src/data/blogPosts.ts');
+    const content = readFileSync(blogPostsPath, 'utf-8');
+    const slugRegex = /slug:\s*["']([^"']+)["']/g;
+    const slugs: string[] = [];
+    let match;
+    while ((match = slugRegex.exec(content)) !== null) {
+      slugs.push(`/blog/${match[1]}`);
+    }
+    return slugs;
+  } catch (err) {
+    console.error('Error parsing blog posts for sitemap:', err);
+    return [];
+  }
+}
+
 async function generateSitemap() {
   console.log('Generating sitemap...');
 
   const productHandles = await fetchProductHandles();
   console.log(`Found ${productHandles.length} products from Shopify.`);
 
+  const blogRoutes = getBlogRoutes();
+  console.log(`Found ${blogRoutes.length} blog posts from local data.`);
+
   const routes = [
     ...staticRoutes,
+    ...blogRoutes,
     ...productHandles.map((handle: string) => `/product/${handle}`)
   ];
 

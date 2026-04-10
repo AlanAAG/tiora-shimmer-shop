@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Clock, ArrowRight } from "lucide-react";
 import Header from "@/components/layout/Header";
@@ -25,13 +25,7 @@ const Blog = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Jewelry Journal — Expert Guides & Insights | TIORA</title>
-        <meta
-          name="description"
-          content="Expert jewelry guides on materials, skin sensitivity, everyday wear, and buying advice. Learn about 18K gold plating, hypoallergenic metals, and how to choose jewelry that lasts."
-        />
-      </Helmet>
+      <SEO title="Jewelry Journal — Expert Guides & Insights | TIORA" description="Expert jewelry guides on materials, skin sensitivity, everyday wear, and buying advice. Learn about 18K gold plating, hypoallergenic metals, and how to choose jewelry that lasts." />
       <DiscountBanner />
       <Header />
 

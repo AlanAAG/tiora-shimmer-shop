@@ -2,19 +2,16 @@ import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 
 const TermsOfService = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Terms of Service | TIORA</title>
-        <meta
-          name="description"
-          content="Read TIORA's Terms of Service. Understand your rights and responsibilities when using our services and purchasing our jewelry."
-        />
+      <SEO title="Terms of Service | TIORA" description="Read TIORA's Terms of Service. Understand your rights and responsibilities when using our services and purchasing our jewelry.">
+        
+        
         <link rel="canonical" href="https://tiora.co/terms" />
-      </Helmet>
+      </SEO>
       <Header showBanner={false} />
       
       {/* Hero Section */}

@@ -3,7 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DiscountBanner from "@/components/home/DiscountBanner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 
 const renderBoldText = (text: string) => {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -141,14 +141,11 @@ const faqSections = [
 const FAQ = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Frequently Asked Questions | TIORA</title>
-        <meta
-          name="description"
-          content="Find answers about Tiora's demi-fine jewellery: 316L stainless steel, 18k gold plating, hypoallergenic materials, care tips, Pan-India shipping, returns & warranty."
-        />
+      <SEO title="Frequently Asked Questions | TIORA" description="Find answers about Tiora's demi-fine jewellery: 316L stainless steel, 18k gold plating, hypoallergenic materials, care tips, Pan-India shipping, returns & warranty.">
+        
+        
         <link rel="canonical" href="https://tiora.co/faq" />
-      </Helmet>
+      </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

@@ -16,7 +16,7 @@ import { getProductBySlug, allProducts, sampleReviews, faqItems } from "@/data/p
 import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { ShopifyImageGallery } from "@/components/product/ShopifyImageGallery";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { trackViewContent, extractShopifyId } from "@/lib/metaPixel";
 
 const ProductPage = () => {
@@ -104,14 +104,12 @@ const ProductPage = () => {
 
     return (
       <div className="min-h-screen bg-background">
-        <Helmet>
-          <title>{`${shopifyProduct.title} | 18k Gold-Plated Jewelry | TIORA`}</title>
-          <meta name="description" content={metaDescription} />
+        <SEO title={`${shopifyProduct.title} | 18k Gold-Plated Jewelry | TIORA`} description={metaDescription}>
           <link rel="canonical" href={`https://tiora.co/product/${slug}`} />
           <script type="application/ld+json">
             {JSON.stringify(productSchema)}
           </script>
-        </Helmet>
+        </SEO>
         <div className="fixed top-0 left-0 right-0 z-50">
           <DiscountBanner />
         </div>
@@ -167,10 +165,7 @@ const ProductPage = () => {
   if (!mockProduct) {
     return (
       <div className="min-h-screen bg-background">
-        <Helmet>
-          <title>Product Not Found | TIORA</title>
-          <meta name="description" content="Product not found." />
-        </Helmet>
+        <SEO title="Product Not Found | TIORA" description="Product not found." />
         <div className="fixed top-0 left-0 right-0 z-50">
           <DiscountBanner />
         </div>
@@ -210,14 +205,12 @@ const ProductPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{`${mockProduct.name} | TIORA`}</title>
-        <meta name="description" content={mockProduct.description.substring(0, 160)} />
+      <SEO title={`${mockProduct.name} | TIORA`} description={mockProduct.description.substring(0, 160)}>
         <link rel="canonical" href={`https://tiora.co/product/${slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(mockProductSchema)}
         </script>
-      </Helmet>
+      </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

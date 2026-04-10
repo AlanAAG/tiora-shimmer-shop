@@ -9,20 +9,17 @@ import TrustSection from "@/components/home/TrustSection";
 import ReviewsSection from "@/components/home/ReviewsSection";
 import HomeFAQ from "@/components/home/HomeFAQ";
 import EmailPopup from "@/components/home/EmailPopup";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>TIORA | Premium 18k Gold-Plated & Waterproof Jewelry</title>
-        <meta
-          name="description"
-          content="Shop Tiora's premium 18k gold-plated jewelry. Waterproof, tarnish-resistant, and hypoallergenic stainless steel pieces designed in Gurgaon for everyday elegance."
-        />
+      <SEO title="TIORA | Premium 18k Gold-Plated & Waterproof Jewelry" description="Shop Tiora's premium 18k gold-plated jewelry. Waterproof, tarnish-resistant, and hypoallergenic stainless steel pieces designed in Gurgaon for everyday elegance.">
+        
+        
         <link rel="canonical" href="https://tiora.co/" />
-      </Helmet>
+      </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>

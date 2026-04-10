@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Helmet } from "react-helmet-async";
+import SEO from "@/components/SEO";
 import { getMediaUrl } from "@/lib/cloudinary";
 
 const careGuideHero = getMediaUrl("care-guide-image-1", "image");
@@ -48,14 +48,11 @@ const careGuideItems = [
 const CareGuide = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Jewelry Care Guide | TIORA</title>
-        <meta
-          name="description"
-          content="Learn how to care for your TIORA jewelry. Waterproof, tarnish-resistant 18k gold-plated stainless steel designed for everyday wear."
-        />
+      <SEO title="Jewelry Care Guide | TIORA" description="Learn how to care for your TIORA jewelry. Waterproof, tarnish-resistant 18k gold-plated stainless steel designed for everyday wear.">
+        
+        
         <link rel="canonical" href="https://tiora.co/care-guide" />
-      </Helmet>
+      </SEO>
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
       </div>
