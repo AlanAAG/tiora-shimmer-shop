@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Loader2 } from "lucide-react";
-import { ShopifyProduct } from "@/lib/shopify";
+import { ShopifyProduct, getProductByHandle } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useLocalWishlist } from "@/hooks/useLocalWishlist";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ShopifyProductCardProps {
   product: ShopifyProduct;
@@ -15,6 +16,15 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addItem, loadingVariants } = useCartStore();
   const { isWishlisted, toggle } = useLocalWishlist();
+  const queryClient = useQueryClient();
+
+  const handlePrefetchHover = () => {
+    queryClient.prefetchQuery({
+      queryKey: ['shopifyProduct', product.node.handle],
+      queryFn: () => getProductByHandle(product.node.handle),
+      staleTime: 1000 * 60 * 5,
+    });
+  };
   
   const { node } = product;
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
@@ -65,7 +75,7 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
 
   return (
     <div className="group">
-      <Link to={`/product/${node.handle}`}>
+      <Link to={`/product/${node.handle}`} onMouseEnter={handlePrefetchHover}>
         <div 
           className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden mb-3 border border-accent"
           onMouseEnter={() => setIsHovered(true)}

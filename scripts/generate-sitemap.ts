@@ -6,8 +6,13 @@ const OUTPUT_FILE = resolve(process.cwd(), 'public/sitemap.xml');
 
 // Shopify Constants
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'jtv22j-ew.myshopify.com';
-const SHOPIFY_STOREFRONT_TOKEN = 'e4ae94ae9cc93e3130d277bcd0f1df39';
+const SHOPIFY_STOREFRONT_TOKEN = process.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '';
 const SHOPIFY_API_VERSION = '2025-07';
+
+if (!SHOPIFY_STOREFRONT_TOKEN) {
+  console.warn("VITE_SHOPIFY_STOREFRONT_TOKEN is not defined in environment variables.");
+}
+
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
 const staticRoutes = [

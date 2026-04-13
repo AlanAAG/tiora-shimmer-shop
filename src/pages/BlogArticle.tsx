@@ -47,13 +47,37 @@ const BlogArticle = () => {
 
   const featuredImage = article.image || fallbackImages[article.category];
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    image: [featuredImage],
+    datePublished: new Date(article.date).toISOString(),
+    author: [{
+        "@type": "Organization",
+        name: "Tiora",
+        url: "https://tiora.co"
+    }],
+    publisher: {
+      "@type": "Organization",
+      name: "Tiora",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://tiora.co/favicon.png"
+      }
+    },
+    description: article.excerpt
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO 
         title={`${article.title} | Tiora Journal`} 
         description={article.excerpt}
         image={featuredImage}
-      />
+      >
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }} />
+      </SEO>
       
       <div className="fixed top-0 left-0 right-0 z-50">
         <DiscountBanner />
